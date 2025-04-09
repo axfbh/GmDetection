@@ -2,22 +2,12 @@ from .cspdarknet import (
     CSPDarknetV4,
     CSPDarknetV5,
     CSPDarknetV8,
-    cpsdarknetv4n,
-    cpsdarknetv4s,
-    cpsdarknetv4m,
-    cpsdarknetv4l,
-    cpsdarknetv4x,
-    cpsdarknetv5n,
-    cpsdarknetv5s,
-    cpsdarknetv5m,
-    cpsdarknetv5l,
-    cpsdarknetv5x,
     CBM,
     C3,
 )
 
 from .darknet import Darknet
-from .elandarknet import ElanDarknet
+from .elandarknet import ElanDarknet, CBS, MP1, Elan
 from .ops import Backbone
 
 __all__ = [
@@ -27,16 +17,9 @@ __all__ = [
     "Darknet",
     "ElanDarknet",
     "Backbone",
-    "cpsdarknetv4n",
-    "cpsdarknetv4s",
-    "cpsdarknetv4m",
-    "cpsdarknetv4l",
-    "cpsdarknetv4x",
-    "cpsdarknetv5n",
-    "cpsdarknetv5s",
-    "cpsdarknetv5m",
-    "cpsdarknetv5l",
-    "cpsdarknetv5x",
     "CBM",
     "C3",
+    "CBS",
+    "MP1",
+    "Elan"
 ]

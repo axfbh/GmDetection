@@ -41,7 +41,7 @@ class Backbone(BackboneBase):
                  name: str,
                  layers_to_train: List,
                  return_interm_layers: Dict,
-                 norm_layer=nn.BatchNorm2d,
-                 pretrained=True):
-        backbone = getattr(nn_backbone, name)(pretrained=pretrained, norm_layer=norm_layer)
+                 *args,
+                 **kwargs):
+        backbone = getattr(nn_backbone, name)(*args, **kwargs)
         super().__init__(backbone, layers_to_train, return_interm_layers)

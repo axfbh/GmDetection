@@ -28,7 +28,7 @@ class YoloV5(nn.Module):
         #   40,40,512
         #   20,20,1024
         # ---------------------------------------------------#
-        self.backbone = Backbone(name=f'cpsdarknetv5{scale}',
+        self.backbone = Backbone(name='CSPDarknetV5',
                                  layers_to_train=['stem',
                                                   'crossStagePartial1',
                                                   'crossStagePartial2',
@@ -36,7 +36,9 @@ class YoloV5(nn.Module):
                                                   'crossStagePartial4'],
                                  return_interm_layers={'crossStagePartial2': '0',
                                                        'crossStagePartial3': '1',
-                                                       'crossStagePartial4': '2', })
+                                                       'crossStagePartial4': '2'},
+                                 base_channels=base_channels,
+                                 base_depth=base_depth)
 
         self.upsample = nn.Upsample(scale_factor=2, mode="nearest")
 
@@ -58,7 +60,6 @@ class YoloV5(nn.Module):
 
     def forward(self, batch):
         x = batch[0]
-        targets = batch[1]
 
         features = self.backbone(x)
 
@@ -98,6 +99,7 @@ class YoloV5(nn.Module):
 
         # ----------- train -----------
         if self.training:
+            targets = batch[1]
             preds = self.head([P3, P4, P5], imgsz)
             return self.loss(preds, targets)
 

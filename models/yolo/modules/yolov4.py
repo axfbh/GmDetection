@@ -50,10 +50,10 @@ class YoloV4(nn.Module):
         scales = cfg['scales']
         width_multiple, depth_multiple = scales[scale]
 
-        base_channels = int(width_multiple * 32)  # 64
+        base_channels = int(width_multiple * 64)  # 64
         base_depth = max(round(depth_multiple * 3), 1)  # 3
 
-        self.backbone = Backbone(name=f'cpsdarknetv4{scale}',
+        self.backbone = Backbone(name='CSPDarknetV4',
                                  layers_to_train=['stem',
                                                   'crossStagePartial1',
                                                   'crossStagePartial2',
@@ -61,7 +61,9 @@ class YoloV4(nn.Module):
                                                   'crossStagePartial4'],
                                  return_interm_layers={'crossStagePartial2': '0',
                                                        'crossStagePartial3': '1',
-                                                       'crossStagePartial4': '2', })
+                                                       'crossStagePartial4': '2'},
+                                 base_channels=base_channels,
+                                 base_depth=base_depth)
 
         self.cov1 = make_three_conv([base_channels * 16, base_channels * 32], base_channels * 32)
         self.spp = SPP([5, 9, 13])
@@ -87,7 +89,6 @@ class YoloV4(nn.Module):
 
     def forward(self, batch):
         x = batch[0]
-        targets = batch[1]
 
         features = self.backbone(x)
 
@@ -119,6 +120,7 @@ class YoloV4(nn.Module):
 
         # ----------- train -----------
         if self.training:
+            targets = batch[1]
             preds = self.head([P3, P4, P5], imgsz)
             return self.loss(preds, targets)
 

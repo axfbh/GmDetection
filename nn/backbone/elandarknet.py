@@ -52,13 +52,16 @@ class MP1(nn.Module):
 
 
 class ElanDarknet(nn.Module):
-    def __init__(self, transition_channels=32, block_channels=32, n=2, scales='l', num_classes=1000):
+    def __init__(self, transition_channels=32, block_channels=32, base_depth=4, scale='l', num_classes=1000):
         super(ElanDarknet, self).__init__()
 
         ids = {
+            'n': [-1, -3, -5, -6],
+            's': [-1, -3, -5, -6],
+            'm': [-1, -3, -5, -6],
             'l': [-1, -3, -5, -6],
             'x': [-1, -3, -5, -7, -8],
-        }[scales]
+        }[scale]
 
         self.stem = nn.Sequential(
             CBS(3, transition_channels, 3),
@@ -67,19 +70,19 @@ class ElanDarknet(nn.Module):
 
         self.stage1 = nn.Sequential(
             CBS(transition_channels * 2, transition_channels * 4, 3, 2),
-            Elan(transition_channels * 4, block_channels * 2, transition_channels * 8, n=n, ids=ids)
+            Elan(transition_channels * 4, block_channels * 2, transition_channels * 8, n=base_depth, ids=ids)
         )
         self.stage2 = nn.Sequential(
             MP1(transition_channels * 8, transition_channels * 4),
-            Elan(transition_channels * 8, block_channels * 4, transition_channels * 16, n=n, ids=ids)
+            Elan(transition_channels * 8, block_channels * 4, transition_channels * 16, n=base_depth, ids=ids)
         )
         self.stage3 = nn.Sequential(
             MP1(transition_channels * 16, transition_channels * 8),
-            Elan(transition_channels * 16, block_channels * 8, transition_channels * 32, n=n, ids=ids)
+            Elan(transition_channels * 16, block_channels * 8, transition_channels * 32, n=base_depth, ids=ids)
         )
         self.stage4 = nn.Sequential(
             MP1(transition_channels * 32, transition_channels * 16),
-            Elan(transition_channels * 32, block_channels * 8, transition_channels * 32, n=n, ids=ids)
+            Elan(transition_channels * 32, block_channels * 8, transition_channels * 32, n=base_depth, ids=ids)
         )
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
