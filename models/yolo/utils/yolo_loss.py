@@ -59,7 +59,7 @@ class YoloAnchorFreeLoss(nn.Module):
     def __init__(self, model):
         super(YoloAnchorFreeLoss, self).__init__()
 
-        self.hyp = model.hyp
+        self.args = model.args
         m = model.head
         self.device = model.device
 
@@ -171,29 +171,23 @@ class YoloLossV8(YoloAnchorFreeLoss):
 
     def preprocess(self, targets, batch_size):
         """Preprocesses the target counts and matches with the input batch size to output a tensor."""
-        nl, ne = targets.shape
-        if nl == 0:
-            out = torch.zeros(batch_size, 0, ne - 1, device=self.device)
+        counts = max([len(t['boxes']) for t in targets])
+        out = torch.zeros(batch_size, counts, 5, device=self.device)
+        if counts == 0:
+            out = torch.zeros(batch_size, 0, 5, device=self.device)
         else:
-            # 获取 target id
-            i = targets[:, 0]  # image index
-            # 获取每个id的target 个数
-            _, counts = i.unique(return_counts=True)
-            counts = counts.to(dtype=torch.int32)
-            # 创建矩阵，根据最多的 target 个数
-            out = torch.zeros(batch_size, counts.max(), ne - 1, device=self.device)
-            for j in range(batch_size):
-                # 找打对于 id 的target 索引
-                matches = i == j
-                # 统计有多少个target
-                n = matches.sum()
-                # 将 target 填入矩阵中。
+            for i, t in enumerate(targets):
+                boxes = t['boxes']
+                cls = t['labels']
+                n = len(boxes)
                 if n:
-                    out[j, :n] = targets[matches, 1:]
-            out[..., 1:5] = box_convert(out[..., 1:5], in_fmt='cxcywh', out_fmt='xyxy')
+                    # cls - 1, 剔除背景标签影响
+                    out[i, :n, 0] = cls - 1
+                    out[i, :n, 1:] = boxes
+
         return out
 
-    def forward(self, preds, batch):
+    def forward(self, preds, targets):
         loss = torch.zeros(3, device=self.device)  # box, cls, dfl
         feats = preds[1] if isinstance(preds, tuple) else preds
         pred_distri, pred_scores = torch.cat([xi.view(feats[0].shape[0], self.no, -1) for xi in feats], 2).split(
@@ -205,13 +199,12 @@ class YoloLossV8(YoloAnchorFreeLoss):
 
         dtype = pred_scores.dtype
         batch_size = pred_scores.shape[0]
-        imgsz = torch.tensor(batch['resized_shape'][0], device=self.device)
+        imgsz = self.args.imgsz
 
         # anchor_points：候选框中心点
         # stride_tensor：缩放尺度
         anchor_points, stride_tensor = self.make_anchors(imgsz, preds)
 
-        targets = torch.cat((batch["batch_idx"].view(-1, 1), batch["cls"], batch["bboxes"]), 1)
         targets = self.preprocess(targets, batch_size)
         gt_labels, gt_bboxes = targets.split((1, 4), 2)  # cls, xyxy
         # 非填充 bbox 样本索引 mask

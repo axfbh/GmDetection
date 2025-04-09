@@ -4,6 +4,7 @@ from .cspdarknet import (
     CSPDarknetV8,
     CBM,
     C3,
+    C2f
 )
 
 from .darknet import Darknet
@@ -20,6 +21,7 @@ __all__ = [
     "CBM",
     "C3",
     "CBS",
+    "C2f",
     "MP1",
     "Elan"
 ]

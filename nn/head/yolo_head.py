@@ -72,8 +72,7 @@ class YoloHeadV8(nn.Module):
         y = torch.cat((dbox, cls.sigmoid()), 1)
         return y
 
-    def forward(self, x: List, H, W):
-        imgsz = torch.tensor([H, W], device=x[0].device)
+    def forward(self, x: List, imgsz):
 
         anchor_points, stride_tensor = (x.transpose(0, 1) for x in self.make_anchors(imgsz, x))
 

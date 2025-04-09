@@ -1,7 +1,7 @@
 from engine.model import Model
 from models.yolo.detect.train import DetectionTrainer
 from models.yolo.detect.val import DetectionValidator
-from models.yolo.modules import YoloV4, YoloV5, YoloV7
+from models.yolo.modules import YoloV4, YoloV5, YoloV7, YoloV8
 
 
 class YOLO(Model):
@@ -18,7 +18,7 @@ class YOLO(Model):
                     'yolov4': YoloV4,
                     'yolov5': YoloV5,
                     'yolov7': YoloV7,
-                    # 'v8': YoloV8(num_classes=nc + 1, scales=scales),
+                    'yolov8': YoloV8,
                 },
                 "trainer": DetectionTrainer,
                 "validator": DetectionValidator,

@@ -1,8 +1,7 @@
 import torch
 import torch.nn as nn
 
-from nn.backbone import Backbone
-from nn.backbone import CBM
+from nn.backbone import Backbone, CBM
 from nn.neck import SPP
 from nn.head import YoloHeadV4
 from models.yolo.utils.yolo_loss import YoloLossV4To7
