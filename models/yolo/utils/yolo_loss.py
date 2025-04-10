@@ -13,25 +13,14 @@ from models.yolo.utils.tal import TaskAlignedAssigner, TaskNearestAssigner
 torch.set_printoptions(precision=4, sci_mode=False)
 
 
-def smooth_BCE(eps=0.1):
-    """用在ComputeLoss类中
-    标签平滑操作  [1, 0]  =>  [0.95, 0.05]
-    https://github.com/ultralytics/yolov3/issues/238#issuecomment-598028441
-    :params eps: 平滑参数
-    :return positive, negative label smoothing BCE targets  两个值分别代表正样本和负样本的标签取值
-            原先的正样本=1 负样本=0 改为 正样本=1.0 - 0.5 * eps  负样本=0.5 * eps
-    """
-    return 1.0 - 0.5 * eps, 0.5 * eps
-
-
 class YoloAnchorBasedLoss(nn.Module):
     def __init__(self, model, topk=3):
         super(YoloAnchorBasedLoss, self).__init__()
 
-        self.args = model.args
+        hyp = model.args
         m = model.head
         self.device = model.device
-
+        self.hyp = hyp
         # yolo 小grid大anchor，大grid小anchor
         self.anchors = m.anchors
         self.nl = m.nl
@@ -42,11 +31,11 @@ class YoloAnchorBasedLoss(nn.Module):
         self.alpha = [1, 2, 3][ids]
         self.gamma = [0, 0.5, 1][ids]
 
-        self.args["box"] *= 3 / self.nl
-        self.args["obj"] *= self.nc / 80 * 3 / self.nl
-        self.args["cls"] *= (self.args.imgsz / 640) ** 2 * 3 / self.nl
+        self.hyp["box"] *= 3 / self.nl
+        self.hyp["obj"] *= self.nc / 80 * 3 / self.nl
+        self.hyp["cls"] *= (self.hyp.imgsz / 640) ** 2 * 3 / self.nl
 
-        self.assigner = TaskNearestAssigner(anchor_t=self.args['anchor_t'], topk=topk, num_classes=self.nc)
+        self.assigner = TaskNearestAssigner(anchor_t=self.hyp['anchor_t'], topk=topk, num_classes=self.nc)
 
         self.balance = [4.0, 1.0, 0.4]
 
@@ -56,28 +45,27 @@ class YoloAnchorBasedLoss(nn.Module):
 
 
 class YoloAnchorFreeLoss(nn.Module):
-    def __init__(self, model):
+    def __init__(self, model, tal_topk=10):
         super(YoloAnchorFreeLoss, self).__init__()
 
-        self.args = model.args
+        h = model.args
         m = model.head
-        self.device = model.device
-
-        self.make_anchors = m.make_anchors
-        self.nl = m.nl
-        self.nc = m.nc
-        self.no = m.no
-        self.reg_max = m.reg_max
-
-        self.use_dfl = m.reg_max > 1
-
-        self.proj = torch.arange(m.reg_max, dtype=torch.float, device=self.device)
-
-        self.assigner = TaskAlignedAssigner(topk=10, num_classes=self.nc, alpha=0.5, beta=6.0)
-        self.bbox_loss = BboxLoss(m.reg_max - 1, use_dfl=self.use_dfl).to(self.device)
 
         # Define criteria
         self.bce = nn.BCEWithLogitsLoss(reduction="none")
+        self.hyp = h
+        self.make_anchors = m.make_anchors
+        self.nl = m.nl
+        self.nc = m.nc
+        self.no = m.nc + m.reg_max * 4
+        self.reg_max = m.reg_max
+        self.device = model.device
+
+        self.use_dfl = m.reg_max > 1
+
+        self.assigner = TaskAlignedAssigner(topk=tal_topk, num_classes=self.nc, alpha=0.5, beta=6.0)
+        self.bbox_loss = BboxLoss(m.reg_max).to(self.device)
+        self.proj = torch.arange(m.reg_max, dtype=torch.float, device=self.device)
 
 
 class YoloLossV4To7(YoloAnchorBasedLoss):
@@ -108,7 +96,7 @@ class YoloLossV4To7(YoloAnchorBasedLoss):
         ]
 
         batch_size = feats[0].shape[0]
-        imgsz = self.args.imgsz
+        imgsz = self.hyp.imgsz
 
         targets = self.preprocess(targets, batch_size)
         gt_cls, gt_cxys, gt_whs = targets.split((1, 2, 2), 2)  # cls, xyxy
@@ -150,9 +138,9 @@ class YoloLossV4To7(YoloAnchorBasedLoss):
             obji = self.BCEobj(pred_obj, target_obj)
             loss[1] += obji * self.balance[i]  # obj loss
 
-        loss[0] *= self.args["box"]
-        loss[1] *= self.args["obj"]
-        loss[2] *= self.args["cls"]
+        loss[0] *= self.hyp["box"]
+        loss[1] *= self.hyp["obj"]
+        loss[2] *= self.hyp["cls"]
 
         return loss.sum() * batch_size, loss.detach()  # loss(box, cls, dfl)
 
@@ -169,7 +157,7 @@ class YoloLossV8(YoloAnchorFreeLoss):
             pred_dist = pred_dist.view(b, a, 4, c // 4).softmax(3).matmul(self.proj.type(pred_dist.dtype))
         return dist2bbox(pred_dist, anchor_points, xywh=False)
 
-    def preprocess(self, targets, batch_size):
+    def preprocess(self, targets, batch_size, scale_tensor):
         """Preprocesses the target counts and matches with the input batch size to output a tensor."""
         counts = max([len(t['boxes']) for t in targets])
         out = torch.zeros(batch_size, counts, 5, device=self.device)
@@ -182,8 +170,8 @@ class YoloLossV8(YoloAnchorFreeLoss):
                 n = len(boxes)
                 if n:
                     # cls - 1, 剔除背景标签影响
-                    out[i, :n, 0] = cls - 1
-                    out[i, :n, 1:] = boxes
+                    out[i, :n, 0] = cls
+                    out[i, :n, 1:] = box_convert(boxes, 'cxcywh', 'xyxy').mul_(scale_tensor)
 
         return out
 
@@ -199,13 +187,13 @@ class YoloLossV8(YoloAnchorFreeLoss):
 
         dtype = pred_scores.dtype
         batch_size = pred_scores.shape[0]
-        imgsz = self.args.imgsz
+        imgsz = self.hyp.imgsz
 
         # anchor_points：候选框中心点
         # stride_tensor：缩放尺度
-        anchor_points, stride_tensor = self.make_anchors(imgsz, preds)
+        anchor_points, stride_tensor = self.make_anchors([imgsz, imgsz], preds)
 
-        targets = self.preprocess(targets, batch_size)
+        targets = self.preprocess(targets, batch_size, imgsz)
         gt_labels, gt_bboxes = targets.split((1, 4), 2)  # cls, xyxy
         # 非填充 bbox 样本索引 mask
         mask_gt = gt_bboxes.sum(2, keepdim=True).gt_(0)  # [b,n_box,1]
@@ -238,42 +226,22 @@ class YoloLossV8(YoloAnchorFreeLoss):
         return loss.sum() * batch_size, loss.detach()  # loss(box, cls, dfl)
 
 
-class BboxLoss(nn.Module):
-    """
-        Criterion class for computing training losses during training.
-    """
+class DFLoss(nn.Module):
+    """Criterion class for computing DFL losses during training."""
 
-    def __init__(self, reg_max, use_dfl=False):
-        """Initialize the BboxLoss module with regularization maximum and DFL settings."""
+    def __init__(self, reg_max=16) -> None:
+        """Initialize the DFL module."""
         super().__init__()
         self.reg_max = reg_max
-        self.use_dfl = use_dfl
 
-    def forward(self, pred_dist, pred_bboxes, anchor_points, target_bboxes, target_scores, target_scores_sum, fg_mask):
-        """IoU loss."""
-        weight = target_scores.sum(-1)[fg_mask]
-        iou = all_iou_loss(pred_bboxes[fg_mask], target_bboxes[fg_mask], CIoU=True)
-        loss_iou = ((1.0 - iou) * weight).sum() / target_scores_sum
-
-        # DFL loss
-        if self.use_dfl:
-            # reg_max 用于限制 target_ltrb 的长度到 reg_max
-            target_ltrb = bbox2dist(anchor_points, target_bboxes, self.reg_max)
-            loss_dfl = self._df_loss(pred_dist[fg_mask].view(-1, self.reg_max + 1), target_ltrb[fg_mask]) * weight
-            loss_dfl = loss_dfl.sum() / target_scores_sum
-        else:
-            loss_dfl = torch.tensor(0.0).to(pred_dist.device)
-
-        return loss_iou, loss_dfl
-
-    @staticmethod
-    def _df_loss(pred_dist, target):
+    def __call__(self, pred_dist, target):
         """
         Return sum of left and right DFL losses.
 
         Distribution Focal Loss (DFL) proposed in Generalized Focal Loss
         https://ieeexplore.ieee.org/document/9792391
         """
+        target = target.clamp_(0, self.reg_max - 1 - 0.01)
         tl = target.long()  # target left
         tr = tl + 1  # target right
         wl = tr - target  # weight left
@@ -281,4 +249,32 @@ class BboxLoss(nn.Module):
         return (
                 F.cross_entropy(pred_dist, tl.view(-1), reduction="none").view(tl.shape) * wl
                 + F.cross_entropy(pred_dist, tr.view(-1), reduction="none").view(tl.shape) * wr
-        ).mean(-1)
+        ).mean(-1, keepdim=True)
+
+
+class BboxLoss(nn.Module):
+    """
+        Criterion class for computing training losses during training.
+    """
+
+    def __init__(self, reg_max):
+        """Initialize the BboxLoss module with regularization maximum and DFL settings."""
+        super().__init__()
+        self.dfl_loss = DFLoss(reg_max) if reg_max > 1 else None
+
+    def forward(self, pred_dist, pred_bboxes, anchor_points, target_bboxes, target_scores, target_scores_sum, fg_mask):
+        """IoU loss."""
+        weight = target_scores.sum(-1)[fg_mask].unsqueeze(-1)
+        iou = all_iou_loss(pred_bboxes[fg_mask], target_bboxes[fg_mask], CIoU=True)
+        loss_iou = ((1.0 - iou) * weight).sum() / target_scores_sum
+
+        # DFL loss
+        if self.dfl_loss:
+            # reg_max 用于限制 target_ltrb 的长度到 reg_max
+            target_ltrb = bbox2dist(anchor_points, target_bboxes, self.dfl_loss.reg_max - 1)
+            loss_dfl = self.dfl_loss(pred_dist[fg_mask].view(-1, self.dfl_loss.reg_max), target_ltrb[fg_mask]) * weight
+            loss_dfl = loss_dfl.sum() / target_scores_sum
+        else:
+            loss_dfl = torch.tensor(0.0).to(pred_dist.device)
+
+        return loss_iou, loss_dfl

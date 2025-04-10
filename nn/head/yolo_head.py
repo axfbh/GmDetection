@@ -72,16 +72,14 @@ class YoloHeadV8(nn.Module):
         y = torch.cat((dbox, cls.sigmoid()), 1)
         return y
 
-    def forward(self, x: List, imgsz):
-
-        anchor_points, stride_tensor = (x.transpose(0, 1) for x in self.make_anchors(imgsz, x))
-
+    def forward(self, x: List, imgsz=None):
         for i in range(self.nl):
             x[i] = torch.cat((self.reg_head[i](x[i]), self.cls_head[i](x[i])), 1)
 
         if self.training:  # Training path
             return x
 
+        anchor_points, stride_tensor = (x.transpose(0, 1) for x in self.make_anchors(imgsz, x))
         y = self._inference(x, anchor_points, stride_tensor)
         return y, x
 
@@ -127,7 +125,7 @@ class YoloHeadV4ToV7(nn.Module):
                 b.data[:, 5:5 + self.nc] += math.log(0.6 / (self.nc - 0.99999))
                 layer.bias = torch.nn.Parameter(b.view(-1), requires_grad=True)
 
-    def forward(self, x: List, imgsz):
+    def forward(self, x: List, imgsz=None):
         for i in range(self.nl):
             x[i] = self.head[i](x[i])
             bs, _, ny, nx = x[i].shape  # x(bs,75,20,20) to x(bs,3,20,20,25)
@@ -149,7 +147,7 @@ class YoloHeadV7(YoloHeadV4ToV7):
             bs, _, ny, nx, _ = x[i].shape  # x(bs,75,20,20) to x(bs,3,20,20,25)
             shape = 1, self.na, ny, nx, 2  # grid shape
 
-            stride = (imgsz / max(ny, nx)).view(-1, 1, 1, 1, 2)
+            stride = imgsz / ny
 
             grid = make_grid(ny, nx, 1, 1, device).view((1, 1, ny, nx, 2)).expand(shape)
             anchor_grid = self.anchors[i].view((1, self.na, 1, 1, 2)).expand(shape)
@@ -173,7 +171,7 @@ class YoloHeadV5(YoloHeadV4ToV7):
             bs, _, ny, nx, _ = x[i].shape  # x(bs,75,20,20) to x(bs,3,20,20,25)
             shape = 1, self.na, ny, nx, 2  # grid shape
 
-            stride = (imgsz / max(ny, nx)).view(-1, 1, 1, 1, 2)
+            stride = imgsz / ny
 
             grid = make_grid(ny, nx, 1, 1, device).view((1, 1, ny, nx, 2)).expand(shape)
             anchor_grid = self.anchors[i].view((1, self.na, 1, 1, 2)).expand(shape)
@@ -197,7 +195,7 @@ class YoloHeadV4(YoloHeadV4ToV7):
             bs, _, ny, nx, _ = x[i].shape  # x(bs,75,20,20) to x(bs,3,20,20,25)
             shape = 1, self.na, ny, nx, 2  # grid shape
 
-            stride = (imgsz / max(ny, nx)).view(-1, 1, 1, 1, 2)
+            stride = imgsz / ny
 
             grid = make_grid(ny, nx, 1, 1, device).view((1, 1, ny, nx, 2)).expand(shape)
             anchor_grid = self.anchors[i].view((1, self.na, 1, 1, 2)).expand(shape)

@@ -111,16 +111,19 @@ class YoloV7(nn.Module):
         P4 = self.rep_conv_2(P4)
         P5 = self.rep_conv_3(P5)
 
-        imgsz = self.orig_size.amax(1, True).repeat(1, 2).to(self.device)
-
         # ----------- train -----------
         if self.training:
             targets = batch[1]
-            preds = self.head([P3, P4, P5], imgsz)
+            preds = self.head([P3, P4, P5])
             return self.loss(preds, targets)
 
         # ----------- val -----------
-        return self.head([P3, P4, P5], imgsz)[0]
+        scales = self.orig_size.amax(1, True).to(self.device) / self.args.imgsz
+
+        preds = self.head([P3, P4, P5], self.args.imgsz)[0]
+        preds[:, :, :2] *= scales[:, None]
+        preds[:, :, 2:4] *= scales[:, None]
+        return preds
 
     def loss(self, preds, targets):
         if getattr(self, "criterion", None) is None:
