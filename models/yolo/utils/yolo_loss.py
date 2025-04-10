@@ -169,7 +169,6 @@ class YoloLossV8(YoloAnchorFreeLoss):
                 cls = t['labels']
                 n = len(boxes)
                 if n:
-                    # cls - 1, 剔除背景标签影响
                     out[i, :n, 0] = cls
                     out[i, :n, 1:] = box_convert(boxes, 'cxcywh', 'xyxy').mul_(scale_tensor)
 
