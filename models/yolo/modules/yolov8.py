@@ -114,6 +114,8 @@ class YoloV8(nn.Module):
         scales = self.orig_size.amax(1, True).to(self.device) / self.args.imgsz
 
         preds = self.head([P3, P4, P5], self.args.imgsz)[0]
+
+        # ------------- 满足 coco eval -------------
         preds[:, :, :2] *= scales[:, None]
         preds[:, :, 2:4] *= scales[:, None]
         return preds
