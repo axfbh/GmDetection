@@ -79,7 +79,7 @@ class YoloHeadV8(nn.Module):
         if self.training:  # Training path
             return x
 
-        anchor_points, stride_tensor = (x.transpose(0, 1) for x in self.make_anchors(imgsz, x))
+        anchor_points, stride_tensor = (x.transpose(0, 1) for x in self.make_anchors([imgsz, imgsz], x))
         y = self._inference(x, anchor_points, stride_tensor)
         return y, x
 
