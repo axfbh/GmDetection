@@ -116,7 +116,7 @@ class YoloV8(nn.Module):
         preds = self.head([P3, P4, P5], self.args.imgsz)[0]
 
         # ------------- 满足 coco eval -------------
-        preds[:, :, :2] *= scales[:, None]
+        preds[:, :, :4] *= scales[:, None]
         return preds
 
     def loss(self, preds, targets):

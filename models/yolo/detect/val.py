@@ -5,7 +5,7 @@ import torch
 from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 from engine.validator import BaseValidator
-from models.yolo.utils.nmsv3_7 import non_max_suppression
+from models.yolo.utils import nmsv3_7, nmsv8_11
 from dataset.coco_dataset import build_coco_dataset, build_dataloader
 
 
@@ -27,6 +27,9 @@ class DetectionValidator(BaseValidator):
 
     def postprocess(self, preds):
         """Apply Non-maximum suppression to prediction outputs."""
+        non_max_suppression = nmsv8_11.non_max_suppression if self.args['model'] in [
+            'yolov8s.yaml'] else nmsv3_7.non_max_suppression
+
         preds = non_max_suppression(
             preds,
             self.args.conf,
