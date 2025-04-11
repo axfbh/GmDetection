@@ -12,7 +12,7 @@ CBM = partial(Conv2dNormActivation, bias=False, inplace=True, norm_layer=BN, act
 
 
 class Bottleneck(nn.Module):
-    def __init__(self, c1, c2, shortcut: bool = True, g=1, k: Union[Tuple[Tuple, Tuple], Tuple] = (3, 3), e=0.5):
+    def __init__(self, c1, c2, shortcut=True, g=1, k=(3, 3), e=0.5):
         super(Bottleneck, self).__init__()
         c_ = int(c2 * e)  # hidden channels
         self.cv1 = CBM(c1, c_, k[0], 1)
@@ -27,17 +27,6 @@ class C3(nn.Module):
     """CSP Bottleneck with 3 convolutions."""
 
     def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
-        """
-        Initialize the CSP Bottleneck with 3 convolutions.
-
-        Args:
-            c1 (int): Input channels.
-            c2 (int): Output channels.
-            n (int): Number of Bottleneck blocks.
-            shortcut (bool): Whether to use shortcut connections.
-            g (int): Groups for convolutions.
-            e (float): Expansion ratio.
-        """
         super().__init__()
         c_ = int(c2 * e)  # hidden channels
         self.cv1 = CBM(c1, c_, 1, 1)
@@ -69,18 +58,6 @@ class C3k(C3):
     """C3k is a CSP bottleneck module with customizable kernel sizes for feature extraction in neural networks."""
 
     def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5, k=3):
-        """
-        Initialize C3k module.
-
-        Args:
-            c1 (int): Input channels.
-            c2 (int): Output channels.
-            n (int): Number of Bottleneck blocks.
-            shortcut (bool): Whether to use shortcut connections.
-            g (int): Groups for convolutions.
-            e (float): Expansion ratio.
-            k (int): Kernel size.
-        """
         super().__init__(c1, c2, n, shortcut, g, e)
         c_ = int(c2 * e)  # hidden channels
         # self.m = nn.Sequential(*(RepBottleneck(c_, c_, shortcut, g, k=(k, k), e=1.0) for _ in range(n)))
@@ -91,18 +68,6 @@ class C3k2(C2f):
     """Faster Implementation of CSP Bottleneck with 2 convolutions."""
 
     def __init__(self, c1, c2, n=1, c3k=False, e=0.5, g=1, shortcut=True):
-        """
-        Initialize C3k2 module.
-
-        Args:
-            c1 (int): Input channels.
-            c2 (int): Output channels.
-            n (int): Number of blocks.
-            c3k (bool): Whether to use C3k blocks.
-            e (float): Expansion ratio.
-            g (int): Groups for convolutions.
-            shortcut (bool): Whether to use shortcut connections.
-        """
         super().__init__(c1, c2, n, shortcut, g, e)
         self.m = nn.ModuleList(
             C3k(self.c, self.c, 2, shortcut, g) if c3k else Bottleneck(self.c, self.c, shortcut, g) for _ in range(n)
@@ -268,22 +233,22 @@ class CSPDarknetV8(nn.Module):
 
         self.crossStagePartial1 = nn.Sequential(
             DownSampleLayer(base_channels, base_channels * 2),
-            C2f(base_channels * 2, base_channels * 2, base_depth),
+            C2f(base_channels * 2, base_channels * 2, base_depth, shortcut=True),
         )
 
         self.crossStagePartial2 = nn.Sequential(
             DownSampleLayer(base_channels * 2, base_channels * 4),
-            C2f(base_channels * 4, base_channels * 4, base_depth),
+            C2f(base_channels * 4, base_channels * 4, base_depth, shortcut=True),
         )
 
         self.crossStagePartial3 = nn.Sequential(
             DownSampleLayer(base_channels * 4, base_channels * 8),
-            C2f(base_channels * 8, base_channels * 8, base_depth),
+            C2f(base_channels * 8, base_channels * 8, base_depth, shortcut=True),
         )
 
         self.crossStagePartial4 = nn.Sequential(
             DownSampleLayer(base_channels * 8, int(base_channels * 16 * deep_mul)),
-            C2f(int(base_channels * 16 * deep_mul), int(base_channels * 16 * deep_mul), base_depth),
+            C2f(int(base_channels * 16 * deep_mul), int(base_channels * 16 * deep_mul), base_depth, shortcut=True),
             SPPF(int(base_channels * 16 * deep_mul), int(base_channels * 16 * deep_mul), [5], conv_layer=CBM),
         )
 
