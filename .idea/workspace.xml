@@ -4,19 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="移除没有参数">
-      <change afterPath="$PROJECT_DIR$/cfg/models/v11/yolov11.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/yolo/modules/yolov11.py" afterDir="false" />
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 v11">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cfg/models/v8/yolov8.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/models/v8/yolov8.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/detect/val.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/val.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn/backbone/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/backbone/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nn/backbone/cspdarknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/backbone/cspdarknet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn/neck/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/neck/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn/neck/spp.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/neck/spp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +158,21 @@
       <option name="project" value="LOCAL" />
       <updated>1744357284540</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="更新 v11">
+      <created>1744363351192</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1744363351192</updated>
+    </task>
+    <task id="LOCAL-00011" summary="更新 v11">
+      <created>1744363484817</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1744363484817</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -190,7 +194,8 @@
     <MESSAGE value="更新 name" />
     <MESSAGE value="更新 类别 - 1 问题" />
     <MESSAGE value="移除没有参数" />
-    <option name="LAST_COMMIT_MESSAGE" value="移除没有参数" />
+    <MESSAGE value="更新 v11" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新 v11" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -209,11 +214,6 @@
           <url>file://$PROJECT_DIR$/nn/backbone/elandarknet.py</url>
           <line>104</line>
           <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/nn/backbone/cspdarknet.py</url>
-          <line>325</line>
-          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

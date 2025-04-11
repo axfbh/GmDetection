@@ -24,46 +24,44 @@ class Bottleneck(nn.Module):
 
 
 class C3(nn.Module):
-    def __init__(self, c1, c2, count=1, shortcut=True, g=1, e=0.5):
-        super(C3, self).__init__()
-        # c_ = c1 if first else c1 // 2
-        c_ = int(c2 * e)
-        self.trans_0 = CBM(c1, c_, 1)
+    """CSP Bottleneck with 3 convolutions."""
 
-        self.trans_1 = CBM(c1, c_, 1)
+    def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
+        """
+        Initialize the CSP Bottleneck with 3 convolutions.
 
-        self.make_layers = nn.Sequential()
-        for _ in range(count):
-            self.make_layers.append(Bottleneck(c_, c_, shortcut, g, k=((3, 3), (1, 1)), e=1))
-
-        self.trans_cat = CBM(c_ * 2, c2, 1)
+        Args:
+            c1 (int): Input channels.
+            c2 (int): Output channels.
+            n (int): Number of Bottleneck blocks.
+            shortcut (bool): Whether to use shortcut connections.
+            g (int): Groups for convolutions.
+            e (float): Expansion ratio.
+        """
+        super().__init__()
+        c_ = int(c2 * e)  # hidden channels
+        self.cv1 = CBM(c1, c_, 1, 1)
+        self.cv2 = CBM(c1, c_, 1, 1)
+        self.cv3 = CBM(2 * c_, c2, 1)  # optional act=FReLU(c2)
+        self.m = nn.Sequential(*(Bottleneck(c_, c_, shortcut, g, k=((1, 1), (3, 3)), e=1.0) for _ in range(n)))
 
     def forward(self, x):
-        # ----------- 两分支 -----------
-        out0 = self.trans_0(x)
-        out1 = self.trans_1(x)
-
-        out0 = self.make_layers(out0)
-
-        out = torch.cat([out0, out1], 1)
-        out = self.trans_cat(out)
-        return out
+        """Forward pass through the CSP bottleneck with 3 convolutions."""
+        return self.cv3(torch.cat((self.m(self.cv1(x)), self.cv2(x)), 1))
 
 
 class C2f(nn.Module):
-    def __init__(self, c1, c2, count=1, shortcut=True, g=1, e=0.5):
-        super(C2f, self).__init__()
-        self.c = int(c2 * e)
+    def __init__(self, c1, c2, n=1, shortcut=False, g=1, e=0.5):
+        super().__init__()
+        self.c = int(c2 * e)  # hidden channels
         self.cv1 = CBM(c1, 2 * self.c, 1, 1)
-        self.cv2 = CBM((2 + count) * self.c, c2, 1)  # optional act=FReLU(c2)
-
-        self.make_layers = nn.ModuleList()
-        for _ in range(count):
-            self.make_layers.append(Bottleneck(self.c, self.c, shortcut, g, k=((3, 3), (3, 3)), e=1))
+        self.cv2 = CBM((2 + n) * self.c, c2, 1)  # optional act=FReLU(c2)
+        self.m = nn.ModuleList(Bottleneck(self.c, self.c, shortcut, g, k=((3, 3), (3, 3)), e=1.0) for _ in range(n))
 
     def forward(self, x):
+        """Forward pass through C2f layer."""
         y = list(self.cv1(x).chunk(2, 1))
-        y.extend(m(y[-1]) for m in self.make_layers)
+        y.extend(m(y[-1]) for m in self.m)
         return self.cv2(torch.cat(y, 1))
 
 
@@ -86,7 +84,7 @@ class C3k(C3):
         super().__init__(c1, c2, n, shortcut, g, e)
         c_ = int(c2 * e)  # hidden channels
         # self.m = nn.Sequential(*(RepBottleneck(c_, c_, shortcut, g, k=(k, k), e=1.0) for _ in range(n)))
-        self.make_layers = nn.Sequential(*(Bottleneck(c_, c_, shortcut, g, k=(k, k), e=1.0) for _ in range(n)))
+        self.m = nn.Sequential(*(Bottleneck(c_, c_, shortcut, g, k=(k, k), e=1.0) for _ in range(n)))
 
 
 class C3k2(C2f):
@@ -106,7 +104,7 @@ class C3k2(C2f):
             shortcut (bool): Whether to use shortcut connections.
         """
         super().__init__(c1, c2, n, shortcut, g, e)
-        self.make_layers = nn.ModuleList(
+        self.m = nn.ModuleList(
             C3k(self.c, self.c, 2, shortcut, g) if c3k else Bottleneck(self.c, self.c, shortcut, g) for _ in range(n)
         )
 
