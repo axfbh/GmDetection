@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 name">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 类别 - 1 问题">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/detect/val.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/val.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/yolo/utils/yolo_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/utils/yolo_loss.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -126,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1744333380881</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="更新 类别 - 1 问题">
+      <created>1744334213124</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1744334213124</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -146,7 +151,8 @@
     <MESSAGE value="更新 注释" />
     <MESSAGE value="更新 box scale" />
     <MESSAGE value="更新 name" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新 name" />
+    <MESSAGE value="更新 类别 - 1 问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新 类别 - 1 问题" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

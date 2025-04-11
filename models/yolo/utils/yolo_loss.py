@@ -55,7 +55,6 @@ class YoloAnchorFreeLoss(nn.Module):
         self.bce = nn.BCEWithLogitsLoss(reduction="none")
         self.hyp = h
         self.make_anchors = m.make_anchors
-        self.nl = m.nl
         self.nc = m.nc
         self.no = m.nc + m.reg_max * 4
         self.reg_max = m.reg_max
