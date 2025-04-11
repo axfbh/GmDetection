@@ -16,7 +16,7 @@ class DetectionValidator(BaseValidator):
 
     def prepare_data(self):
         self.loss_names = "box_loss", "cls_loss", "dfl_loss" if self.args['model'] in [
-            'yolov8s.yaml'] else "box_loss", "obj_loss", "cls_loss"
+            'yolov8s.yaml', 'yolov11s.yaml'] else "box_loss", "obj_loss", "cls_loss"
         self.val_dataset = self.build_dataset(self.val_set['image'], self.val_set['ann'], "val")
 
     def val_dataloader(self, *args: Any, **kwargs: Any) -> STEP_OUTPUT:
@@ -29,7 +29,7 @@ class DetectionValidator(BaseValidator):
     def postprocess(self, preds):
         """Apply Non-maximum suppression to prediction outputs."""
 
-        g = 0 if self.args['model'] in ['yolov8s.yaml'] else 1
+        g = 0 if self.args['model'] in ['yolov8s.yaml', 'yolov11s.ymal'] else 1
 
         non_max_suppression = nmsv3_7.non_max_suppression if g else nmsv8_11.non_max_suppression
 

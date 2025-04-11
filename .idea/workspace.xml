@@ -5,19 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="移除没有参数">
+      <change afterPath="$PROJECT_DIR$/cfg/models/v11/yolov11.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/yolo/modules/yolov11.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cfg/datasets/coco.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/datasets/coco.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/models/v8/yolov8.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/models/v8/yolov8.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov4.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/yolov4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov5.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/yolov5.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov7.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/yolov7.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/utils/yolo_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/utils/yolo_loss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn/head/yolo_head.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/head/yolo_head.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/detect/val.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/val.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/backbone/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/backbone/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/backbone/cspdarknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/backbone/cspdarknet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/neck/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/neck/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/neck/spp.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/neck/spp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -34,15 +45,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.main.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.main.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "G:/c/GmDetection/cfg/models/v11",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\c\GmDetection\cfg\models\v11" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GmDetection" />
@@ -144,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1744335206088</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="移除没有参数">
+      <created>1744357284540</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1744357284540</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -185,6 +209,11 @@
           <url>file://$PROJECT_DIR$/nn/backbone/elandarknet.py</url>
           <line>104</line>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/nn/backbone/cspdarknet.py</url>
+          <line>325</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
