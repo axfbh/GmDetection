@@ -138,9 +138,9 @@ class YoloLossV4To7(YoloAnchorBasedLoss):
             obji = self.BCEobj(pred_obj, target_obj)
             loss[1] += obji * self.balance[i]  # obj loss
 
-        loss[0] *= self.hyp["box"]
-        loss[1] *= self.hyp["obj"]
-        loss[2] *= self.hyp["cls"]
+        loss[0] *= self.hyp.box
+        loss[1] *= self.hyp.obj
+        loss[2] *= self.hyp.cls
 
         return loss.sum() * batch_size, loss.detach()  # loss(box, cls, dfl)
 
@@ -218,9 +218,9 @@ class YoloLossV8(YoloAnchorFreeLoss):
                 pred_distri, pred_bboxes, anchor_points, target_bboxes, target_scores, target_scores_sum, fg_mask
             )
 
-        loss[0] *= self.hyp["box"]  # box gain
-        loss[1] *= self.hyp["cls"]  # cls gain
-        loss[2] *= self.hyp["dfl"]  # dfl gain
+        loss[0] *= self.hyp.box  # box gain
+        loss[1] *= self.hyp.cls  # cls gain
+        loss[2] *= self.hyp.dfl  # dfl gain
 
         return loss.sum() * batch_size, loss.detach()  # loss(box, cls, dfl)
 

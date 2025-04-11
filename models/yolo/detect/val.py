@@ -15,7 +15,8 @@ class DetectionValidator(BaseValidator):
         return build_coco_dataset(img_path, ann_path, self.args.imgsz, mode)
 
     def prepare_data(self):
-        self.loss_names = "box_loss", "obj_loss", "cls_loss"
+        self.loss_names = "box_loss", "cls_loss", "dfl_loss" if self.args['model'] in [
+            'yolov8s.yaml'] else "box_loss", "obj_loss", "cls_loss"
         self.val_dataset = self.build_dataset(self.val_set['image'], self.val_set['ann'], "val")
 
     def val_dataloader(self, *args: Any, **kwargs: Any) -> STEP_OUTPUT:
@@ -27,8 +28,10 @@ class DetectionValidator(BaseValidator):
 
     def postprocess(self, preds):
         """Apply Non-maximum suppression to prediction outputs."""
-        non_max_suppression = nmsv8_11.non_max_suppression if self.args['model'] in [
-            'yolov8s.yaml'] else nmsv3_7.non_max_suppression
+
+        g = 0 if self.args['model'] in ['yolov8s.yaml'] else 1
+
+        non_max_suppression = nmsv3_7.non_max_suppression if g else nmsv8_11.non_max_suppression
 
         preds = non_max_suppression(
             preds,
@@ -40,7 +43,7 @@ class DetectionValidator(BaseValidator):
             agnostic=False,
         )
 
-        return [{'scores': p[:, 4], 'labels': p[:, 5] + 1, 'boxes': p[:, :4]} for p in preds]
+        return [{'scores': p[:, 4], 'labels': p[:, 5] + g, 'boxes': p[:, :4]} for p in preds]
 
     def on_before_batch_transfer(self, batch: Any, dataloader_idx: int) -> Any:
         """
