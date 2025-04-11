@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 v11">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn/backbone/cspdarknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/backbone/cspdarknet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/models/v11/yolov11.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/models/v11/yolov11.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1744363950737</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="更新 v11">
+      <created>1744364850187</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1744364850187</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

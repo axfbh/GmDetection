@@ -1,7 +1,7 @@
 # YOLOv7 🚀 by Ultralytics, AGPL-3.0 license
 
 # Parameters
-nc: 80
+nc: 18
 
 scales:
   n: [ 0.5,0.25,1.0]
