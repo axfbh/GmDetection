@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 类别 - 1 问题">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="移除没有参数">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/datasets/coco.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/datasets/coco.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov4.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/yolov4.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov5.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/yolov5.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov7.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/yolov7.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/yolo/utils/yolo_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/utils/yolo_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/head/yolo_head.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/head/yolo_head.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +137,14 @@
       <option name="project" value="LOCAL" />
       <updated>1744334213124</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="移除没有参数">
+      <created>1744335206088</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1744335206088</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -152,7 +165,8 @@
     <MESSAGE value="更新 box scale" />
     <MESSAGE value="更新 name" />
     <MESSAGE value="更新 类别 - 1 问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新 类别 - 1 问题" />
+    <MESSAGE value="移除没有参数" />
+    <option name="LAST_COMMIT_MESSAGE" value="移除没有参数" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

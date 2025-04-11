@@ -68,7 +68,8 @@ class YoloHeadV8(nn.Module):
         shape = x[0].shape  # BCHW
         x_cat = torch.cat([xi.view(shape[0], self.no, -1) for xi in x], 2)
         box, cls = x_cat.split((self.reg_max * 4, self.nc), 1)
-        dbox = self.decode_bboxes(self.dfl(box), anchor_points.unsqueeze(0)) * stride_tensor.repeat(2, 1)
+        # cxcywh
+        dbox = self.decode_bboxes(self.dfl(box), anchor_points.unsqueeze(0)) * stride_tensor
         y = torch.cat((dbox, cls.sigmoid()), 1)
         return y
 
@@ -94,7 +95,7 @@ class YoloHeadV8(nn.Module):
             strides[i] = strides[i].expand(anchors[i].shape[0], -1)
         anchor_points = torch.cat(anchors)
         strides = torch.cat(strides).flip(-1)
-        return anchor_points, strides
+        return anchor_points, strides[:, 0:1]
 
     def decode_bboxes(self, bboxes, anchors):
         # 构建预测框 = 候选框中心点 + 预测框（左上右下）长度

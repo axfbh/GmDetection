@@ -200,7 +200,7 @@ class YoloLossV8(YoloAnchorFreeLoss):
 
         _, target_bboxes, target_scores, fg_mask, _ = self.assigner(
             pred_scores.detach().sigmoid(),
-            (pred_bboxes.detach() * stride_tensor.repeat(1, 2)).type(gt_bboxes.dtype),
+            (pred_bboxes.detach() * stride_tensor).type(gt_bboxes.dtype),
             anchor_points * stride_tensor,
             gt_labels,
             gt_bboxes,
@@ -212,7 +212,7 @@ class YoloLossV8(YoloAnchorFreeLoss):
         loss[1] = self.bce(pred_scores, target_scores.to(dtype)).sum() / target_scores_sum  # BCE
 
         if fg_mask.sum():
-            target_bboxes /= stride_tensor.repeat(1, 2)
+            target_bboxes /= stride_tensor
             loss[0], loss[2] = self.bbox_loss(
                 pred_distri, pred_bboxes, anchor_points, target_bboxes, target_scores, target_scores_sum, fg_mask
             )
