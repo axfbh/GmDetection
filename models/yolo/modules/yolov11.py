@@ -39,8 +39,7 @@ class YoloV11(nn.Module):
                                                        'crossStagePartial4': '2'},
                                  base_channels=base_channels,
                                  base_depth=base_depth,
-                                 deep_mul=deep_mul,
-                                 )
+                                 deep_mul=deep_mul)
 
         self.upsample = nn.Upsample(scale_factor=2, mode="nearest")
 
