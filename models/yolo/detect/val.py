@@ -29,7 +29,7 @@ class DetectionValidator(BaseValidator):
     def postprocess(self, preds):
         """Apply Non-maximum suppression to prediction outputs."""
 
-        g = 0 if self.args['model'] in ['yolov8s.yaml', 'yolov11s.ymal'] else 1
+        g = 0 if self.args['model'] in ['yolov8s.yaml', 'yolov11s.yaml'] else 1
 
         non_max_suppression = nmsv3_7.non_max_suppression if g else nmsv8_11.non_max_suppression
 
