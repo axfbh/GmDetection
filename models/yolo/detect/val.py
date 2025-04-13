@@ -15,8 +15,10 @@ class DetectionValidator(BaseValidator):
         return build_coco_dataset(img_path, ann_path, self.args.imgsz, mode)
 
     def prepare_data(self):
-        self.loss_names = "box_loss", "cls_loss", "dfl_loss" if self.args['model'] in [
-            'yolov8s.yaml', 'yolov11s.yaml'] else "box_loss", "obj_loss", "cls_loss"
+        model = self.ema.ema if hasattr(self, 'ema') else self.model
+
+        self.loss_names = "box_loss", "cls_loss", "dfl_loss" if model.__class__.__name__ in ['YoloV8',
+                                                                                             'YoloV11'] else "box_loss", "obj_loss", "cls_loss"
         self.val_dataset = self.build_dataset(self.val_set['image'], self.val_set['ann'], "val")
 
     def val_dataloader(self, *args: Any, **kwargs: Any) -> STEP_OUTPUT:
@@ -29,7 +31,9 @@ class DetectionValidator(BaseValidator):
     def postprocess(self, preds):
         """Apply Non-maximum suppression to prediction outputs."""
 
-        g = 0 if self.args['model'] in ['yolov8s.yaml', 'yolov11s.yaml'] else 1
+        model = self.ema.ema if hasattr(self, 'ema') else self.model
+
+        g = 0 if model.__class__.__name__ in ['YoloV8', 'YoloV11'] else 1
 
         non_max_suppression = nmsv3_7.non_max_suppression if g else nmsv8_11.non_max_suppression
 
