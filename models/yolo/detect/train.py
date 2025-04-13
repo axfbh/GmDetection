@@ -17,8 +17,9 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
         return build_coco_dataset(img_path, ann_path, self.args.imgsz, mode)
 
     def prepare_data(self):
-        self.loss_names = "box_loss", "cls_loss", "dfl_loss" if self.args['model'] in [
-            'yolov8s.yaml'] else "box_loss", "obj_loss", "cls_loss"
+        model = self.ema.ema if hasattr(self, 'ema') else self.model
+        self.loss_names = "box_loss", "cls_loss", "dfl_loss" if model.__class__.__name__ in ['YoloV8',
+                                                                                             'YoloV11'] else "box_loss", "obj_loss", "cls_loss"
         self.train_dataset = self.build_dataset(self.train_set['image'], self.train_set['ann'], "train")
         self.nc = max(self.train_dataset.coco.cats.keys())
 

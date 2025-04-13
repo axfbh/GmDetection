@@ -24,6 +24,11 @@ class BaseValidator(LightningModule):
 
         self.lightning_validator = None
 
+        self.iou_types = {
+            'detect': 'bbox',
+            'segment': "seg"
+        }
+
         self.batch_size = None if self.args is None else int(self.args.batch * 0.5)
 
     def _setup_validator(self):
@@ -59,11 +64,8 @@ class BaseValidator(LightningModule):
 
     def on_validation_start(self):
         base_ds = get_coco_api_from_dataset(self.val_loader.dataset)
-        iou_types = {
-            'detect': 'bbox',
-            'segment': "seg"
-        }
-        self.coco_evaluator = CocoEvaluator(base_ds, [iou_types[self.args.task]])
+
+        self.coco_evaluator = CocoEvaluator(base_ds, [self.iou_types[self.args.task]])
 
     def forward(self, batch):
         return self.model(batch)
