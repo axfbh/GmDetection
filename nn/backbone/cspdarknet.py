@@ -5,7 +5,8 @@ import torch
 import torch.nn as nn
 from torchvision.ops.misc import Conv2dNormActivation
 
-from nn.neck import SPPF, C2PSA
+from nn.neck import SPPF
+from nn.block import C2PSA
 
 BN = partial(nn.BatchNorm2d, eps=0.001, momentum=0.03)
 CBM = partial(Conv2dNormActivation, bias=False, inplace=True, norm_layer=BN, activation_layer=nn.Mish)
