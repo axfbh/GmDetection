@@ -158,8 +158,8 @@ class BaseTrainer(LightningModule):
         checkpoint['updates'] = self.ema.updates
         checkpoint['state_dict'] = self.ema.ema.state_dict()
 
-    def load_state_dict(self, state_dict: Mapping[str, Any], strict: bool = True):
+    def load_state_dict(self, *args, **kwargs):
         """
-        模型参数，改在外部加载
+           模型参数，改在外部加载
         """
         pass
