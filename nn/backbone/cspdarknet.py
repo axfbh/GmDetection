@@ -4,9 +4,9 @@ from functools import partial
 import torch
 import torch.nn as nn
 
-from nn.conv import CBS
-from nn.block import C2PSA, C3, C3k2, C2f
-from nn.neck import SPPF
+from nn.conv import CBS, Concat
+from nn.block import C2PSA, C3, C3k2, C2f, C1
+from nn.neck import SPPF, SPP
 
 
 class CSPDarknetV4(nn.Module):
@@ -18,7 +18,7 @@ class CSPDarknetV4(nn.Module):
         self.stem = nn.Sequential(
             CBS(3, base_channels, 3),
             DownSampleLayer(base_channels, base_channels * 2),
-            C3(base_channels * 2, base_channels * 2, base_depth * 1, e=1),
+            C3(base_channels * 2, base_channels * 2, base_depth, e=1),
         )
 
         self.crossStagePartial1 = nn.Sequential(
@@ -39,6 +39,9 @@ class CSPDarknetV4(nn.Module):
         self.crossStagePartial4 = nn.Sequential(
             DownSampleLayer(base_channels * 16, base_channels * 32),
             C3(base_channels * 32, base_channels * 32, base_depth * 4),
+            C1(base_channels * 32, base_channels * 16, 1, shortcut=False),
+            SPP([5, 9, 13], add=True),
+            C1(base_channels * 16 * 4, base_channels * 16, 1, shortcut=False),
         )
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))

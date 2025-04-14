@@ -18,6 +18,17 @@ class Bottleneck(nn.Module):
         return x + self.cv2(self.cv1(x)) if self.add else self.cv2(self.cv1(x))
 
 
+class C1(nn.Module):
+    def __init__(self, c1, c2, n=1, shortcut=True, g=1):
+        super().__init__()
+        self.cv1 = CBS(c1, c2, 1, 1)
+        self.m = nn.Sequential(*(Bottleneck(c2, c2, shortcut, g, k=((3, 3), (1, 1)), e=2.0) for _ in range(n)))
+
+    def forward(self, x):
+        """Forward pass through the CSP bottleneck with 3 convolutions."""
+        return self.m(self.cv1(x))
+
+
 class C3(nn.Module):
     """CSP Bottleneck with 3 convolutions."""
 

@@ -48,24 +48,28 @@ class YoloV11(nn.Module):
         self.conv3_for_upsample1 = C3k2(int(base_channels * 16 * deep_mul) + base_channels * 8,
                                         base_channels * 8,
                                         base_depth,
-                                        c3k=False)
+                                        c3k=False,
+                                        shortcut=False)
 
         self.conv3_for_upsample2 = C3k2(base_channels * 8 + base_channels * 8,
                                         base_channels * 4,
                                         base_depth,
-                                        c3k=False)
+                                        c3k=False,
+                                        shortcut=False)
 
         self.down_sample1 = CBS(base_channels * 4, base_channels * 4, 3, 2)
         self.conv3_for_downsample1 = C3k2(base_channels * 8 + base_channels * 4,
                                           base_channels * 8,
                                           base_depth,
-                                          c3k=False)
+                                          c3k=False,
+                                          shortcut=False)
 
         self.down_sample2 = CBS(base_channels * 8, base_channels * 8, 3, 2)
         self.conv3_for_downsample2 = C3k2(int(base_channels * 16 * deep_mul) + base_channels * 8,
                                           base_channels * 16,
                                           base_depth,
-                                          c3k=True)
+                                          c3k=True,
+                                          shortcut=False)
 
         self.head = YoloHeadV8([base_channels * 4, base_channels * 8, base_channels * 16],
                                num_classes=cfg.nc + 1)

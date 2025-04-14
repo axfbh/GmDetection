@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 
 from nn.conv import CBS
+from nn.block import C1
 from nn.backbone import Backbone
 from nn.neck import SPP
 from nn.head import YoloHeadV4
@@ -22,17 +23,6 @@ class Upsample(nn.Module):
         return x
 
 
-def make_five_conv(filters_list, in_filters):
-    m = nn.Sequential(
-        CBS(in_filters, filters_list[0], 1),
-        CBS(filters_list[0], filters_list[1], 3),
-        CBS(filters_list[1], filters_list[0], 1),
-        CBS(filters_list[0], filters_list[1], 3),
-        CBS(filters_list[1], filters_list[0], 1),
-    )
-    return m
-
-
 def make_three_conv(filters_list, in_filters):
     m = nn.Sequential(
         CBS(in_filters, filters_list[0], 1),
@@ -50,7 +40,7 @@ class YoloV4(nn.Module):
         scales = cfg['scales']
         width_multiple, depth_multiple = scales[scale]
 
-        base_channels = int(width_multiple * 64)  # 64
+        base_channels = int(width_multiple * 32)  # 64
         base_depth = max(round(depth_multiple * 3), 1)  # 3
 
         self.backbone = Backbone(name='CSPDarknetV4',
@@ -65,23 +55,33 @@ class YoloV4(nn.Module):
                                  base_channels=base_channels,
                                  base_depth=base_depth)
 
-        self.cov1 = make_three_conv([base_channels * 16, base_channels * 32], base_channels * 32)
-        self.spp = SPP([5, 9, 13])
-        self.cov2 = make_three_conv([base_channels * 16, base_channels * 32], base_channels * 16 * 4)
+        self.upsample = nn.Upsample(scale_factor=2, mode="nearest")
 
-        self.upsample1 = Upsample(base_channels * 16, base_channels * 8)
         self.conv_for_P4 = CBS(base_channels * 16, base_channels * 8, 1)
-        self.make_five_conv1 = make_five_conv([base_channels * 8, base_channels * 16], base_channels * 16)
+        self.conv_for_feat3 = CBS(base_channels * 16, base_channels * 8, 1, 1)
+        self.conv3_for_upsample1 = C1(base_channels * 16,
+                                      base_channels * 8,
+                                      base_depth,
+                                      shortcut=False)
 
-        self.upsample2 = Upsample(base_channels * 8, base_channels * 4)
         self.conv_for_P3 = CBS(base_channels * 8, base_channels * 4, 1)
-        self.make_five_conv2 = make_five_conv([base_channels * 4, base_channels * 8], base_channels * 8)
+        self.conv_for_feat2 = CBS(base_channels * 8, base_channels * 4, 1, 1)
+        self.conv3_for_upsample2 = C1(base_channels * 8,
+                                      base_channels * 4,
+                                      base_depth,
+                                      shortcut=False)
 
-        self.down_sample1 = CBS(base_channels * 4, base_channels * 8, 3, stride=2)
-        self.make_five_conv3 = make_five_conv([base_channels * 8, base_channels * 16], base_channels * 16)
+        self.down_sample1 = CBS(base_channels * 4, base_channels * 4, 3, stride=2)
+        self.conv3_for_downsample1 = C1(base_channels * 8,
+                                        base_channels * 8,
+                                        base_depth,
+                                        shortcut=False)
 
-        self.down_sample2 = CBS(base_channels * 8, base_channels * 16, 3, stride=2)
-        self.make_five_conv4 = make_five_conv([base_channels * 16, base_channels * 32], base_channels * 32)
+        self.down_sample2 = CBS(base_channels * 8, base_channels * 8, 3, stride=2)
+        self.conv3_for_downsample2 = C1(base_channels * 16,
+                                        base_channels * 16,
+                                        base_depth,
+                                        shortcut=False)
 
         self.head = YoloHeadV4([base_channels * 4, base_channels * 8, base_channels * 16],
                                cfg.anchors,
@@ -94,27 +94,23 @@ class YoloV4(nn.Module):
 
         feat1, feat2, feat3 = features['0'], features['1'], features['2']
 
-        P5 = self.cov1(feat3)
-        P5 = torch.cat([P5, self.spp(P5)], 1)
-        P5 = self.cov2(P5)
+        P5 = self.conv_for_feat3(feat3)
+        P5_upsample = self.upsample(P5)
+        P4 = torch.cat([P5_upsample, self.conv_for_P4(feat2)], 1)
+        P4 = self.conv3_for_upsample1(P4)
 
-        P5_upsample = self.upsample1(P5)
-        P4 = self.conv_for_P4(feat2)
-        P4 = torch.cat([P4, P5_upsample], dim=1)
-        P4 = self.make_five_conv1(P4)
-
-        P4_upsample = self.upsample2(P4)
-        P3 = self.conv_for_P3(feat1)
-        P3 = torch.cat([P3, P4_upsample], dim=1)
-        P3 = self.make_five_conv2(P3)
+        P4 = self.conv_for_feat2(P4)
+        P4_upsample = self.upsample(P4)
+        P3 = torch.cat([P4_upsample, self.conv_for_P3(feat1)], 1)
+        P3 = self.conv3_for_upsample2(P3)
 
         P3_downsample = self.down_sample1(P3)
-        P4 = torch.cat([P3_downsample, P4], dim=1)
-        P4 = self.make_five_conv3(P4)
+        P4 = torch.cat([P3_downsample, P4], 1)
+        P4 = self.conv3_for_downsample1(P4)
 
         P4_downsample = self.down_sample2(P4)
-        P5 = torch.cat([P4_downsample, P5], dim=1)
-        P5 = self.make_five_conv4(P5)
+        P5 = torch.cat([P4_downsample, P5], 1)
+        P5 = self.conv3_for_downsample2(P5)
 
         # ----------- train -----------
         if self.training:
