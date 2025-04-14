@@ -2,9 +2,7 @@ import torch
 from torchvision.ops.misc import Conv2dNormActivation
 from functools import partial
 import torch.nn as nn
-
-BN = partial(nn.BatchNorm2d, eps=0.001, momentum=0.03)
-CBS = partial(Conv2dNormActivation, bias=False, inplace=True, norm_layer=BN, activation_layer=nn.SiLU)
+from nn.conv import CBS
 
 
 class Elan(nn.Module):

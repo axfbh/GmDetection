@@ -3,6 +3,71 @@ import torch.nn as nn
 from torchvision.ops.misc import Conv2dNormActivation
 from functools import partial
 
+from nn.conv import CBS
+
+
+class Bottleneck(nn.Module):
+    def __init__(self, c1, c2, shortcut=True, g=1, k=(3, 3), e=0.5):
+        super(Bottleneck, self).__init__()
+        c_ = int(c2 * e)  # hidden channels
+        self.cv1 = CBS(c1, c_, k[0], 1)
+        self.cv2 = CBS(c_, c2, k[1], 1, groups=g)
+        self.add = shortcut and c1 == c2
+
+    def forward(self, x):
+        return x + self.cv2(self.cv1(x)) if self.add else self.cv2(self.cv1(x))
+
+
+class C3(nn.Module):
+    """CSP Bottleneck with 3 convolutions."""
+
+    def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
+        super().__init__()
+        c_ = int(c2 * e)  # hidden channels
+        self.cv1 = CBS(c1, c_, 1, 1)
+        self.cv2 = CBS(c1, c_, 1, 1)
+        self.cv3 = CBS(2 * c_, c2, 1)  # optional act=FReLU(c2)
+        self.m = nn.Sequential(*(Bottleneck(c_, c_, shortcut, g, k=((1, 1), (3, 3)), e=1.0) for _ in range(n)))
+
+    def forward(self, x):
+        """Forward pass through the CSP bottleneck with 3 convolutions."""
+        return self.cv3(torch.cat((self.m(self.cv1(x)), self.cv2(x)), 1))
+
+
+class C2f(nn.Module):
+    def __init__(self, c1, c2, n=1, shortcut=False, g=1, e=0.5):
+        super().__init__()
+        self.c = int(c2 * e)  # hidden channels
+        self.cv1 = CBS(c1, 2 * self.c, 1, 1)
+        self.cv2 = CBS((2 + n) * self.c, c2, 1)  # optional act=FReLU(c2)
+        self.m = nn.ModuleList(Bottleneck(self.c, self.c, shortcut, g, k=((3, 3), (3, 3)), e=1.0) for _ in range(n))
+
+    def forward(self, x):
+        """Forward pass through C2f layer."""
+        y = list(self.cv1(x).chunk(2, 1))
+        y.extend(m(y[-1]) for m in self.m)
+        return self.cv2(torch.cat(y, 1))
+
+
+class C3k(C3):
+    """C3k is a CSP bottleneck module with customizable kernel sizes for feature extraction in neural networks."""
+
+    def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5, k=3):
+        super().__init__(c1, c2, n, shortcut, g, e)
+        c_ = int(c2 * e)  # hidden channels
+        # self.m = nn.Sequential(*(RepBottleneck(c_, c_, shortcut, g, k=(k, k), e=1.0) for _ in range(n)))
+        self.m = nn.Sequential(*(Bottleneck(c_, c_, shortcut, g, k=(k, k), e=1.0) for _ in range(n)))
+
+
+class C3k2(C2f):
+    """Faster Implementation of CSP Bottleneck with 2 convolutions."""
+
+    def __init__(self, c1, c2, n=1, c3k=False, e=0.5, g=1, shortcut=True):
+        super().__init__(c1, c2, n, shortcut, g, e)
+        self.m = nn.ModuleList(
+            C3k(self.c, self.c, 2, shortcut, g) if c3k else Bottleneck(self.c, self.c, shortcut, g) for _ in range(n)
+        )
+
 
 class C2PSA(nn.Module):
     def __init__(self, c1, c2, n=1, e=0.5, conv_layer=None, activation_layer=nn.ReLU):
@@ -10,7 +75,7 @@ class C2PSA(nn.Module):
 
         Conv = partial(Conv2dNormActivation,
                        bias=False,
-                       inplace=False,
+                       inplace=True,
                        norm_layer=nn.BatchNorm2d,
                        activation_layer=activation_layer) if conv_layer is None else conv_layer
 
@@ -41,7 +106,7 @@ class Attention(nn.Module):
 
         Conv = partial(Conv2dNormActivation,
                        bias=False,
-                       inplace=False,
+                       inplace=True,
                        norm_layer=nn.BatchNorm2d)
 
         self.num_heads = num_heads
@@ -93,7 +158,7 @@ class PSABlock(nn.Module):
 
         Conv = partial(Conv2dNormActivation,
                        bias=False,
-                       inplace=False,
+                       inplace=True,
                        norm_layer=nn.BatchNorm2d)
 
         self.attn = Attention(c, attn_ratio=attn_ratio, num_heads=num_heads)
