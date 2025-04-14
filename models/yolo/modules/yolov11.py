@@ -17,7 +17,7 @@ class YoloV11(nn.Module):
         depth_multiple, width_multiple, deep_mul = scales[scale]
 
         base_channels = int(width_multiple * 64)  # 64
-        base_depth = max(round(depth_multiple * 3), 1)  # 3
+        base_depth = max(round(depth_multiple * 2), 1)  # 3
         # -----------------------------------------------#
         #   输入图片是640, 640, 3
         #   初始的基本通道是64

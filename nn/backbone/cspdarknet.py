@@ -4,7 +4,7 @@ from functools import partial
 import torch
 import torch.nn as nn
 
-from nn.conv import CBS, Concat
+from nn.conv import CBS
 from nn.block import C2PSA, C3, C3k2, C2f, C1
 from nn.neck import SPPF, SPP
 
@@ -154,7 +154,6 @@ class CSPDarknetV8(nn.Module):
     def __init__(self, base_channels: int = 64, base_depth: int = 3, deep_mul=1.0, num_classes=1000):
         super(CSPDarknetV8, self).__init__()
 
-        CBS.keywords['activation_layer'] = nn.SiLU
         DownSampleLayer = partial(CBS, kernel_size=3, stride=2)
 
         self.stem = CBS(3, base_channels, 3, 2)
