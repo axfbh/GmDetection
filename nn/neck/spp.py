@@ -25,7 +25,7 @@ class SPPF(nn.Module):
 
         Conv = partial(Conv2dNormActivation,
                        bias=False,
-                       inplace=False,
+                       inplace=True,
                        norm_layer=nn.BatchNorm2d,
                        activation_layer=activation_layer) if conv_layer is None else conv_layer
 
@@ -47,7 +47,7 @@ class SPPCSPC(nn.Module):
 
         Conv = partial(Conv2dNormActivation,
                        bias=False,
-                       inplace=False,
+                       inplace=True,
                        norm_layer=nn.BatchNorm2d,
                        activation_layer=activation_layer) if conv_layer is None else conv_layer
 
