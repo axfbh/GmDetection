@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 v11">
-      <change afterPath="$PROJECT_DIR$/nn/conv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/GmDetection.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GmDetection.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 conv,block">
       <change beforePath="$PROJECT_DIR$/nn/backbone/cspdarknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/backbone/cspdarknet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn/backbone/elandarknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/backbone/elandarknet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/block.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1744364850187</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="更新 conv,block">
+      <created>1744601037776</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1744601037776</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -217,6 +218,7 @@
     <MESSAGE value="更新 类别 - 1 问题" />
     <MESSAGE value="移除没有参数" />
     <MESSAGE value="更新 v11" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新 v11" />
+    <MESSAGE value="更新 conv,block" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新 conv,block" />
   </component>
 </project>

@@ -4,7 +4,7 @@ from functools import partial
 import torch
 import torch.nn as nn
 
-from nn.conv import CBS, Focus
+from nn.conv import CBS
 from nn.block import C2PSA, C3, C3k2, C2f
 from nn.neck import SPPF
 
