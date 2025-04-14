@@ -1,10 +1,9 @@
-from typing import List
 
-import torch.nn as nn
 import torch
 import torch.nn as nn
 
-from nn.backbone import ElanDarknet, CBS, MP1, Elan
+from nn.conv import CBS
+from nn.backbone import MP1, Elan
 from nn.neck import SPPCSPC
 from nn.head import YoloHeadV7
 from nn.backbone.ops import Backbone

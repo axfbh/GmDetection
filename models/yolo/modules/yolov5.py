@@ -1,7 +1,9 @@
 import torch
 import torch.nn as nn
 
-from nn.backbone import Backbone, CBM, C3
+from nn.conv import CBS
+from nn.block import C3
+from nn.backbone import Backbone
 from nn.head import YoloHeadV5
 from models.yolo.utils.yolo_loss import YoloLossV4To7
 
@@ -42,16 +44,16 @@ class YoloV5(nn.Module):
 
         self.upsample = nn.Upsample(scale_factor=2, mode="nearest")
 
-        self.conv_for_feat3 = CBM(base_channels * 16, base_channels * 8, 1, 1)
+        self.conv_for_feat3 = CBS(base_channels * 16, base_channels * 8, 1, 1)
         self.conv3_for_upsample1 = C3(base_channels * 16, base_channels * 8, base_depth, shortcut=False)
 
-        self.conv_for_feat2 = CBM(base_channels * 8, base_channels * 4, 1, 1)
+        self.conv_for_feat2 = CBS(base_channels * 8, base_channels * 4, 1, 1)
         self.conv3_for_upsample2 = C3(base_channels * 8, base_channels * 4, base_depth, shortcut=False)
 
-        self.down_sample1 = CBM(base_channels * 4, base_channels * 4, 3, 2)
+        self.down_sample1 = CBS(base_channels * 4, base_channels * 4, 3, 2)
         self.conv3_for_downsample1 = C3(base_channels * 8, base_channels * 8, base_depth, shortcut=False)
 
-        self.down_sample2 = CBM(base_channels * 8, base_channels * 8, 3, 2)
+        self.down_sample2 = CBS(base_channels * 8, base_channels * 8, 3, 2)
         self.conv3_for_downsample2 = C3(base_channels * 16, base_channels * 16, base_depth, shortcut=False)
 
         self.head = YoloHeadV5([base_channels * 4, base_channels * 8, base_channels * 16],

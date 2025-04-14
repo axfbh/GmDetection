@@ -1,7 +1,8 @@
 import torch
 import torch.nn as nn
 
-from nn.backbone import Backbone, CBM
+from nn.conv import CBS
+from nn.backbone import Backbone
 from nn.neck import SPP
 from nn.head import YoloHeadV4
 from models.yolo.utils.yolo_loss import YoloLossV4To7
@@ -12,7 +13,7 @@ class Upsample(nn.Module):
         super(Upsample, self).__init__()
 
         self.upsample = nn.Sequential(
-            CBM(in_channels, out_channels, 1),
+            CBS(in_channels, out_channels, 1),
             nn.Upsample(scale_factor=2, mode='nearest')
         )
 
@@ -23,20 +24,20 @@ class Upsample(nn.Module):
 
 def make_five_conv(filters_list, in_filters):
     m = nn.Sequential(
-        CBM(in_filters, filters_list[0], 1),
-        CBM(filters_list[0], filters_list[1], 3),
-        CBM(filters_list[1], filters_list[0], 1),
-        CBM(filters_list[0], filters_list[1], 3),
-        CBM(filters_list[1], filters_list[0], 1),
+        CBS(in_filters, filters_list[0], 1),
+        CBS(filters_list[0], filters_list[1], 3),
+        CBS(filters_list[1], filters_list[0], 1),
+        CBS(filters_list[0], filters_list[1], 3),
+        CBS(filters_list[1], filters_list[0], 1),
     )
     return m
 
 
 def make_three_conv(filters_list, in_filters):
     m = nn.Sequential(
-        CBM(in_filters, filters_list[0], 1),
-        CBM(filters_list[0], filters_list[1], 3),
-        CBM(filters_list[1], filters_list[0], 1),
+        CBS(in_filters, filters_list[0], 1),
+        CBS(filters_list[0], filters_list[1], 3),
+        CBS(filters_list[1], filters_list[0], 1),
     )
     return m
 
@@ -69,17 +70,17 @@ class YoloV4(nn.Module):
         self.cov2 = make_three_conv([base_channels * 16, base_channels * 32], base_channels * 16 * 4)
 
         self.upsample1 = Upsample(base_channels * 16, base_channels * 8)
-        self.conv_for_P4 = CBM(base_channels * 16, base_channels * 8, 1)
+        self.conv_for_P4 = CBS(base_channels * 16, base_channels * 8, 1)
         self.make_five_conv1 = make_five_conv([base_channels * 8, base_channels * 16], base_channels * 16)
 
         self.upsample2 = Upsample(base_channels * 8, base_channels * 4)
-        self.conv_for_P3 = CBM(base_channels * 8, base_channels * 4, 1)
+        self.conv_for_P3 = CBS(base_channels * 8, base_channels * 4, 1)
         self.make_five_conv2 = make_five_conv([base_channels * 4, base_channels * 8], base_channels * 8)
 
-        self.down_sample1 = CBM(base_channels * 4, base_channels * 8, 3, stride=2)
+        self.down_sample1 = CBS(base_channels * 4, base_channels * 8, 3, stride=2)
         self.make_five_conv3 = make_five_conv([base_channels * 8, base_channels * 16], base_channels * 16)
 
-        self.down_sample2 = CBM(base_channels * 8, base_channels * 16, 3, stride=2)
+        self.down_sample2 = CBS(base_channels * 8, base_channels * 16, 3, stride=2)
         self.make_five_conv4 = make_five_conv([base_channels * 16, base_channels * 32], base_channels * 32)
 
         self.head = YoloHeadV4([base_channels * 4, base_channels * 8, base_channels * 16],

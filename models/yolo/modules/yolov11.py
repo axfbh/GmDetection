@@ -1,7 +1,9 @@
 import torch
 import torch.nn as nn
 
-from nn.backbone import Backbone, CBM, C3k2
+from nn.conv import CBS
+from nn.block import C3k2
+from nn.backbone import Backbone
 from nn.head import YoloHeadV8
 from models.yolo.utils.yolo_loss import YoloLossV8
 
@@ -53,13 +55,13 @@ class YoloV11(nn.Module):
                                         base_depth,
                                         c3k=False)
 
-        self.down_sample1 = CBM(base_channels * 4, base_channels * 4, 3, 2)
+        self.down_sample1 = CBS(base_channels * 4, base_channels * 4, 3, 2)
         self.conv3_for_downsample1 = C3k2(base_channels * 8 + base_channels * 4,
                                           base_channels * 8,
                                           base_depth,
                                           c3k=False)
 
-        self.down_sample2 = CBM(base_channels * 8, base_channels * 8, 3, 2)
+        self.down_sample2 = CBS(base_channels * 8, base_channels * 8, 3, 2)
         self.conv3_for_downsample2 = C3k2(int(base_channels * 16 * deep_mul) + base_channels * 8,
                                           base_channels * 16,
                                           base_depth,
