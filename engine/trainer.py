@@ -1,13 +1,19 @@
+import sys
 import os
 from typing import Any, Dict, Mapping
+import subprocess
+import time
+import signal
+
 from omegaconf import OmegaConf
 
 import lightning as L
 from lightning import LightningModule
 from lightning.pytorch.utilities.types import OptimizerLRScheduler
 from lightning.pytorch.callbacks import ModelCheckpoint
-from lightning.pytorch.loggers import TensorBoardLogger
+from lightning.pytorch.loggers import TensorBoardLogger, CSVLogger
 from utils.lightning_utils import LitProgressBar
+from lightning.pytorch.callbacks import ProgressBar, TQDMProgressBar
 
 import torch
 
@@ -19,6 +25,7 @@ class BaseTrainer(LightningModule):
     def __init__(self, cfg):
         super(BaseTrainer, self).__init__()
 
+        self.cmd_process = None
         self.ema = None
 
         self.loss_names = None
@@ -40,6 +47,18 @@ class BaseTrainer(LightningModule):
 
         self.save_hyperparameters(self.args)
 
+    def _setup_tensorboard(self):
+        port = 6006
+        # 训练开始后启动 TensorBoard 进程
+        cmd = f"tensorboard --logdir=./{self.args.project}/{self.args.task}/{self.args.name} --port={port}"
+        self.cmd_process = subprocess.Popen(
+            cmd.split(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=True if os.name == 'nt' else False  # Windows 需要 shell=True
+        )
+        print(f"\nTensorBoard 已启动：http://localhost:{port}\n")
+
     def _setup_trainer(self):
         self.model.train()
         self.model.requires_grad_(True)
@@ -59,11 +78,16 @@ class BaseTrainer(LightningModule):
 
         progress_bar_callback = LitProgressBar(10)
 
+        tensorboard_logger = TensorBoardLogger(save_dir=f'./{self.args.project}/{self.args.task}', name=self.args.name)
+        version = tensorboard_logger._get_next_version()
+
         self.lightning_trainer = L.Trainer(
             accelerator=accelerator,
             devices=device,
             num_nodes=self.args.num_nodes,
-            logger=TensorBoardLogger(save_dir=f'./{self.args.project}/{self.args.task}', name=self.args.name),
+            logger=[tensorboard_logger,
+                    CSVLogger(save_dir=f'./{self.args.project}/{self.args.task}', name=self.args.name,
+                              version=version)],
             strategy=smart_distribute(self.args.num_nodes, self.device, ip_load(), "8888", "0"),
             max_epochs=self.args.epochs,
             accumulate_grad_batches=max(round(self.args.nbs / self.batch_size), 1),
@@ -72,6 +96,7 @@ class BaseTrainer(LightningModule):
             num_sanity_val_steps=0,
             log_every_n_steps=1,
             callbacks=[checkpoint_callback, progress_bar_callback]
+            # callbacks=[checkpoint_callback]
         )
 
     def fit(self):
@@ -103,6 +128,7 @@ class BaseTrainer(LightningModule):
     def configure_model(self) -> None:
         self.model.device = self.device
         self.model.args = self.args
+        self._setup_tensorboard()
 
     def on_train_start(self) -> None:
         self.ema = ModelEMA(self.model, updates=self.args.updates)
@@ -139,6 +165,7 @@ class BaseTrainer(LightningModule):
                       on_epoch=True,
                       sync_dist=True,
                       prog_bar=True,
+                      rank_zero_only=True,
                       batch_size=self.batch_size)
 
         return loss * self.trainer.accumulate_grad_batches * self.trainer.world_size
@@ -152,6 +179,13 @@ class BaseTrainer(LightningModule):
     ) -> None:
         super(BaseTrainer, self).optimizer_step(epoch, batch_idx, optimizer, optimizer_closure)
         self.ema.update(self.model)
+
+    def on_train_end(self) -> None:
+        # 训练结束后终止 TensorBoard 进程
+        if self.cmd_process:
+            self.cmd_process.send_signal(signal.SIGINT)
+            self.cmd_process.wait()
+            print("TensorBoard 进程已终止")
 
     def on_save_checkpoint(self, checkpoint: Dict[str, Any]) -> None:
         checkpoint['ema'] = self.ema.ema
