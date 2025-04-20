@@ -93,7 +93,6 @@ class BaseTrainer(LightningModule):
             num_sanity_val_steps=0,
             log_every_n_steps=1,
             callbacks=[checkpoint_callback, progress_bar_callback]
-            # callbacks=[checkpoint_callback]
         )
 
     def fit(self):
