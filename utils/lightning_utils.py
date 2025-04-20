@@ -1,6 +1,5 @@
-import sys
-from lightning.pytorch.callbacks import TQDMProgressBar, ProgressBar
-from lightning.pytorch.callbacks.progress.tqdm_progress import Tqdm, convert_inf
+from lightning.pytorch.callbacks import ProgressBar
+from lightning.pytorch.callbacks.progress.tqdm_progress import Tqdm
 from typing import Any, OrderedDict
 from numbers import Number
 

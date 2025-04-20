@@ -1,11 +1,11 @@
-import sys
 import os
 from typing import Any, Dict, Mapping
 import subprocess
-import time
 import signal
 
 from omegaconf import OmegaConf
+
+import torch
 
 import lightning as L
 from lightning import LightningModule
@@ -13,9 +13,6 @@ from lightning.pytorch.utilities.types import OptimizerLRScheduler
 from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning.pytorch.loggers import TensorBoardLogger, CSVLogger
 from utils.lightning_utils import LitProgressBar
-from lightning.pytorch.callbacks import ProgressBar, TQDMProgressBar
-
-import torch
 
 from engine.utils import ip_load
 from utils.torch_utils import smart_optimizer, ModelEMA, smart_distribute, select_device
