@@ -85,7 +85,7 @@ class BaseTrainer(LightningModule):
             logger=[tensorboard_logger,
                     CSVLogger(save_dir=f'./{self.args.project}/{self.args.task}', name=self.args.name,
                               version=version)],
-            strategy=smart_distribute(self.args.num_nodes, self.device, ip_load(), "8888", "0"),
+            strategy=smart_distribute(self.args.num_nodes, device, ip_load(), "8888", "0"),
             max_epochs=self.args.epochs,
             accumulate_grad_batches=max(round(self.args.nbs / self.batch_size), 1),
             gradient_clip_val=10,

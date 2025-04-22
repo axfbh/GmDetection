@@ -16,7 +16,7 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
     def build_dataset(self, img_path, ann_path, mode="train"):
         return build_coco_dataset(img_path, ann_path, self.args.imgsz, mode)
 
-    def prepare_data(self):
+    def setup(self, stage: str) -> None:
         self.loss_names = "box_loss", "cls_loss", "dfl_loss" if self.model.__class__.__name__ in ['YoloV8',
                                                                                                   'YoloV11'] else "box_loss", "obj_loss", "cls_loss"
         self.train_dataset = self.build_dataset(self.train_set['image'], self.train_set['ann'], "train")

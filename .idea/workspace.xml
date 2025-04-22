@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 conv,block,v4">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 prograss bar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lightning_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/lightning_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/engine/trainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/detect/val.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/val.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +40,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Python.main.executor": "Run",
+    "Python.main.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -232,7 +235,31 @@
       <option name="project" value="LOCAL" />
       <updated>1744621765723</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="更新 prograss bar">
+      <option name="closed" value="true" />
+      <created>1745161041028</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1745161041028</updated>
+    </task>
+    <task id="LOCAL-00021" summary="更新 prograss bar">
+      <option name="closed" value="true" />
+      <created>1745161081043</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1745161081043</updated>
+    </task>
+    <task id="LOCAL-00022" summary="更新 prograss bar">
+      <option name="closed" value="true" />
+      <created>1745161377549</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1745161377549</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -257,7 +284,8 @@
     <MESSAGE value="更新 v11" />
     <MESSAGE value="更新 conv,block" />
     <MESSAGE value="更新 conv,block,v4" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="更新 prograss bar" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新 prograss bar" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -271,6 +299,21 @@
           <url>file://E:/anaconda/envs/yolo/Lib/site-packages/lightning/pytorch/callbacks/progress/tqdm_progress.py</url>
           <line>328</line>
           <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/models/yolo/detect/val.py</url>
+          <line>24</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/engine/trainer.py</url>
+          <line>154</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://E:/anaconda/envs/yolo/Lib/site-packages/lightning/pytorch/utilities/data.py</url>
+          <line>96</line>
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

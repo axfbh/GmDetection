@@ -14,7 +14,7 @@ class DetectionValidator(BaseValidator):
     def build_dataset(self, img_path, ann_path, mode="val"):
         return build_coco_dataset(img_path, ann_path, self.args.imgsz, mode)
 
-    def prepare_data(self):
+    def setup(self, stage: str) -> None:
         model = self.ema.ema if hasattr(self, 'ema') else self.model
 
         self.loss_names = "box_loss", "cls_loss", "dfl_loss" if model.__class__.__name__ in ['YoloV8',
