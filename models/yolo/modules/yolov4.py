@@ -4,7 +4,6 @@ import torch.nn as nn
 from nn.conv import CBS
 from nn.block import C1
 from nn.backbone import Backbone
-from nn.neck import SPP
 from nn.head import YoloHeadV4
 from models.yolo.utils.yolo_loss import YoloLossV4To7
 

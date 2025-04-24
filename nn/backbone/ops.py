@@ -1,10 +1,9 @@
-from typing import Optional, List, Union, Dict
+from typing import List, Union, Dict
 
 import torch
 import torch.nn as nn
 from torch import Tensor
 import torch.nn.functional as F
-import torchvision
 from torchvision.models._utils import IntermediateLayerGetter
 from dataset.ops import NestedTensor
 

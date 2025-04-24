@@ -8,7 +8,8 @@ from engine.trainer import BaseTrainer
 
 from dataset.coco_dataset import build_coco_dataset, build_dataloader
 
-from models.yolo.detect.val import DetectionValidator
+from dataset.ops import NestedTensor
+from models.detr.detect.val import DetectionValidator
 
 
 # 先执行 BaseTrainer，从 BaseTrainer super 跳到执行 DetectionValidator
@@ -18,7 +19,9 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
     def build_dataset(self, img_path, ann_path, mode="train"):
         return build_coco_dataset(img_path, ann_path, self.args.imgsz, mode)
 
-    def setup(self, stage: str) -> None:
+    def prepare_data(self):
+        self.loss_names = "box_loss", "cls_loss", "dfl_loss" if self.model.__class__.__name__ in ['YoloV8',
+                                                                                                  'YoloV11'] else "box_loss", "obj_loss", "cls_loss"
         self.train_dataset = self.build_dataset(self.train_set['image'], self.train_set['ann'], "train")
         self.nc = max(self.train_dataset.coco.cats.keys())
 
@@ -45,12 +48,15 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
 
         dtype = images[0].dtype
         device = images[0].device
-        c, _, _ = images[0].shape
-        batch_shape = [len(images), c, self.args.imgsz, self.args.imgsz]
+        c, h, w = images[0].shape
+        b = len(images)
+        batch_shape = [b, c, self.args.imgsz, self.args.imgsz]
         tensor = torch.zeros(batch_shape, dtype=dtype, device=device)
-        for i, (img, pad_img) in enumerate(zip(images, tensor)):
+        mask = torch.ones((b, h, w), dtype=torch.bool, device=device)
+        for i, (img, pad_img, m) in enumerate(zip(images, tensor, mask)):
             c, h, w = img.shape
             pad_img[: c, : h, : w].copy_(img)
+            m[: h, :w] = False
             orig_size[i, 0] = h
             orig_size[i, 1] = w
 
@@ -59,5 +65,5 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
         else:
             self.ema.ema.orig_size = orig_size
 
-        batch[0] = tensor
+        batch[0] = NestedTensor(tensor, mask)
         return batch

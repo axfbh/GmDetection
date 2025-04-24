@@ -141,7 +141,9 @@ class YoloLossV4To7(YoloAnchorBasedLoss):
         loss[1] *= self.hyp.obj
         loss[2] *= self.hyp.cls
 
-        return loss.sum() * batch_size, loss.detach()  # loss(box, cls, dfl)
+        return loss.sum() * batch_size, {k: v for k, v in zip(['box_loss',
+                                                               'obj_loss',
+                                                               'cls_loss'], loss.detach())}  # loss(box, obj, cls)
 
 
 class YoloLossV8(YoloAnchorFreeLoss):
@@ -221,7 +223,9 @@ class YoloLossV8(YoloAnchorFreeLoss):
         loss[1] *= self.hyp.cls  # cls gain
         loss[2] *= self.hyp.dfl  # dfl gain
 
-        return loss.sum() * batch_size, loss.detach()  # loss(box, cls, dfl)
+        return loss.sum() * batch_size, {k: v for k, v in zip(['box_loss',
+                                                               'cls_loss',
+                                                               'dfl_loss'], loss.detach())}  # loss(box, obj, cls)
 
 
 class DFLoss(nn.Module):

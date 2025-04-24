@@ -73,7 +73,7 @@ class BaseTrainer(LightningModule):
 
         checkpoint_callback.FILE_EXTENSION = '.pt'
 
-        progress_bar_callback = LitProgressBar(10)
+        progress_bar_callback = LitProgressBar(3)
 
         tensorboard_logger = TensorBoardLogger(save_dir=f'./{self.args.project}/{self.args.task}', name=self.args.name)
         version = tensorboard_logger._get_next_version()
@@ -152,9 +152,7 @@ class BaseTrainer(LightningModule):
         return self.model(batch)
 
     def training_step(self, batch, batch_idx):
-        loss, loss_items = self(batch)
-
-        loss_dict = {name: ls for name, ls in zip(self.loss_names, loss_items)}
+        loss, loss_dict = self(batch)
 
         self.log_dict(loss_dict,
                       on_step=True,

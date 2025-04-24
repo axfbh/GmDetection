@@ -13,18 +13,10 @@ from albumentations.pytorch import ToTensorV2
 
 from pycocotools import mask as coco_mask
 
-from dataset.ops import nested_tensor_from_tensor_list
-
 
 def get_coco_api_from_dataset(dataset):
     if isinstance(dataset, torchvision.datasets.CocoDetection):
         return dataset.coco
-
-
-def collate_fn_transformer(batch):
-    batch = list(zip(*batch))
-    batch[0] = nested_tensor_from_tensor_list(batch[0])
-    return tuple(batch)
 
 
 def collate_fn(batch):
