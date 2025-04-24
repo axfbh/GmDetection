@@ -43,9 +43,7 @@ class DetrHead(nn.Module):
 
         boxes = box_convert(out_bbox, 'cxcywh', 'xyxy')
 
-        img_h, img_w = target_sizes.unbind(1)
-        scale_fct = torch.stack([img_w, img_h, img_w, img_h], dim=1)
-        boxes = boxes * scale_fct[:, None, :]
+        boxes = boxes * target_sizes
 
         results = [{'scores': s, 'labels': l, 'boxes': b} for s, l, b in zip(scores, labels, boxes)]
 
