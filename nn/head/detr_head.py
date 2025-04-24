@@ -45,9 +45,7 @@ class DetrHead(nn.Module):
 
         boxes = boxes * target_sizes
 
-        results = [{'scores': s, 'labels': l, 'boxes': b} for s, l, b in zip(scores, labels, boxes)]
-
-        return results
+        return torch.cat([boxes, scores[..., None], labels[..., None]], -1)
 
     @torch.jit.unused
     def _set_aux_loss(self, outputs_class, outputs_coord):

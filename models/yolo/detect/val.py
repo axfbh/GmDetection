@@ -43,7 +43,7 @@ class DetectionValidator(BaseValidator):
             agnostic=False,
         )
 
-        return [{'scores': p[:, 4], 'labels': p[:, 5] + g, 'boxes': p[:, :4]} for p in preds]
+        return [{'boxes': p[:, :4], 'scores': p[:, 4], 'labels': p[:, 5] + g} for p in preds]
 
     def on_before_batch_transfer(self, batch: Any, dataloader_idx: int) -> Any:
         """
