@@ -9,6 +9,7 @@ from engine.trainer import BaseTrainer
 from dataset.coco_dataset import build_coco_dataset, build_dataloader
 
 from dataset.ops import NestedTensor
+
 from models.detr.detect.val import DetectionValidator
 
 
@@ -19,9 +20,7 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
     def build_dataset(self, img_path, ann_path, mode="train"):
         return build_coco_dataset(img_path, ann_path, self.args.imgsz, mode)
 
-    def prepare_data(self):
-        self.loss_names = "box_loss", "cls_loss", "dfl_loss" if self.model.__class__.__name__ in ['YoloV8',
-                                                                                                  'YoloV11'] else "box_loss", "obj_loss", "cls_loss"
+    def setup(self, stage: str):
         self.train_dataset = self.build_dataset(self.train_set['image'], self.train_set['ann'], "train")
         self.nc = max(self.train_dataset.coco.cats.keys())
 

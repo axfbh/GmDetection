@@ -15,8 +15,6 @@ class BaseValidator(LightningModule):
 
         self.coco_evaluator = None
 
-        self.loss_names = None
-
         self.data = None
         self.val_set = None
         self.val_dataset = None

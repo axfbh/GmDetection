@@ -16,11 +16,7 @@ class DetectionValidator(BaseValidator):
     def build_dataset(self, img_path, ann_path, mode="val"):
         return build_coco_dataset(img_path, ann_path, self.args.imgsz, mode)
 
-    def prepare_data(self):
-        model = self.ema.ema if hasattr(self, 'ema') else self.model
-
-        self.loss_names = "box_loss", "cls_loss", "dfl_loss" if model.__class__.__name__ in ['YoloV8',
-                                                                                             'YoloV11'] else "box_loss", "obj_loss", "cls_loss"
+    def setup(self, stage: str):
         self.val_dataset = self.build_dataset(self.val_set['image'], self.val_set['ann'], "val")
 
     def val_dataloader(self, *args: Any, **kwargs: Any) -> STEP_OUTPUT:

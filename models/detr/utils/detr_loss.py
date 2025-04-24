@@ -193,4 +193,4 @@ class SetCriterion(nn.Module):
                     losses.update(l_dict)
 
         loss = sum(losses[k] * self.weight_dict[k] for k in losses.keys() if k in self.weight_dict)
-        return loss, losses
+        return loss, {k: v.detach() for k, v in losses.items()}
