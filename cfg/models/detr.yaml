@@ -1,5 +1,5 @@
 # Parameters
-nc: 18  # number of classes
+nc: 19  # number of classes
 
 hidden_dim: 256
 
@@ -16,3 +16,5 @@ num_heads: 8
 num_queries: 100
 
 num_channels: 2048
+
+aux_loss: True

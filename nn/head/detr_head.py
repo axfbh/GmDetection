@@ -14,8 +14,9 @@ def inverse_sigmoid(x, eps=1e-5):
 
 
 class DetrHead(nn.Module):
-    def __init__(self, input_dim, hidden_dim, output_dim, num_layers, num_classes):
+    def __init__(self, input_dim, hidden_dim, output_dim, num_layers, num_classes, aux_loss=False):
         super().__init__()
+        self.aux_loss = aux_loss
         self.num_layers = num_layers
         h = [hidden_dim] * (num_layers - 1)
         hidden_channels = [k for k in h + [output_dim]]
@@ -24,10 +25,13 @@ class DetrHead(nn.Module):
         self.class_embed = nn.Linear(hidden_dim, num_classes)
 
     def forward(self, x, orig_target_sizes=None):
-        outputs_coord, outputs_class = self.bbox_embed(x).sigmoid(), self.class_embed(x)
+        outputs_class = self.class_embed(x)
+        outputs_coord = self.bbox_embed(x).sigmoid()
         outputs = {'pred_logits': outputs_class[-1],
-                   'pred_boxes': outputs_coord[-1],
-                   'aux_outputs': self._set_aux_loss(outputs_class, outputs_coord)}
+                   'pred_boxes': outputs_coord[-1]}
+
+        if self.aux_loss:
+            outputs['aux_outputs'] = self._set_aux_loss(outputs_class, outputs_coord)
 
         if self.training:
             return outputs

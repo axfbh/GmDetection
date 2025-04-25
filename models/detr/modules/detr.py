@@ -220,43 +220,58 @@ def _get_activation_fn(activation):
     raise RuntimeError(F"activation should be relu/gelu, not {activation}.")
 
 
+class MLP(nn.Module):
+    """ Very simple multi-layer perceptron (also called FFN)"""
+
+    def __init__(self, input_dim, hidden_dim, output_dim, num_layers):
+        super().__init__()
+        self.num_layers = num_layers
+        h = [hidden_dim] * (num_layers - 1)
+        self.layers = nn.ModuleList(nn.Linear(n, k) for n, k in zip([input_dim] + h, h + [output_dim]))
+
+    def forward(self, x):
+        for i, layer in enumerate(self.layers):
+            x = F.relu(layer(x)) if i < self.num_layers - 1 else layer(x)
+        return x
+
+
 class Detr(nn.Module):
     def __init__(self, cfg):
         super(Detr, self).__init__()
-        hidden_dim = cfg['hidden_dim']
-        num_heads = cfg['num_heads']
-        dim_feedforward = cfg['dim_feedforward']
-        enc_layers = cfg['enc_layers']
-        dec_layers = cfg['dec_layers']
-        num_channels = cfg['num_channels']
-        num_queries = cfg['num_queries']
-        num_classes = cfg['nc']
+        self.hidden_dim = cfg['hidden_dim']
+        self.num_heads = cfg['num_heads']
+        self.dim_feedforward = cfg['dim_feedforward']
+        self.enc_layers = cfg['enc_layers']
+        self.dec_layers = cfg['dec_layers']
+        self.num_channels = cfg['num_channels']
+        self.num_queries = cfg['num_queries']
+        self.num_classes = cfg['nc']
+        self.aux_loss = cfg['aux_loss']
 
         self.backbone = Backbone(name='resnet50',
                                  layers_to_train=['layer2', 'layer3', 'layer4'],
                                  return_interm_layers={'layer4': "0"},
+                                 pretrained=True,
                                  norm_layer=FrozenBatchNorm2d)
 
-        N_steps = hidden_dim // 2
+        N_steps = self.hidden_dim // 2
 
         self.position_embedding = PositionEmbeddingSine(N_steps, normalize=True)
 
-        self.dec_layers = dec_layers
-
-        self.num_classes = num_classes
-
         self.transformer = Transformer(
-            d_model=hidden_dim,
-            nhead=num_heads,
-            dim_feedforward=dim_feedforward,
-            num_encoder_layers=enc_layers,
-            num_decoder_layers=dec_layers,
+            d_model=self.hidden_dim,
+            nhead=self.num_heads,
+            dim_feedforward=self.dim_feedforward,
+            num_encoder_layers=self.enc_layers,
+            num_decoder_layers=self.dec_layers,
             return_intermediate_dec=True,
         )
 
-        self.head = DetrHead(hidden_dim, hidden_dim, 4, 3, num_classes + 1)
-        self.query_embed = nn.Embedding(num_queries, hidden_dim)
-        self.input_proj = nn.Conv2d(num_channels, hidden_dim, kernel_size=1)
+        self.head = DetrHead(self.hidden_dim, self.hidden_dim, 4, 3, self.num_classes + 1, aux_loss=self.aux_loss)
+        # self.class_embed = nn.Linear(self.hidden_dim, self.num_classes + 1)
+        # self.bbox_embed = MLP(self.hidden_dim, self.hidden_dim, 4, 3)
+        self.query_embed = nn.Embedding(self.num_queries, self.hidden_dim)
+        self.input_proj = nn.Conv2d(self.num_channels, self.hidden_dim, kernel_size=1)
 
     def forward(self, batch):
         samples = batch[0]
@@ -270,6 +285,13 @@ class Detr(nn.Module):
 
         # ----------- train -----------
         if self.training:
+            # targets = batch[1]
+            # outputs_class = self.class_embed(hs)
+            # outputs_coord = self.bbox_embed(hs).sigmoid()
+            # out = {'pred_logits': outputs_class[-1], 'pred_boxes': outputs_coord[-1]}
+            # if self.aux_loss:
+            #     out['aux_outputs'] = self._set_aux_loss(outputs_class, outputs_coord)
+            # return self.loss(out, targets)
             targets = batch[1]
             preds = self.head(hs)
             return self.loss(preds, targets)
@@ -280,13 +302,20 @@ class Detr(nn.Module):
         preds = self.head(hs, self.args.imgsz)[0]
 
         # ------------- 满足 coco eval -------------
-        preds[:, :, :4] *= scales[:, None]
+        preds[..., :4] *= scales[:, None]
         return preds
 
     def loss(self, preds, targets):
         if getattr(self, "criterion", None) is None:
             matcher = HungarianMatcher(cost_class=1, cost_bbox=5, cost_giou=2)
             losses = ['labels', 'boxes', 'cardinality']
+            aux_weight_dict = {}
+
+            if self.aux_loss:
+                for i in range(self.dec_layers - 1):
+                    aux_weight_dict.update({k + f'_{i}': v for k, v in self.args.weight_dict.items()})
+                self.args.weight_dict.update(aux_weight_dict)
+
             self.criterion = SetCriterion(self.num_classes,
                                           matcher=matcher,
                                           weight_dict=self.args.weight_dict,
@@ -294,3 +323,11 @@ class Detr(nn.Module):
                                           losses=losses)
 
         return self.criterion(preds, targets)
+
+    @torch.jit.unused
+    def _set_aux_loss(self, outputs_class, outputs_coord):
+        # this is a workaround to make torchscript happy, as torchscript
+        # doesn't support dictionary with non-homogeneous values, such
+        # as a dict having both a Tensor and a list.
+        return [{'pred_logits': a, 'pred_boxes': b}
+                for a, b in zip(outputs_class[:-1], outputs_coord[:-1])]
