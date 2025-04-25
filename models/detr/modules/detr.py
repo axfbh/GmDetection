@@ -268,8 +268,6 @@ class Detr(nn.Module):
         )
 
         self.head = DetrHead(self.hidden_dim, self.hidden_dim, 4, 3, self.num_classes + 1, aux_loss=self.aux_loss)
-        # self.class_embed = nn.Linear(self.hidden_dim, self.num_classes + 1)
-        # self.bbox_embed = MLP(self.hidden_dim, self.hidden_dim, 4, 3)
         self.query_embed = nn.Embedding(self.num_queries, self.hidden_dim)
         self.input_proj = nn.Conv2d(self.num_channels, self.hidden_dim, kernel_size=1)
 
@@ -285,13 +283,6 @@ class Detr(nn.Module):
 
         # ----------- train -----------
         if self.training:
-            # targets = batch[1]
-            # outputs_class = self.class_embed(hs)
-            # outputs_coord = self.bbox_embed(hs).sigmoid()
-            # out = {'pred_logits': outputs_class[-1], 'pred_boxes': outputs_coord[-1]}
-            # if self.aux_loss:
-            #     out['aux_outputs'] = self._set_aux_loss(outputs_class, outputs_coord)
-            # return self.loss(out, targets)
             targets = batch[1]
             preds = self.head(hs)
             return self.loss(preds, targets)

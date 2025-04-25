@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 git">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 detr 背景类是最后一个 18类 就需要 19个输入">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cfg/models/detr.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/models/detr.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/detr/modules/detr.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/detr/modules/detr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/detr/utils/detr_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/detr/utils/detr_loss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn/head/detr_head.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/head/detr_head.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +99,7 @@
       <option name="presentableId" value="Default" />
       <updated>1744200895793</updated>
       <workItem from="1745469465323" duration="22000" />
-      <workItem from="1745544174160" duration="4884000" />
+      <workItem from="1745544174160" duration="5325000" />
     </task>
     <task id="LOCAL-00001" summary="更新 yolov7 的模型">
       <option name="closed" value="true" />
@@ -274,7 +270,21 @@
       <option name="project" value="LOCAL" />
       <updated>1745465269129</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="更新 detr 背景类是最后一个 18类 就需要 19个输入">
+      <created>1745549150878</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1745549150878</updated>
+    </task>
+    <task id="LOCAL-00026" summary="更新 detr 背景类是最后一个 18类 就需要 19个输入">
+      <created>1745549529535</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1745549529535</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -307,7 +317,8 @@
     <MESSAGE value="更新  postprocess" />
     <MESSAGE value="更新 loss 的 loss_dict，prepare_data 变成 setup,去除 self.loss_names" />
     <MESSAGE value="更新 git" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新 git" />
+    <MESSAGE value="更新 detr 背景类是最后一个 18类 就需要 19个输入" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新 detr 背景类是最后一个 18类 就需要 19个输入" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1745548802874" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
