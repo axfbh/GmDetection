@@ -13,4 +13,4 @@ if __name__ == '__main__':
 
     model = DETR("detr.yaml", task='detect')
     model.train(data="./cfg/datasets/coco.yaml", device='0', imgsz=640, epochs=300, batch=6,
-    weight_dict = {'loss_ce': 1, 'loss_bbox': 5, 'loss_giou': 2})
+                weight_dict={'loss_ce': 1, 'loss_bbox': 5, 'loss_giou': 2})
