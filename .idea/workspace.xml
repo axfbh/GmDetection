@@ -6,7 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 detr 背景类是最后一个 18类 就需要 19个输入">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/detr/modules/detr.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/detr/modules/detr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov4.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/yolov4.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov7.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/yolov7.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/backbone/cspdarknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/backbone/cspdarknet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/backbone/elandarknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/backbone/elandarknet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/block.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/neck/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/neck/spp.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +108,8 @@
       <workItem from="1745469465323" duration="22000" />
       <workItem from="1745544174160" duration="5357000" />
       <workItem from="1745549616203" duration="1897000" />
-      <workItem from="1745568209242" duration="415000" />
+      <workItem from="1745568209242" duration="806000" />
+      <workItem from="1745570884635" duration="867000" />
     </task>
     <task id="LOCAL-00001" summary="更新 yolov7 的模型">
       <option name="closed" value="true" />
@@ -293,7 +301,14 @@
       <option name="project" value="LOCAL" />
       <updated>1745549577891</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="更新 detr 背景类是最后一个 18类 就需要 19个输入">
+      <created>1745568650758</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1745568650758</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -329,7 +344,18 @@
     <MESSAGE value="更新 detr 背景类是最后一个 18类 就需要 19个输入" />
     <option name="LAST_COMMIT_MESSAGE" value="更新 detr 背景类是最后一个 18类 就需要 19个输入" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/models/yolo/modules/yolov7.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1745549619759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1745571684973" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

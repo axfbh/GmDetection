@@ -1,8 +1,7 @@
 import torch
-from torchvision.ops.misc import Conv2dNormActivation
-from functools import partial
 import torch.nn as nn
 from nn.conv import CBS
+from nn.block import SPPCSPC
 
 
 class Elan(nn.Module):
@@ -80,7 +79,10 @@ class ElanDarknet(nn.Module):
         )
         self.stage4 = nn.Sequential(
             MP1(transition_channels * 32, transition_channels * 16),
-            Elan(transition_channels * 32, block_channels * 8, transition_channels * 32, n=base_depth, ids=ids)
+            Elan(transition_channels * 32, block_channels * 8, transition_channels * 32, n=base_depth, ids=ids),
+            SPPCSPC(transition_channels * 32, transition_channels * 16,
+                    conv_layer=CBS,
+                    activation_layer=nn.SiLU)
         )
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))

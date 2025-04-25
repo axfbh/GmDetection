@@ -4,7 +4,6 @@ import torch.nn as nn
 
 from nn.conv import CBS
 from nn.backbone import MP1, Elan
-from nn.neck import SPPCSPC
 from nn.head import YoloHeadV7
 from nn.backbone.ops import Backbone
 
@@ -48,10 +47,6 @@ class YoloV7(nn.Module):
                                  base_depth=base_depth,
                                  scale=scale)
 
-        self.sppcspc = SPPCSPC(transition_channels * 32, transition_channels * 16,
-                               conv_layer=CBS,
-                               activation_layer=nn.SiLU)
-
         self.upsample = nn.Upsample(scale_factor=2, mode="nearest")
 
         self.conv_for_P5 = CBS(transition_channels * 16, transition_channels * 8)
@@ -87,8 +82,7 @@ class YoloV7(nn.Module):
 
         feat1, feat2, feat3 = features['0'], features['1'], features['2']
 
-        P5 = self.sppcspc(feat3)
-        P5_conv = self.conv_for_P5(P5)
+        P5_conv = self.conv_for_P5(feat3)
         P5_upsample = self.upsample(P5_conv)
         P4 = torch.cat([self.conv_for_feat2(feat2), P5_upsample], 1)
         P4 = self.conv3_for_upsample1(P4)
@@ -103,7 +97,7 @@ class YoloV7(nn.Module):
         P4 = self.conv3_for_downsample1(P4)
 
         P4_downsample = self.down_sample2(P4)
-        P5 = torch.cat([P4_downsample, P5], 1)
+        P5 = torch.cat([P4_downsample, feat3], 1)
         P5 = self.conv3_for_downsample2(P5)
 
         P3 = self.rep_conv_1(P3)

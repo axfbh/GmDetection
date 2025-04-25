@@ -5,8 +5,7 @@ import torch
 import torch.nn as nn
 
 from nn.conv import CBS
-from nn.block import C2PSA, C3, C3k2, C2f, C1
-from nn.neck import SPPF, SPP
+from nn.block import C2PSA, C3, C3k2, C2f, C1, SPPF, SPP
 
 
 class CSPDarknetV4(nn.Module):

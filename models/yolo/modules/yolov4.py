@@ -8,29 +8,6 @@ from nn.head import YoloHeadV4
 from models.yolo.utils.yolo_loss import YoloLossV4To7
 
 
-class Upsample(nn.Module):
-    def __init__(self, in_channels, out_channels):
-        super(Upsample, self).__init__()
-
-        self.upsample = nn.Sequential(
-            CBS(in_channels, out_channels, 1),
-            nn.Upsample(scale_factor=2, mode='nearest')
-        )
-
-    def forward(self, x):
-        x = self.upsample(x)
-        return x
-
-
-def make_three_conv(filters_list, in_filters):
-    m = nn.Sequential(
-        CBS(in_filters, filters_list[0], 1),
-        CBS(filters_list[0], filters_list[1], 3),
-        CBS(filters_list[1], filters_list[0], 1),
-    )
-    return m
-
-
 class YoloV4(nn.Module):
     def __init__(self, cfg):
         super(YoloV4, self).__init__()
