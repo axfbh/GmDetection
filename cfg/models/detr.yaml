@@ -18,3 +18,5 @@ num_queries: 100
 num_channels: 2048
 
 aux_loss: True
+
+pre_norm: False
