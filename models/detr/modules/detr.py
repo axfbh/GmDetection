@@ -11,7 +11,7 @@ from nn.head.detr_head import DetrHead
 from nn.transformer import Transformer
 
 from models.detr.utils.position_encoding import PositionEmbeddingSine
-from models.detr.utils.detr_loss import SetCriterion
+from models.detr.utils.detr_loss import DETRLoss
 from models.detr.utils.matcher import HungarianMatcher
 
 
@@ -83,18 +83,9 @@ class Detr(nn.Module):
     def loss(self, preds, targets):
         if getattr(self, "criterion", None) is None:
             matcher = HungarianMatcher(cost_class=1, cost_bbox=5, cost_giou=2)
-            losses = ['labels', 'boxes', 'cardinality']
-            aux_weight_dict = {}
 
-            if self.aux_loss:
-                for i in range(self.dec_layers - 1):
-                    aux_weight_dict.update({k + f'_{i}': v for k, v in self.args.weight_dict.items()})
-                self.args.weight_dict.update(aux_weight_dict)
-
-            self.criterion = SetCriterion(self.num_classes,
-                                          matcher=matcher,
-                                          weight_dict=self.args.weight_dict,
-                                          eos_coef=0.1,
-                                          losses=losses)
+            self.criterion = DETRLoss(self.num_classes,
+                                      matcher=matcher,
+                                      eos_coef=0.1)
 
         return self.criterion(preds, targets)
