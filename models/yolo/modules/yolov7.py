@@ -1,4 +1,3 @@
-
 import torch
 import torch.nn as nn
 
@@ -50,15 +49,15 @@ class YoloV7(nn.Module):
         self.upsample = nn.Upsample(scale_factor=2, mode="nearest")
 
         self.conv_for_P5 = CBS(transition_channels * 16, transition_channels * 8)
-        self.conv_for_feat2 = CBS(transition_channels * 32, transition_channels * 8)
         self.conv3_for_upsample1 = Elan(transition_channels * 16, block_channels * 4, transition_channels * 8,
                                         e=e, n=base_depth, ids=ids)
 
+        self.conv_for_feat2 = CBS(transition_channels * 32, transition_channels * 8)
         self.conv_for_P4 = CBS(transition_channels * 8, transition_channels * 4)
-        self.conv_for_feat1 = CBS(transition_channels * 16, transition_channels * 4)
         self.conv3_for_upsample2 = Elan(transition_channels * 8, block_channels * 2, transition_channels * 4,
                                         e=e, n=base_depth, ids=ids)
 
+        self.conv_for_feat1 = CBS(transition_channels * 16, transition_channels * 4)
         self.down_sample1 = MP1(transition_channels * 4, transition_channels * 4)
         self.conv3_for_downsample1 = Elan(transition_channels * 16, block_channels * 4, transition_channels * 8,
                                           e=e, n=base_depth, ids=ids)
@@ -84,12 +83,12 @@ class YoloV7(nn.Module):
 
         P5_conv = self.conv_for_P5(feat3)
         P5_upsample = self.upsample(P5_conv)
-        P4 = torch.cat([self.conv_for_feat2(feat2), P5_upsample], 1)
+        P4 = torch.cat([P5_upsample, self.conv_for_feat2(feat2)], 1)
         P4 = self.conv3_for_upsample1(P4)
 
         P4_conv = self.conv_for_P4(P4)
         P4_upsample = self.upsample(P4_conv)
-        P3 = torch.cat([self.conv_for_feat1(feat1), P4_upsample], 1)
+        P3 = torch.cat([P4_upsample, self.conv_for_feat1(feat1)], 1)
         P3 = self.conv3_for_upsample2(P3)
 
         P3_downsample = self.down_sample1(P3)
