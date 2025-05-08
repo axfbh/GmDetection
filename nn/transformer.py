@@ -69,7 +69,7 @@ class TransformerEncoder(nn.Module):
             src:
             mask: 只用于Decoder训练时的解码过程，作用是掩盖掉当前时刻之后的信息，让模型只能看到当前时刻（包括）之前的信息。
             src_key_padding_mask: 由于每个batch的序列长短不一，被padding的内容需要用key_padding_mask来标识出来，然后在计算注意力权重的时候忽略掉这部分信息。
-            pos:
+            pos: 位置编码
 
         Returns:
 
@@ -102,6 +102,20 @@ class TransformerDecoder(nn.Module):
                 memory_key_padding_mask: Optional[Tensor] = None,
                 pos: Optional[Tensor] = None,
                 query_pos: Optional[Tensor] = None):
+        """
+        Args:
+            tgt: zero数组 shape 和 query_pos 一样
+            memory: encoder 的输出
+            tgt_mask: None
+            memory_mask: None
+            tgt_key_padding_mask: None
+            memory_key_padding_mask: 填充的 mask
+            pos: 位置编码
+            query_pos: 查询 embed
+
+        Returns:
+
+        """
         output = tgt
 
         intermediate = []
