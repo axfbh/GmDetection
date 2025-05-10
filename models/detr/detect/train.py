@@ -43,8 +43,6 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
         """
         images = batch[0]
 
-        orig_size = torch.zeros((len(images), 2))
-
         dtype = images[0].dtype
         device = images[0].device
         c, h, w = images[0].shape
@@ -56,13 +54,7 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
             c, h, w = img.shape
             pad_img[: c, : h, : w].copy_(img)
             m[: h, :w] = False
-            orig_size[i, 0] = h
-            orig_size[i, 1] = w
-
-        if self.model.training:
-            self.model.orig_size = orig_size
-        else:
-            self.ema.ema.orig_size = orig_size
 
         batch[0] = NestedTensor(tensor, mask)
+        batch[1] = torch.stack(batch[1])
         return batch

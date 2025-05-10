@@ -19,6 +19,7 @@ class YoloAnchorBasedLoss(nn.Module):
 
         hyp = model.args
         m = model.head
+
         self.device = model.device
         self.hyp = hyp
         # yolo 小grid大anchor，大grid小anchor
@@ -48,17 +49,17 @@ class YoloAnchorFreeLoss(nn.Module):
     def __init__(self, model, tal_topk=10):
         super(YoloAnchorFreeLoss, self).__init__()
 
-        h = model.args
+        hyp = model.args
         m = model.head
 
         # Define criteria
+        self.device = model.device
+        self.hyp = hyp
         self.bce = nn.BCEWithLogitsLoss(reduction="none")
-        self.hyp = h
         self.make_anchors = m.make_anchors
         self.nc = m.nc
         self.no = m.nc + m.reg_max * 4
         self.reg_max = m.reg_max
-        self.device = model.device
 
         self.use_dfl = m.reg_max > 1
 

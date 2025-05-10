@@ -174,10 +174,10 @@ class DETRLoss(nn.Module):
 
     def _get_loss(self, outputs, targets, num_boxes, **kwargs):
 
+        # Retrieve the matching between the outputs of the last layer and the targets
         match_indices = self.matcher(outputs, targets)
 
         loss = {}
-
         loss.update(self._loss_labels(outputs, targets, match_indices, **kwargs))
         loss.update(self._loss_cardinality(outputs, targets))
         loss.update(self._loss_boxes(outputs, targets, match_indices, num_boxes))
@@ -191,8 +191,6 @@ class DETRLoss(nn.Module):
                       The expected keys in each dict depends on the losses applied, see each loss' doc
         """
         outputs_without_aux = {k: v for k, v in outputs.items() if k != 'aux_outputs'}
-
-        # Retrieve the matching between the outputs of the last layer and the targets
 
         # Compute the average number of target boxes accross all nodes, for normalization purposes
         num_boxes = sum(len(t["labels"]) for t in targets)

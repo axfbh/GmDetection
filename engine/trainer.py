@@ -1,5 +1,5 @@
-import os
-from typing import Any, Dict, Mapping
+import os, sys
+from typing import Any, Dict
 import subprocess
 import signal
 
@@ -67,7 +67,7 @@ class BaseTrainer(LightningModule):
         checkpoint_callback = ModelCheckpoint(filename='best',
                                               save_last=True,
                                               monitor='loss_bbox',
-                                              mode='min',
+                                              mode='max',
                                               auto_insert_metric_name=False,
                                               enable_version_counter=False)
 
@@ -177,7 +177,10 @@ class BaseTrainer(LightningModule):
     def on_train_end(self) -> None:
         # 训练结束后终止 TensorBoard 进程
         if self.cmd_process:
-            self.cmd_process.send_signal(signal.SIGINT)
+            if sys.platform == 'win32':
+                self.cmd_process.send_signal(signal.CTRL_BREAK_EVENT)  # Windows 用 Ctrl+Break
+            else:
+                self.cmd_process.send_signal(signal.SIGINT)  # Unix 用 SIGINT (Ctrl+C)
             self.cmd_process.wait()
             print("TensorBoard 进程已终止")
 

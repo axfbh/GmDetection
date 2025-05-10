@@ -55,7 +55,7 @@ class CocoDetection(torchvision.datasets.CocoDetection):
 
         img = ToTensorV2()(image=sample['image'])['image'].float() / 255.
         img = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])(img)
-        return img, target
+        return img, target["orig_size"], target
 
     def convert_albumen_to_coco_fmt(self, target, sample):
         h, w = sample['image'].shape[:-1]
@@ -115,9 +115,7 @@ class ConvertCocoPolysToMask(object):
         if keypoints is not None:
             keypoints = keypoints[keep]
 
-        target = {}
-        target["boxes"] = boxes
-        target["labels"] = classes
+        target = {"boxes": boxes, "labels": classes}
         if self.return_masks:
             target["masks"] = masks
         target["image_id"] = image_id

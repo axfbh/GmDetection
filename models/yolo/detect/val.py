@@ -53,7 +53,6 @@ class DetectionValidator(BaseValidator):
         :return:
         """
         images = batch[0]
-        self.model.orig_size = torch.zeros((len(images), 2))
 
         dtype = images[0].dtype
         device = images[0].device
@@ -63,8 +62,7 @@ class DetectionValidator(BaseValidator):
         for i, (img, pad_img) in enumerate(zip(images, tensor)):
             c, h, w = img.shape
             pad_img[: c, : h, : w].copy_(img)
-            self.model.orig_size[i, 0] = h
-            self.model.orig_size[i, 1] = w
 
         batch[0] = tensor
+        batch[1] = torch.stack(batch[1])
         return batch

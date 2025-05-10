@@ -107,12 +107,13 @@ class YoloV8(nn.Module):
 
         # ----------- train -----------
         if self.training:
-            targets = batch[1]
+            targets = batch[2]
             preds = self.head([P3, P4, P5])
             return self.loss(preds, targets)
 
+        orig_size = batch[1]
         # ----------- val -----------
-        scales = self.orig_size.amax(1, True).to(self.device) / self.args.imgsz
+        scales = orig_size.amax(1, True) / self.args.imgsz
 
         preds = self.head([P3, P4, P5], self.args.imgsz)[0]
 

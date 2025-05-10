@@ -69,7 +69,7 @@ class BaseValidator(LightningModule):
         return self.model(batch)
 
     def validation_step(self, batch, batch_idx):
-        targets = batch[1]
+        targets = batch[2]
 
         preds = self.ema.ema(batch) if hasattr(self, 'ema') else self(batch)
         preds = self.postprocess(preds)

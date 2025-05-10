@@ -67,12 +67,13 @@ class Detr(nn.Module):
 
         # ----------- train -----------
         if self.training:
-            targets = batch[1]
+            targets = batch[2]
             preds = self.head(hs)
             return self.loss(preds, targets)
 
+        orig_size = batch[1]
         # ----------- val -----------
-        scales = self.orig_size.amax(1, True).to(self.device) / self.args.imgsz
+        scales = orig_size.amax(1, True) / self.args.imgsz
 
         preds = self.head(hs, self.args.imgsz)[0]
 
