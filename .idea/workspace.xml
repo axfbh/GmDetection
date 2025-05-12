@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 dataset">
-      <change beforePath="$PROJECT_DIR$/dataset/coco_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataset/coco_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine/validator.py" beforeDir="false" afterPath="$PROJECT_DIR$/engine/validator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/detect/val.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/val.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov5.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/yolov5.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -325,7 +329,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747063399499</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="更新 dataset">
+      <option name="closed" value="true" />
+      <created>1747063456991</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1747063456991</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

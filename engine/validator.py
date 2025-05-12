@@ -6,6 +6,8 @@ from lightning import LightningModule
 from utils.lightning_utils import LitProgressBar
 from utils.coco_eval import CocoEvaluator
 from dataset.coco_dataset import get_coco_api_from_dataset
+from torchmetrics.detection import MeanAveragePrecision
+from torchvision.ops.boxes import box_convert
 
 
 class BaseValidator(LightningModule):
@@ -64,6 +66,7 @@ class BaseValidator(LightningModule):
         base_ds = get_coco_api_from_dataset(self.val_loader.dataset)
 
         self.coco_evaluator = CocoEvaluator(base_ds, [self.iou_types[self.args.task]])
+        # self.coco_evaluator = MeanAveragePrecision()
 
     def forward(self, batch):
         return self.model(batch)
@@ -73,13 +76,25 @@ class BaseValidator(LightningModule):
 
         preds = self.ema.ema(batch) if hasattr(self, 'ema') else self(batch)
         preds = self.postprocess(preds)
+        # true_bboxs = []
+        # for target in targets:
+        #     true_bboxs.append(
+        #         {
+        #             'boxes': box_convert(target['boxes'] * self.args.imgsz, 'cxcywh', 'xyxy'),
+        #             'labels': target['labels'],
+        #         }
+        #
+        #     )
         res = {target['image_id'].item(): output for target, output in zip(targets, preds)}
         self.coco_evaluator.update(res)
+        # self.coco_evaluator.update(preds, true_bboxs)
 
     def on_validation_epoch_end(self) -> None:
         self.coco_evaluator.synchronize_between_processes()
         self.coco_evaluator.accumulate()
         self.coco_evaluator.summarize()
+        # results = self.coco_evaluator.compute()
+        # print(results)
 
     def postprocess(self, preds):
         """Preprocesses the predictions."""
