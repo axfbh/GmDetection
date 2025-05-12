@@ -66,7 +66,7 @@ class BaseTrainer(LightningModule):
 
         checkpoint_callback = ModelCheckpoint(filename='best',
                                               save_last=True,
-                                              monitor='loss_bbox',
+                                              monitor='box_loss',
                                               mode='max',
                                               auto_insert_metric_name=False,
                                               enable_version_counter=False)

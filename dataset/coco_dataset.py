@@ -65,7 +65,7 @@ class CocoDetection(torchvision.datasets.CocoDetection):
             torch.tensor(sample['bboxes'], dtype=torch.float), 'xyxy', 'cxcywh'
         ) / self.imgsz
 
-        target['labels'] = torch.tensor(sample['classes'])
+        target['labels'] = torch.tensor(sample['classes'], dtype=torch.int32)
         target['size'] = torch.tensor([h, w])
 
         return target
