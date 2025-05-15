@@ -80,7 +80,7 @@ class BaseValidator(LightningModule):
         # for target in targets:
         #     true_bboxs.append(
         #         {
-        #             'boxes': box_convert(target['boxes'] * self.args.imgsz, 'cxcywh', 'xyxy'),
+        #             'boxes': box_convert(target['boxes'], 'cxcywh', 'xyxy') * self.args.imgsz,
         #             'labels': target['labels'],
         #         }
         #

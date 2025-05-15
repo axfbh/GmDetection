@@ -5,7 +5,7 @@ import torch
 from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 from engine.validator import BaseValidator
-from models.yolo.utils import nmsv3_7, nmsv8_11
+from models.yolo.utils import nms
 from dataset.coco_dataset import build_coco_dataset, build_dataloader
 
 
@@ -27,13 +27,7 @@ class DetectionValidator(BaseValidator):
     def postprocess(self, preds):
         """Apply Non-maximum suppression to prediction outputs."""
 
-        model = self.ema.ema if hasattr(self, 'ema') else self.model
-
-        g = 0 if model.__class__.__name__ in ['YoloV8', 'YoloV11'] else 1
-
-        non_max_suppression = nmsv3_7.non_max_suppression if g else nmsv8_11.non_max_suppression
-
-        preds = non_max_suppression(
+        preds = nms.non_max_suppression(
             preds,
             self.args.conf,
             self.args.iou,
@@ -43,7 +37,7 @@ class DetectionValidator(BaseValidator):
             agnostic=False,
         )
 
-        return [{'boxes': p[:, :4], 'scores': p[:, 4], 'labels': (p[:, 5] + g).int()} for p in preds]
+        return [{'boxes': p[:, :4], 'scores': p[:, 4], 'labels': p[:, 5].long()} for p in preds]
 
     def on_before_batch_transfer(self, batch: Any, dataloader_idx: int) -> Any:
         """
