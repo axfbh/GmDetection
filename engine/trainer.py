@@ -44,7 +44,7 @@ class BaseTrainer(LightningModule):
 
         self.save_hyperparameters(self.args)
 
-    def _setup_tensorboard(self):
+    def _start_tensorboard(self):
         port = 6006
         # 训练开始后启动 TensorBoard 进程
         cmd = f"tensorboard --logdir=./{self.args.project}/{self.args.task}/{self.args.name} --port={port}"
@@ -56,6 +56,16 @@ class BaseTrainer(LightningModule):
         )
         print(f"\nTensorBoard 已启动：http://localhost:{port}\n")
 
+    def _close_tensorboard(self):
+        # 训练结束后终止 TensorBoard 进程
+        if self.cmd_process:
+            if sys.platform == 'win32':
+                self.cmd_process.send_signal(signal.CTRL_BREAK_EVENT)  # Windows 用 Ctrl+Break
+            else:
+                self.cmd_process.send_signal(signal.SIGINT)  # Unix 用 SIGINT (Ctrl+C)
+            self.cmd_process.wait()
+            print("TensorBoard 进程已终止")
+
     def _setup_trainer(self):
         self.model.train()
         self.model.requires_grad_(True)
@@ -66,7 +76,7 @@ class BaseTrainer(LightningModule):
 
         checkpoint_callback = ModelCheckpoint(filename='best',
                                               save_last=True,
-                                              monitor='box_loss',
+                                              monitor='fitness',
                                               mode='max',
                                               auto_insert_metric_name=False,
                                               enable_version_counter=False)
@@ -92,7 +102,7 @@ class BaseTrainer(LightningModule):
             gradient_clip_algorithm="norm",
             num_sanity_val_steps=0,
             log_every_n_steps=1,
-            callbacks=[checkpoint_callback, progress_bar_callback]
+            callbacks=[progress_bar_callback, checkpoint_callback]
         )
 
     def fit(self):
@@ -124,9 +134,9 @@ class BaseTrainer(LightningModule):
     def configure_model(self) -> None:
         self.model.device = self.device
         self.model.args = self.args
-        self._setup_tensorboard()
 
     def on_train_start(self) -> None:
+        self._start_tensorboard()
         self.ema = ModelEMA(self.model, updates=self.args.updates)
 
     def on_train_batch_start(self, batch: Any, batch_idx: int):
@@ -175,14 +185,7 @@ class BaseTrainer(LightningModule):
         self.ema.update(self.model)
 
     def on_train_end(self) -> None:
-        # 训练结束后终止 TensorBoard 进程
-        if self.cmd_process:
-            if sys.platform == 'win32':
-                self.cmd_process.send_signal(signal.CTRL_BREAK_EVENT)  # Windows 用 Ctrl+Break
-            else:
-                self.cmd_process.send_signal(signal.SIGINT)  # Unix 用 SIGINT (Ctrl+C)
-            self.cmd_process.wait()
-            print("TensorBoard 进程已终止")
+        self._close_tensorboard()
 
     def on_save_checkpoint(self, checkpoint: Dict[str, Any]) -> None:
         checkpoint['ema'] = self.ema.ema

@@ -4,8 +4,6 @@ import lightning as L
 from lightning import LightningModule
 
 from utils.lightning_utils import LitProgressBar
-from utils.coco_eval import CocoEvaluator
-from dataset.coco_dataset import get_coco_api_from_dataset
 from torchmetrics.detection import MeanAveragePrecision
 from torchvision.ops.boxes import box_convert
 
@@ -63,7 +61,7 @@ class BaseValidator(LightningModule):
         self.model.args = self.args
 
     def on_validation_start(self):
-        self.coco_evaluator = MeanAveragePrecision()
+        self.coco_evaluator = MeanAveragePrecision(iou_type=self.iou_types[self.args.task])
 
     def forward(self, batch):
         return self.model(batch)
@@ -84,9 +82,9 @@ class BaseValidator(LightningModule):
             )
         self.coco_evaluator.update(preds, true_bboxs)
 
-    def on_validation_epoch_end(self) -> None:
-        results = self.coco_evaluator.compute()
-        print(results)
+    # def on_validation_epoch_end(self) -> None:
+    #     results = self.coco_evaluator.compute()
+    #     print(results)
 
     def postprocess(self, preds):
         """Preprocesses the predictions."""
