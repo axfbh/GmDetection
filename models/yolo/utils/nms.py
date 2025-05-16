@@ -59,10 +59,13 @@ def non_max_suppression(
     # v8后的版本
     if is_v8:
         prediction = prediction.transpose(-1, -2)  # shape(1,84,6300) to shape(1,6300,84)
-
-    nc = nc or (prediction.shape[2] - 4)  # number of classes
-    nm = prediction.shape[2] - nc - 4  # mask start index
-    mi = 4 + nc
+        nc = nc or (prediction.shape[2] - 4)  # number of classes
+        nm = prediction.shape[2] - nc - 4  # mask start index
+        mi = 4 + nc
+    else:
+        nc = nc or (prediction.shape[2] - 5)  # number of classes
+        nm = prediction.shape[2] - nc - 5  # mask start index
+        mi = 5 + nc
 
     # v8后的版本
     if is_v8:
@@ -70,10 +73,7 @@ def non_max_suppression(
     else:
         xc = prediction[..., 4] > conf_thres  # candidates
 
-    if is_v8:
-        multi_label &= nc > 1  # multiple labels per box (adds 0.5ms/img)
-    else:
-        multi_label &= (nc - 1) > 1  # multiple labels per box (adds 0.5ms/img)
+    multi_label &= nc > 1  # multiple labels per box (adds 0.5ms/img)
 
     box = box_convert(prediction[..., :4], in_fmt='cxcywh', out_fmt='xyxy')
     prediction = torch.cat((box, prediction[..., 4:]), dim=-1)  # xywh to xyxy
@@ -87,7 +87,10 @@ def non_max_suppression(
         # Cat apriori labels if autolabelling
         if labels and len(labels[xi]):
             lb = labels[xi]
-            v = torch.zeros((len(lb), nc + nm + 4), device=x.device)
+            if is_v8:
+                v = torch.zeros((len(lb), nc + nm + 4), device=x.device)
+            else:
+                v = torch.zeros((len(lb), nc + nm + 5), device=x.device)
             # v[:, :4] = xywh2xyxy(lb[:, 1:5])  # box
             v[:, :4] = box_convert(lb[:, 1:5], in_fmt='cxcywh', out_fmt='xyxy')  # box
             v[range(len(lb)), lb[:, 0].long() + 4] = 1.0  # cls
@@ -100,7 +103,7 @@ def non_max_suppression(
         if is_v8:
             box, cls, mask = x.split((4, nc, nm), 1)
         else:
-            box, obj, cls, mask = x.split((4, 1, nc - 1, nm), 1)
+            box, obj, cls, mask = x.split((4, 1, nc, nm), 1)
             # Compute conf
             cls *= obj
 
