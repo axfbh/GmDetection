@@ -107,19 +107,11 @@ class YoloV8(nn.Module):
 
         # ----------- train -----------
         if self.training:
-            targets = batch[2]
+            targets = batch[1]
             preds = self.head([P3, P4, P5])
             return self.loss(preds, targets)
 
-        orig_size = batch[1]
-        # ----------- val -----------
-        scales = orig_size.amax(1, True) / self.args.imgsz
-
-        preds = self.head([P3, P4, P5], self.args.imgsz)[0]
-
-        # ------------- 满足 coco eval -------------
-        preds[:, :, :4] *= scales[:, None]
-        return preds
+        return self.head([P3, P4, P5], self.args.imgsz)[0]
 
     def loss(self, preds, targets):
         if getattr(self, "criterion", None) is None:

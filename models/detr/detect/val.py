@@ -27,7 +27,7 @@ class DetectionValidator(BaseValidator):
         return self.val_loader
 
     def postprocess(self, preds):
-        return [{'boxes': p[:, :4], 'scores': p[:, 4], 'labels': p[:, 5]} for p in preds]
+        return [{'boxes': p[:, :4], 'scores': p[:, 4], 'labels': p[:, 5].long()} for p in preds]
 
     def on_before_batch_transfer(self, batch: Any, dataloader_idx: int) -> Any:
         """
@@ -51,5 +51,4 @@ class DetectionValidator(BaseValidator):
             m[: h, :w] = False
 
         batch[0] = NestedTensor(tensor, mask)
-        batch[1] = torch.stack(batch[1])
         return batch

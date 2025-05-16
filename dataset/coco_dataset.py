@@ -55,7 +55,7 @@ class CocoDetection(torchvision.datasets.CocoDetection):
 
         img = ToTensorV2()(image=sample['image'])['image'].float() / 255.
         img = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])(img)
-        return img, target["orig_size"], target
+        return img, target
 
     def convert_albumen_to_coco_fmt(self, target, sample):
         h, w = sample['image'].shape[:-1]

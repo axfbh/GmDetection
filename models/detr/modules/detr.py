@@ -71,15 +71,7 @@ class Detr(nn.Module):
             preds = self.head(hs)
             return self.loss(preds, targets)
 
-        orig_size = batch[1]
-        # ----------- val -----------
-        scales = orig_size.amax(1, True) / self.args.imgsz
-
-        preds = self.head(hs, self.args.imgsz)[0]
-
-        # ------------- 满足 coco eval -------------
-        preds[..., :4] *= scales[:, None]
-        return preds
+        return self.head(hs, self.args.imgsz)[0]
 
     def loss(self, preds, targets):
         if getattr(self, "criterion", None) is None:

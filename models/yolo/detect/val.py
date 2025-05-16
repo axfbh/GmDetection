@@ -58,5 +58,4 @@ class DetectionValidator(BaseValidator):
             pad_img[: c, : h, : w].copy_(img)
 
         batch[0] = tensor
-        batch[1] = torch.stack(batch[1])
         return batch
