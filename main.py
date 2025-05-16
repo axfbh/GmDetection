@@ -3,8 +3,6 @@ from models import DETR
 
 # 还没做的
 # 更新 dataset 格式 兼容 map
-# 更新 map print 方式
-# 更新 log 输出
 if __name__ == '__main__':
     model = YOLO("yolov3s.yaml", task='detect')
     model.train(data="./cfg/datasets/coco.yaml", device='0', imgsz=640, epochs=100, batch=8, box=0.05, cls=0.5, obj=1)

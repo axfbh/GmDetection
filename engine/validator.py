@@ -82,10 +82,6 @@ class BaseValidator(LightningModule):
             )
         self.coco_evaluator.update(preds, true_bboxs)
 
-    # def on_validation_epoch_end(self) -> None:
-    #     results = self.coco_evaluator.compute()
-    #     print(results)
-
     def postprocess(self, preds):
         """Preprocesses the predictions."""
         return preds
