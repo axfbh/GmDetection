@@ -16,7 +16,7 @@ class YoloV4(nn.Module):
         scales = cfg['scales']
         width_multiple, depth_multiple = scales[scale]
 
-        base_channels = int(width_multiple * 32)  # 64
+        base_channels = int(width_multiple * 32)  # 32
         base_depth = max(round(depth_multiple * 3), 1)  # 3
 
         self.backbone = Backbone(name='CSPDarknetV4',
