@@ -87,6 +87,7 @@ def non_max_suppression(
         # Cat apriori labels if autolabelling
         if labels and len(labels[xi]):
             lb = labels[xi]
+            # v8后的版本
             if is_v8:
                 v = torch.zeros((len(lb), nc + nm + 4), device=x.device)
             else:
@@ -110,10 +111,18 @@ def non_max_suppression(
         # Detections matrix nx6 (xyxy, conf, cls)
         if multi_label:
             i, j = torch.where(cls > conf_thres)
-            x = torch.cat((box[i], x[i, 4 + j, None], j[:, None].float(), mask[i]), 1)
+            # v8后的版本
+            if is_v8:
+                x = torch.cat((box[i], x[i, 4 + j, None], j[:, None].float(), mask[i]), 1)
+            else:
+                x = torch.cat((box[i], x[i, 4 + j, None], j[:, None].float() + 1, mask[i]), 1)
         else:  # best class only
             conf, j = cls.max(1, keepdim=True)
-            x = torch.cat((box, conf, j.float() + 1, mask), 1)[conf.view(-1) > conf_thres]
+            # v8后的版本
+            if is_v8:
+                x = torch.cat((box, conf, j.float(), mask), 1)[conf.view(-1) > conf_thres]
+            else:
+                x = torch.cat((box, conf, j.float() + 1, mask), 1)[conf.view(-1) > conf_thres]
 
         # Filter by class
         if classes is not None:
