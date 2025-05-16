@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 map 计算方式，detr cocoeval 计算方式错误">
-      <change afterPath="$PROJECT_DIR$/cfg/models/v3/yolov3.yaml" afterDir="false" />
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="修正 yolov3">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov3.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/yolov3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov4.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/modules/yolov4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn/backbone/darknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/backbone/darknet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/block.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -363,7 +355,14 @@
       <option name="project" value="LOCAL" />
       <updated>1747362837023</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="修正 yolov3">
+      <created>1747366078699</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1747366078699</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -405,9 +404,10 @@
     <MESSAGE value="更新 dataset" />
     <MESSAGE value="更新 nms，兼容 v8 前后的 非极大抑制" />
     <MESSAGE value="更新 map 计算方式，detr cocoeval 计算方式错误" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新 map 计算方式，detr cocoeval 计算方式错误" />
+    <MESSAGE value="修正 yolov3" />
+    <option name="LAST_COMMIT_MESSAGE" value="修正 yolov3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1747365850371" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1747366124632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
