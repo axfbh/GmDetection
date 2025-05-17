@@ -6,7 +6,7 @@ from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 from engine.validator import BaseValidator
 from models.yolo.utils import nms
-from dataset.coco_dataset import build_coco_dataset, build_dataloader
+from data.coco_dataset import build_coco_dataset, build_dataloader
 
 
 class DetectionValidator(BaseValidator):

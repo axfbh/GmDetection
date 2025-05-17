@@ -5,7 +5,7 @@ import torch.nn as nn
 from torch import Tensor
 import torch.nn.functional as F
 from torchvision.models._utils import IntermediateLayerGetter
-from dataset.ops import NestedTensor
+from data.ops import NestedTensor
 
 from nn import backbone as nn_backbone
 

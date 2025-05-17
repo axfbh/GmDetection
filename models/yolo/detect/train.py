@@ -6,7 +6,7 @@ from lightning.pytorch.utilities.types import TRAIN_DATALOADERS
 
 from engine.trainer import BaseTrainer
 
-from dataset.coco_dataset import build_coco_dataset, build_dataloader
+from data.coco_dataset import build_coco_dataset, build_dataloader
 
 from models.yolo.detect.val import DetectionValidator
 

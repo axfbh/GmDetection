@@ -1,14 +1,22 @@
 #train:
-#  image: D:\dataset\coco_sub_dog\train2017
-#  ann: D:\dataset\coco_sub_dog\annotations\instances_train2017.json
+#  image: D:\data\coco_sub_dog\train2017
+#  ann: D:\data\coco_sub_dog\annotations\instances_train2017.json
 #val:
-#  image: D:\dataset\coco_sub_dog\val2017
-#  ann: D:\dataset\coco_sub_dog\annotations\instances_val2017.json
-#
-#
+#  image: D:\data\coco_sub_dog\val2017
+#  ann: D:\data\coco_sub_dog\annotations\instances_val2017.json
+
+
+#train:
+#  image: G:\cgm\data\coco_sub_dog\train2017
+#  ann: G:\cgm\data\coco_sub_dog\annotations\instances_train2017.json
+#val:
+#  image: G:\cgm\data\coco_sub_dog\val2017
+#  ann: G:\cgm\data\coco_sub_dog\annotations\instances_val2017.json
+
+
 train:
-  image: G:\cgm\dataset\coco_sub_dog\train2017
-  ann: G:\cgm\dataset\coco_sub_dog\annotations\instances_train2017.json
+  image: E:\dataset\coco_sub_dog\train2017
+  ann: E:\dataset\coco_sub_dog\annotations\instances_train2017.json
 val:
-  image: G:\cgm\dataset\coco_sub_dog\val2017
-  ann: G:\cgm\dataset\coco_sub_dog\annotations\instances_val2017.json
+  image: E:\dataset\coco_sub_dog\val2017
+  ann: E:\dataset\coco_sub_dog\annotations\instances_val2017.json

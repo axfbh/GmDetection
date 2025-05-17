@@ -6,9 +6,9 @@ from lightning.pytorch.utilities.types import STEP_OUTPUT
 
 from engine.validator import BaseValidator
 
-from dataset.coco_dataset import build_coco_dataset, build_dataloader
+from data.coco_dataset import build_coco_dataset, build_dataloader
 
-from dataset.ops import NestedTensor
+from data.ops import NestedTensor
 
 
 class DetectionValidator(BaseValidator):

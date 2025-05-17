@@ -6,9 +6,9 @@ from lightning.pytorch.utilities.types import TRAIN_DATALOADERS
 
 from engine.trainer import BaseTrainer
 
-from dataset.coco_dataset import build_coco_dataset, build_dataloader
+from data.coco_dataset import build_coco_dataset, build_dataloader
 
-from dataset.ops import NestedTensor
+from data.ops import NestedTensor
 
 from models.detr.detect.val import DetectionValidator
 
