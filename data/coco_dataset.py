@@ -57,19 +57,19 @@ class CocoDetection(torchvision.datasets.CocoDetection):
         super(CocoDetection, self).__init__(img_folder, ann_file)
         self.imgsz = imgsz
         self._transforms = transforms
-        self.resize = augment.LongestMaxSize(self.imgsz)
-        self.normalize = augment.Normalize()
+        self._resize = augment.LongestMaxSize(self.imgsz)
+        self._normalize = augment.Normalize()
 
     def __getitem__(self, idx):
         img, target = super(CocoDetection, self).__getitem__(idx)
         batch = coco_to_boxes(img, target, self.imgsz)
 
-        batch = self.resize(**batch)
+        batch = self._resize(**batch)
 
         if self._transforms is not None:
             batch = self._transforms(**batch)
 
-        return self.normalize(**batch)
+        return self._normalize(**batch)
 
 
 def build_coco_dataset(img_folder, ann_file, imgsz, mode='train', return_masks=False):

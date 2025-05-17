@@ -33,17 +33,15 @@ class Normalize:
                  normalization: Literal[
                      "standard", "image", "image_per_channel", "min_max", "min_max_per_channel"] = "standard",
                  always_apply: Union[bool, None] = None,
-                 p: float = 1.0,
-                 format: Literal["coco", "pascal_voc", "albumentations", "yolo"] = "yolo"
-                 ):
+                 p: float = 1.0):
         T = [
             A.Normalize(mean, std, max_pixel_value, normalization, always_apply, p),
             ToTensorV2()
         ]
-        self.fit_transform = A.Compose(T, A.BboxParams(format=format, label_fields=['labels']))
+        self.fit_transform = A.Compose(T)
 
     def __call__(self, *args, **kwargs):
-        batch = self.fit_transform(*args, **kwargs)
-        target = {"boxes": torch.from_numpy(batch['bboxes']),
-                  "labels": torch.as_tensor(batch["labels"], dtype=torch.long)}
-        return batch['image'], target
+        image = self.fit_transform(image=kwargs['image'])['image']
+        target = {"boxes": torch.from_numpy(kwargs['bboxes']),
+                  "labels": torch.as_tensor(kwargs['labels'], dtype=torch.long)}
+        return image, target
