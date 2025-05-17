@@ -53,23 +53,27 @@ def coco_to_boxes(image, target, imgsz):
 
 
 class CocoDetection(torchvision.datasets.CocoDetection):
-    def __init__(self, img_folder, ann_file, imgsz: List, transforms):
+    def __init__(self, img_folder, ann_file, imgsz, transforms):
         super(CocoDetection, self).__init__(img_folder, ann_file)
         self.imgsz = imgsz
         self._transforms = transforms
         self._resize = augment.LongestMaxSize(self.imgsz)
         self._normalize = augment.Normalize()
+        # self._mosica = augment.Mosaic(self.load_anno, len(self.ids), imgsz)
 
     def __getitem__(self, idx):
-        img, target = super(CocoDetection, self).__getitem__(idx)
-        batch = coco_to_boxes(img, target, self.imgsz)
-
+        batch = self.load_anno(idx)
         batch = self._resize(**batch)
 
         if self._transforms is not None:
             batch = self._transforms(**batch)
+            batch = self._mosica(**batch)
 
         return self._normalize(**batch)
+
+    def load_anno(self, idx):
+        img, target = super(CocoDetection, self).__getitem__(idx)
+        return coco_to_boxes(img, target, self.imgsz)
 
 
 def build_coco_dataset(img_folder, ann_file, imgsz, mode='train', return_masks=False):
