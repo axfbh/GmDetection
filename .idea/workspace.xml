@@ -4,26 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 dataset">
-      <change afterPath="$PROJECT_DIR$/data/augment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/coco_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/cooc-mask-code" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/numpy_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/GmDetection.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GmDetection.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 dataset to date，加入 augment">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cfg/datasets/cifa100.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/datasets/cifa100.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cfg/datasets/coco.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/datasets/coco.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cfg/datasets/voc-seg.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/datasets/voc-seg.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cfg/datasets/voc.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/datasets/voc.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/coco_dataset.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/ops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/detr/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/detr/detect/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/detr/detect/val.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/detr/detect/val.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/detr/utils/position_encoding.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/detr/utils/position_encoding.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/detect/val.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/val.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn/backbone/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/nn/backbone/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/default.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/default.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/coco_eval.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/misc.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/torch_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/torch_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -351,7 +338,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747063456991</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="更新 dataset to date，加入 augment">
+      <option name="closed" value="true" />
+      <created>1747454722327</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1747454722327</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -388,7 +383,8 @@
     <MESSAGE value="更新 detr head" />
     <MESSAGE value="解决 模型加载权重时更新参数，导致继续训练错误" />
     <MESSAGE value="更新 dataset" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新 dataset" />
+    <MESSAGE value="更新 dataset to date，加入 augment" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新 dataset to date，加入 augment" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1745464464166" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

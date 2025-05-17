@@ -134,19 +134,18 @@ def get_gpu_info(index):
 
 def get_cpu_info():
     """Return a string with system CPU information, i.e. 'Apple M2'."""
-    from ultralytics.utils import PERSISTENT_CACHE  # avoid circular import error
 
-    if "cpu_info" not in PERSISTENT_CACHE:
-        try:
-            import cpuinfo  # pip install py-cpuinfo
+    try:
+        import cpuinfo  # pip install py-cpuinfo
 
-            k = "brand_raw", "hardware_raw", "arch_string_raw"  # keys sorted by preference
-            info = cpuinfo.get_cpu_info()  # info dict
-            string = info.get(k[0] if k[0] in info else k[1] if k[1] in info else k[2], "unknown")
-            PERSISTENT_CACHE["cpu_info"] = string.replace("(R)", "").replace("CPU ", "").replace("@ ", "")
-        except Exception:
-            pass
-    return PERSISTENT_CACHE.get("cpu_info", "unknown")
+        k = "brand_raw", "hardware_raw", "arch_string_raw"  # keys sorted by preference
+        info = cpuinfo.get_cpu_info()  # info dict
+        string = info.get(k[0] if k[0] in info else k[1] if k[1] in info else k[2], "unknown")
+        cpu_info = string.replace("(R)", "").replace("CPU ", "").replace("@ ", "")
+    except Exception:
+        pass
+
+    return cpu_info
 
 
 def smart_distribute(num_nodes, device, master_addr, master_port, node_rank):
