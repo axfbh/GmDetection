@@ -176,7 +176,7 @@ class Mosaic:
             A.RandomCrop(self.output_size_half, self.output_size_half)
         ]
 
-        self.resize = A.Compose(T, A.BboxParams(format=format, label_fields=['labels'], min_visibility=0.3))
+        self.resize = A.Compose(T, A.BboxParams(format=format, label_fields=['labels'], min_visibility=0.2))
 
     def __call__(self, *args, **kwargs):
         batch = self.resize(*args, **kwargs)
@@ -214,8 +214,8 @@ class Mosaic:
             (self.output_size_half, self.output_size_half),  # 索引 3: 右下
         ]
 
-        for (dx, dy), bbox in zip(offsets, bboxes):
-            for cx, cy, w, h in bbox:
+        for idx, (dx, dy) in enumerate(offsets):
+            for cx, cy, w, h in bboxes[idx]:
                 # 解包 BBox 坐标: [x_min, y_min, x_max, y_max, ...(其他参数)]
                 # 确保坐标不越界
                 cx = (np.clip(cx * self.output_size_half, 0, self.output_size_half) + dx) / self.output_size
