@@ -167,6 +167,7 @@ class Mosaic:
 
         self.read_anno = read_anno
         self.size = size
+
         self.output_size = output_size
         self.output_size_half = output_size // 2
 
@@ -175,16 +176,10 @@ class Mosaic:
             A.RandomCrop(self.output_size_half, self.output_size_half)
         ]
 
-        self.resize = A.Compose(T, A.BboxParams(format=format, label_fields=['labels']))
+        self.resize = A.Compose(T, A.BboxParams(format=format, label_fields=['labels'], min_visibility=0.3))
 
     def __call__(self, *args, **kwargs):
         batch = self.resize(*args, **kwargs)
-        # from data.coco_dataset import visualize_bbox
-        # h, w, c = batch['image'].shape
-        # img = visualize_bbox(batch['image'], batch['bboxes'], w, h)
-        # from PIL import Image
-        # Image.fromarray(img).show()
-
         batches = [batch] + self.get_cache_batch()
         image = self.apply([b["image"] for b in batches])
         bboxes = self.apply_to_bboxes([b["bboxes"] for b in batches])
@@ -214,16 +209,14 @@ class Mosaic:
 
         offsets = [
             (0, 0),  # 索引 0: 左上
-            (self.output_size_half, 0),  # 索引 1: 右上
             (0, self.output_size_half),  # 索引 2: 左下
+            (self.output_size_half, 0),  # 索引 1: 右上
             (self.output_size_half, self.output_size_half),  # 索引 3: 右下
         ]
 
         for (dx, dy), bbox in zip(offsets, bboxes):
-            for box in bbox:
+            for cx, cy, w, h in bbox:
                 # 解包 BBox 坐标: [x_min, y_min, x_max, y_max, ...(其他参数)]
-                cx, cy, w, h = box[:4]
-
                 # 确保坐标不越界
                 cx = (np.clip(cx * self.output_size_half, 0, self.output_size_half) + dx) / self.output_size
                 cy = (np.clip(cy * self.output_size_half, 0, self.output_size_half) + dy) / self.output_size

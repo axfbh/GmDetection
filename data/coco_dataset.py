@@ -26,14 +26,8 @@ def visualize_bbox(img, bbox, w, h, color=(255, 0, 0), thickness=2):
     test_color = (255, 255, 255)  # White
 
     """Visualizes a single bounding box on the image"""
-    for box in bbox:
-        # cx, cy, w, h = (box * np.array([x, y, x, y])).astype(int)
-        # x_min = cx - w // 2
-        # y_min = cy - h // 2
-        # x_max = cx + w // 2
-        # y_max = cy + h // 2
-        x_min, y_min, x_max, y_max = cxcywh_to_xyxy(box)
-
+    bbox = cxcywh_to_xyxy(bbox)
+    for x_min, y_min, x_max, y_max in bbox:
         x_min = int(x_min * w)
         y_min = int(y_min * h)
         x_max = int(x_max * w)
@@ -41,21 +35,10 @@ def visualize_bbox(img, bbox, w, h, color=(255, 0, 0), thickness=2):
 
         cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color=color, thickness=thickness)
 
-    # ((text_width, text_height), _) = cv2.getTextSize(class_name, cv2.FONT_HERSHEY_SIMPLEX, 0.35, 1)
-    # cv2.rectangle(img, (x_min, y_min - int(1.3 * text_height)), (x_min + text_width, y_min), color, -1)
-    # cv2.putText(
-    #     img,
-    #     text=class_name,
-    #     org=(x_min, y_min - int(0.3 * text_height)),
-    #     fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-    #     fontScale=0.35,
-    #     color=test_color,
-    #     lineType=cv2.LINE_AA,
-    # )
     return img
 
 
-def coco_to_boxes(image, target, imgsz):
+def coco_to_boxes(image, target):
     w, h = image.size
 
     anno = [obj for obj in target if 'iscrowd' not in obj or obj['iscrowd'] == 0]
@@ -90,26 +73,27 @@ class CocoDetection(torchvision.datasets.CocoDetection):
         self._transforms = transforms
         self._resize = augment.LongestMaxSize(self.imgsz)
         self._normalize = augment.Normalize()
-        # self._mosica = augment.Mosaic(self.load_anno, len(self.ids), imgsz)
+        self._mosica = augment.Mosaic(self.load_anno, len(self.ids), imgsz)
 
     def __getitem__(self, idx):
         # box 归一化问题
         batch = self.load_anno(idx)
         batch = self._resize(**batch)
-        # h, w, c = batch['image'].shape
-        # img = visualize_bbox(batch['image'], batch['bboxes'], 640,640)
-        # from PIL import Image
-        # Image.fromarray(img).show()
 
         if self._transforms is not None:
             batch = self._transforms(**batch)
-            # batch = self._mosica(**batch)
+            batch = self._mosica(**batch)
+
+        h, w, c = batch['image'].shape
+        img = visualize_bbox(batch['image'], batch['bboxes'], w, h)
+        from PIL import Image
+        Image.fromarray(img).show()
 
         return self._normalize(**batch)
 
     def load_anno(self, idx):
         img, target = super(CocoDetection, self).__getitem__(idx)
-        return coco_to_boxes(img, target, self.imgsz)
+        return coco_to_boxes(img, target)
 
 
 def build_coco_dataset(img_folder, ann_file, imgsz, mode='train', return_masks=False):
