@@ -26,8 +26,9 @@ def visualize_bbox(img, bbox, w, h, color=(255, 0, 0), thickness=2):
     test_color = (255, 255, 255)  # White
 
     """Visualizes a single bounding box on the image"""
-    bbox = cxcywh_to_xyxy(bbox)
-    for x_min, y_min, x_max, y_max in bbox:
+    for box in bbox:
+        x_min, y_min, x_max, y_max = cxcywh_to_xyxy(box)
+
         x_min = int(x_min * w)
         y_min = int(y_min * h)
         x_max = int(x_max * w)
