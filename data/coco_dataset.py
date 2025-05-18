@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 import albumentations as A
 
 from data import augment
-from utils.numpy_utils import xyxy_to_cxcywh
+from utils.numpy_utils import xyxy_to_cxcywh, cxcywh_to_xyxy
 import cv2
 from ultralytics.data.augment import Albumentations
 
@@ -22,12 +22,22 @@ def collate_fn(batch):
 PIN_MEMORY = str(os.getenv("PIN_MEMORY", True)).lower() == "true"  # global pin_memory for dataloaders
 
 
-def visualize_bbox(img, bbox, color=(255, 0, 0), thickness=2):
+def visualize_bbox(img, bbox, w, h, color=(255, 0, 0), thickness=2):
     test_color = (255, 255, 255)  # White
 
     """Visualizes a single bounding box on the image"""
     for box in bbox:
-        x_min, y_min, x_max, y_max = box.astype(int)
+        # cx, cy, w, h = (box * np.array([x, y, x, y])).astype(int)
+        # x_min = cx - w // 2
+        # y_min = cy - h // 2
+        # x_max = cx + w // 2
+        # y_max = cy + h // 2
+        x_min, y_min, x_max, y_max = cxcywh_to_xyxy(box)
+
+        x_min = int(x_min * w)
+        y_min = int(y_min * h)
+        x_max = int(x_max * w)
+        y_max = int(y_max * h)
 
         cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color=color, thickness=thickness)
 
@@ -83,16 +93,18 @@ class CocoDetection(torchvision.datasets.CocoDetection):
         self._mosica = augment.Mosaic(self.load_anno, len(self.ids), imgsz)
 
     def __getitem__(self, idx):
+        # box 归一化问题
         batch = self.load_anno(idx)
         batch = self._resize(**batch)
+        # h, w, c = batch['image'].shape
+        # img = visualize_bbox(batch['image'], batch['bboxes'], 640,640)
+        # from PIL import Image
+        # Image.fromarray(img).show()
 
         if self._transforms is not None:
             batch = self._transforms(**batch)
             batch = self._mosica(**batch)
 
-        img = visualize_bbox(batch['image'], batch['bboxes'] * self.imgsz)
-        from PIL import Image
-        Image.fromarray(img).show()
         return self._normalize(**batch)
 
     def load_anno(self, idx):

@@ -179,6 +179,12 @@ class Mosaic:
 
     def __call__(self, *args, **kwargs):
         batch = self.resize(*args, **kwargs)
+        # from data.coco_dataset import visualize_bbox
+        # h, w, c = batch['image'].shape
+        # img = visualize_bbox(batch['image'], batch['bboxes'], w, h)
+        # from PIL import Image
+        # Image.fromarray(img).show()
+
         batches = [batch] + self.get_cache_batch()
         image = self.apply([b["image"] for b in batches])
         bboxes = self.apply_to_bboxes([b["bboxes"] for b in batches])
@@ -192,8 +198,8 @@ class Mosaic:
         # 定义四个子图位置（左上、右上、左下、右下）
         positions = [
             (0, 0),  # 左上
-            (0, self.output_size_half),  # 右上
-            (self.output_size_half, 0),  # 左下
+            (self.output_size_half, 0),  # 右上
+            (0, self.output_size_half),  # 左下
             (self.output_size_half, self.output_size_half)  # 右下
         ]
 
@@ -206,21 +212,23 @@ class Mosaic:
         # 合并四张子图的 BBox，并根据位置调整坐标
         mosaic_bboxes = []
 
-        offset = [
-            (0, 0, 1, 1),  # 左上
-            (0, 1, 1, 2),  # 右上
-            (1, 0, 2, 2),  # 左下
-            (1, 1, 2, 2)  # 右下
+        offsets = [
+            (0, 0),  # 索引 0: 左上
+            (self.output_size_half, 0),  # 索引 1: 右上
+            (0, self.output_size_half),  # 索引 2: 左下
+            (self.output_size_half, self.output_size_half),  # 索引 3: 右下
         ]
 
-        for (x, y, sx, sy), bbox in zip(offset, bboxes):
+        for (dx, dy), bbox in zip(offsets, bboxes):
             for box in bbox:
                 # 解包 BBox 坐标: [x_min, y_min, x_max, y_max, ...(其他参数)]
                 cx, cy, w, h = box[:4]
 
                 # 确保坐标不越界
-                cx = np.clip(cx + x, 0, 2) / sx
-                cy = np.clip(cy + y, 0, 2) / sy
+                cx = (np.clip(cx * self.output_size_half, 0, self.output_size_half) + dx) / self.output_size
+                cy = (np.clip(cy * self.output_size_half, 0, self.output_size_half) + dy) / self.output_size
+                w = w * self.output_size_half / self.output_size
+                h = h * self.output_size_half / self.output_size
 
                 # 将调整后的 BBox 添加到列表
                 mosaic_bboxes.append(np.array([cx, cy, w, h]))
