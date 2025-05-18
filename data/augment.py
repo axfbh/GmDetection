@@ -214,8 +214,8 @@ class Mosaic:
             (self.output_size_half, self.output_size_half),  # 索引 3: 右下
         ]
 
-        for idx, (dx, dy) in enumerate(offsets):
-            for cx, cy, w, h in bboxes[idx]:
+        for (dx, dy), bbox in zip(offsets, bboxes):
+            for cx, cy, w, h in bbox:
                 # 解包 BBox 坐标: [x_min, y_min, x_max, y_max, ...(其他参数)]
                 # 确保坐标不越界
                 cx = (np.clip(cx * self.output_size_half, 0, self.output_size_half) + dx) / self.output_size
