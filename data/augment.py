@@ -176,7 +176,7 @@ class Mosaic:
             A.RandomCrop(self.output_size_half, self.output_size_half)
         ]
 
-        self.resize = A.Compose(T, A.BboxParams(format=format, label_fields=['labels'], min_visibility=0.2))
+        self.resize = A.Compose(T, A.BboxParams(format=format, label_fields=['labels'], min_visibility=0.25))
 
     def __call__(self, *args, **kwargs):
         batch = self.resize(*args, **kwargs)

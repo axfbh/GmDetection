@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="upload normalize method">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="upload mosaic">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/augment.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/augment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/coco_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/coco_dataset.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -407,7 +406,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747573827536</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="upload mosaic">
+      <option name="closed" value="true" />
+      <created>1747583400156</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1747583400156</updated>
+    </task>
+    <task id="LOCAL-00043" summary="upload mosaic">
+      <option name="closed" value="true" />
+      <created>1747583695035</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1747583695035</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -422,7 +437,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="更新 注释" />
     <MESSAGE value="更新 box scale" />
     <MESSAGE value="更新 name" />
     <MESSAGE value="更新 类别 - 1 问题" />
@@ -447,7 +461,8 @@
     <MESSAGE value="upload mosica tmp" />
     <MESSAGE value="upload mosaic tmp" />
     <MESSAGE value="upload normalize method" />
-    <option name="LAST_COMMIT_MESSAGE" value="upload normalize method" />
+    <MESSAGE value="upload mosaic" />
+    <option name="LAST_COMMIT_MESSAGE" value="upload mosaic" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -455,7 +470,7 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/data/coco_dataset.py</url>
           <line>91</line>
-          <option name="timeStamp" value="43" />
+          <option name="timeStamp" value="48" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
