@@ -193,13 +193,13 @@ class Mosaic:
         # 定义四个子图位置（左上、右上、左下、右下）
         positions = [
             (0, 0),  # 左上
-            (self.output_size_half, 0),  # 右上
+            (self.output_size_half, 0),  # 左上
             (0, self.output_size_half),  # 左下
             (self.output_size_half, self.output_size_half)  # 右下
         ]
 
         for idx, (x, y) in enumerate(positions):
-            mosaic_img[x:x + self.output_size_half, y:y + self.output_size_half] = images[idx]
+            mosaic_img[y:y + self.output_size_half, x:x + self.output_size_half] = images[idx]
 
         return mosaic_img
 
@@ -209,8 +209,8 @@ class Mosaic:
 
         offsets = [
             (0, 0),  # 索引 0: 左上
-            (0, self.output_size_half),  # 索引 2: 左下
             (self.output_size_half, 0),  # 索引 1: 右上
+            (0, self.output_size_half),  # 索引 2: 左下
             (self.output_size_half, self.output_size_half),  # 索引 3: 右下
         ]
 
