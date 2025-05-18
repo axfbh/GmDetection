@@ -75,7 +75,7 @@ def coco_to_boxes(image, target, imgsz):
     # ymax > ymin and xmax > xmin
     keep = (boxes[:, 3] > boxes[:, 1]) & (boxes[:, 2] > boxes[:, 0])
     boxes = xyxy_to_cxcywh(boxes)
-    boxes = boxes[keep] / imgsz
+    boxes = boxes[keep] / np.array([w, h, w, h])
     classes = classes[keep]
 
     target = {"image": np.array(image), "bboxes": boxes, "labels": classes}
@@ -90,7 +90,7 @@ class CocoDetection(torchvision.datasets.CocoDetection):
         self._transforms = transforms
         self._resize = augment.LongestMaxSize(self.imgsz)
         self._normalize = augment.Normalize()
-        self._mosica = augment.Mosaic(self.load_anno, len(self.ids), imgsz)
+        # self._mosica = augment.Mosaic(self.load_anno, len(self.ids), imgsz)
 
     def __getitem__(self, idx):
         # box 归一化问题
@@ -103,7 +103,7 @@ class CocoDetection(torchvision.datasets.CocoDetection):
 
         if self._transforms is not None:
             batch = self._transforms(**batch)
-            batch = self._mosica(**batch)
+            # batch = self._mosica(**batch)
 
         return self._normalize(**batch)
 
