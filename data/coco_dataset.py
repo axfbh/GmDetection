@@ -10,9 +10,7 @@ import albumentations as A
 
 from data import augment
 from utils.numpy_utils import xyxy_to_cxcywh
-
-from pycocotools import mask as coco_mask
-
+import cv2
 from ultralytics.data.augment import Albumentations
 
 
@@ -22,6 +20,29 @@ def collate_fn(batch):
 
 
 PIN_MEMORY = str(os.getenv("PIN_MEMORY", True)).lower() == "true"  # global pin_memory for dataloaders
+
+
+def visualize_bbox(img, bbox, color=(255, 0, 0), thickness=2):
+    test_color = (255, 255, 255)  # White
+
+    """Visualizes a single bounding box on the image"""
+    for box in bbox:
+        x_min, y_min, x_max, y_max = box.astype(int)
+
+        cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color=color, thickness=thickness)
+
+    # ((text_width, text_height), _) = cv2.getTextSize(class_name, cv2.FONT_HERSHEY_SIMPLEX, 0.35, 1)
+    # cv2.rectangle(img, (x_min, y_min - int(1.3 * text_height)), (x_min + text_width, y_min), color, -1)
+    # cv2.putText(
+    #     img,
+    #     text=class_name,
+    #     org=(x_min, y_min - int(0.3 * text_height)),
+    #     fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+    #     fontScale=0.35,
+    #     color=test_color,
+    #     lineType=cv2.LINE_AA,
+    # )
+    return img
 
 
 def coco_to_boxes(image, target, imgsz):
@@ -59,7 +80,7 @@ class CocoDetection(torchvision.datasets.CocoDetection):
         self._transforms = transforms
         self._resize = augment.LongestMaxSize(self.imgsz)
         self._normalize = augment.Normalize()
-        # self._mosica = augment.Mosaic(self.load_anno, len(self.ids), imgsz)
+        self._mosica = augment.Mosaic(self.load_anno, len(self.ids), imgsz)
 
     def __getitem__(self, idx):
         batch = self.load_anno(idx)
@@ -69,6 +90,9 @@ class CocoDetection(torchvision.datasets.CocoDetection):
             batch = self._transforms(**batch)
             batch = self._mosica(**batch)
 
+        img = visualize_bbox(batch['image'], batch['bboxes'] * self.imgsz)
+        from PIL import Image
+        Image.fromarray(img).show()
         return self._normalize(**batch)
 
     def load_anno(self, idx):

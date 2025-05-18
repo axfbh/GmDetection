@@ -47,6 +47,7 @@ class Normalize:
                   "labels": torch.as_tensor(kwargs['labels'], dtype=torch.long)}
         return image, target
 
+
 # class Mosaic4(DualTransform):
 #     def __init__(
 #             self,
@@ -60,6 +61,7 @@ class Normalize:
 #         self.size = size
 #         self.read_anno = read_anno
 #         self.output_size = output_size
+#         self.output_size_2x = output_size * 2
 #
 #         T = [
 #             A.SmallestMaxSize(max_size=output_size),
@@ -77,7 +79,7 @@ class Normalize:
 #
 #     def apply(self, image, batches, **params):
 #         # 初始化输出图像
-#         mosaic_img = np.zeros((self.output_size * 2, self.output_size * 2, 3), dtype=np.uint8)
+#         mosaic_img = np.zeros((self.output_size_2x, self.output_size_2x, 3), dtype=np.uint8)
 #
 #         # 定义四个子图位置（左上、右上、左下、右下）
 #         positions = [
@@ -93,34 +95,37 @@ class Normalize:
 #
 #         return mosaic_img
 #
-#     def apply_to_bboxes(self, bboxes, batches, **params):
+#     def apply_to_bboxes(self, bboxes, **params):
+#         batches = params['batches']
+#
 #         # 合并四张子图的 BBox，并根据位置调整坐标
 #         mosaic_bboxes = []
-#         batches = [bboxes] + [b['bboxes'] for b in batches]
+#         boxes = [bboxes] + [b['bboxes'] for b in batches]
 #
 #         positions = [
 #             (0, 0),  # 左上
-#             (0, self.output_size),  # 右上
-#             (self.output_size, 0),  # 左下
-#             (self.output_size, self.output_size)  # 右下
+#             (0, 1),  # 右上
+#             (1, 0),  # 左下
+#             (1, 1)  # 右下
 #         ]
 #
-#         for (x, y), meta in zip(positions, batches):
-#             for bbox in meta["bboxes"]:
+#         for (x, y), bbox in zip(positions, boxes):
+#             for box in bbox:
 #                 # 解包 BBox 坐标: [x_min, y_min, x_max, y_max, ...(其他参数)]
-#                 # x_min, y_min, x_max, y_max = bbox[:4]
+#                 x_min, y_min, x_max, y_max = box[:4]
 #
 #                 # 确保坐标不越界
-#                 # x_min = np.clip(x_min + x, 0, self.output_size)
-#                 # y_min = np.clip(y_min + y, 0, self.output_size)
-#                 # x_max = np.clip(x_max + x, 0, self.output_size)
-#                 # y_max = np.clip(y_max + y, 0, self.output_size)
+#                 x_min = np.clip(x_min + x, 0, 2)
+#                 y_min = np.clip(y_min + y, 0, 2)
+#                 x_max = np.clip(x_max + x, 0, 2)
+#                 y_max = np.clip(y_max + y, 0, 2)
 #
 #                 # 将调整后的 BBox 添加到列表
 #                 mosaic_bboxes.append(np.array([x_min, y_min, x_max, y_max]))
 #
 #         return mosaic_bboxes
-#
+
+
 # def apply_to_masks(self, masks, **params):
 #     # 合并四张子图的 Mask，并根据位置调整坐标
 #     mosaic_masks = []
@@ -148,30 +153,81 @@ class Normalize:
 # def targets(self):
 #     return {"image": self.apply, "bboxes": self.apply_to_bboxes, "masks": self.apply_to_masks}
 
-#
-# class Mosaic:
-#     def __init__(
-#             self,
-#             read_anno,  # 其他三张样本（包含 image/bboxes/masks）
-#             size,
-#             output_size=640,
-#             always_apply=False,
-#             p=0.5,
-#             format: Literal["coco", "pascal_voc", "albumentations", "yolo"] = "yolo"):
-#         T = [
-#             A.SmallestMaxSize(max_size=output_size),
-#             A.RandomCrop(output_size, output_size)
-#         ]
-#
-#         self.resize = A.Compose(T, A.BboxParams(format=format, label_fields=['labels']))
-#
-#         T = [
-#             Mosaic4(read_anno, size, output_size, always_apply, p, format),
-#             A.RandomCrop(output_size, output_size)
-#         ]
-#
-#         self.fit_transform = A.Compose(T, A.BboxParams(format=format, label_fields=['labels']))
-#
-#     def __call__(self, *args, **kwargs):
-#         batch = self.resize(*args, **kwargs)
-#         return self.fit_transform(**batch)
+
+class Mosaic:
+    def __init__(
+            self,
+            read_anno,  # 其他三张样本（包含 image/bboxes/masks）
+            size,
+            output_size=640,
+            always_apply=False,
+            p=0.5,
+            format: Literal["coco", "pascal_voc", "albumentations", "yolo"] = "yolo"):
+        assert output_size % 2 == 0, "Mosaic output_size 必须能被 2 整除"
+
+        self.read_anno = read_anno
+        self.size = size
+        self.output_size = output_size
+        self.output_size_half = output_size // 2
+
+        T = [
+            A.SmallestMaxSize(max_size=output_size),
+            A.RandomCrop(self.output_size_half, self.output_size_half)
+        ]
+
+        self.resize = A.Compose(T, A.BboxParams(format=format, label_fields=['labels']))
+
+    def __call__(self, *args, **kwargs):
+        batch = self.resize(*args, **kwargs)
+        batches = [batch] + self.get_cache_batch()
+        image = self.apply([b["image"] for b in batches])
+        bboxes = self.apply_to_bboxes([b["bboxes"] for b in batches])
+        batch["image"] = image
+        batch["bboxes"] = bboxes
+        return batch
+
+    def apply(self, images):
+        mosaic_img = np.zeros((self.output_size, self.output_size, 3), dtype=np.uint8)
+
+        # 定义四个子图位置（左上、右上、左下、右下）
+        positions = [
+            (0, 0),  # 左上
+            (0, self.output_size_half),  # 右上
+            (self.output_size_half, 0),  # 左下
+            (self.output_size_half, self.output_size_half)  # 右下
+        ]
+
+        for idx, (x, y) in enumerate(positions):
+            mosaic_img[x:x + self.output_size_half, y:y + self.output_size_half] = images[idx]
+
+        return mosaic_img
+
+    def apply_to_bboxes(self, bboxes):
+        # 合并四张子图的 BBox，并根据位置调整坐标
+        mosaic_bboxes = []
+
+        offset = [
+            (0, 0, 1, 1),  # 左上
+            (0, 1, 1, 2),  # 右上
+            (1, 0, 2, 2),  # 左下
+            (1, 1, 2, 2)  # 右下
+        ]
+
+        for (x, y, sx, sy), bbox in zip(offset, bboxes):
+            for box in bbox:
+                # 解包 BBox 坐标: [x_min, y_min, x_max, y_max, ...(其他参数)]
+                cx, cy, w, h = box[:4]
+
+                # 确保坐标不越界
+                cx = np.clip(cx + x, 0, 2) / sx
+                cy = np.clip(cy + y, 0, 2) / sy
+
+                # 将调整后的 BBox 添加到列表
+                mosaic_bboxes.append(np.array([cx, cy, w, h]))
+
+        return np.array(mosaic_bboxes)
+
+    def get_cache_batch(self) -> List[Dict[str, Any]]:
+        ids = np.random.randint(0, self.size, 3, dtype=np.int64)
+
+        return [self.resize(**self.read_anno(int(i))) for i in ids]
