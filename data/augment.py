@@ -76,7 +76,7 @@ class Mosaic:
             A.RandomCrop(self.output_size_half, self.output_size_half)
         ]
 
-        self.resize = A.Compose(T, A.BboxParams(format=format, label_fields=['labels'], min_visibility=0.21))
+        self.resize = A.Compose(T, A.BboxParams(format=format, label_fields=['labels'], min_visibility=0.1))
 
     def __call__(self, *args, **kwargs):
         if self.always_apply or random.random() < self.p:

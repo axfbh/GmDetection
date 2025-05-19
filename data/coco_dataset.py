@@ -77,7 +77,7 @@ class CocoDetection(torchvision.datasets.CocoDetection):
         self._transforms = transforms
         self._resize = augment.LongestMaxSize(self.imgsz)
         self._normalize = augment.Normalize()
-        self._mosica = augment.Mosaic(self.load_anno, len(self.ids), imgsz, p=0.3)
+        # self._mosica = augment.Mosaic(self.load_anno, len(self.ids), imgsz, p=0.3)
 
     def __getitem__(self, idx):
         # box 归一化问题
@@ -86,7 +86,7 @@ class CocoDetection(torchvision.datasets.CocoDetection):
 
         if self._transforms is not None:
             batch = self._transforms(**batch)
-            batch = self._mosica(**batch)
+            # batch = self._mosica(**batch)
 
         return self._normalize(**batch)
 
