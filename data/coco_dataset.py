@@ -11,7 +11,7 @@ import albumentations as A
 from data import augment
 from utils.numpy_utils import xyxy_to_cxcywh, cxcywh_to_xyxy
 import cv2
-# from ultralytics.data.augment import Albumentations
+
 
 
 def visualize_bbox(batch, color=(255, 0, 0), thickness=2):
@@ -77,7 +77,7 @@ class CocoDetection(torchvision.datasets.CocoDetection):
         self._transforms = transforms
         self._resize = augment.LongestMaxSize(self.imgsz)
         self._normalize = augment.Normalize()
-        self._mosica = augment.Mosaic(self.load_anno, len(self.ids), imgsz)
+        self._mosica = augment.Mosaic(self.load_anno, len(self.ids), imgsz, p=0.3)
 
     def __getitem__(self, idx):
         # box 归一化问题
