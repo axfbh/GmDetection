@@ -60,7 +60,7 @@ class Mosaic:
             always_apply=False,
             p=0.5):
 
-        assert output_size % 2 == 0, "Mosaic output_size 必须能被 2 整除"
+        assert output_size % 32 == 0, "Mosaic output_size 必须能被 32 整除"
 
         self.read_anno = read_anno
         self.size = size
