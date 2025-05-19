@@ -1,5 +1,6 @@
 from models import YOLO
-from models import DETR
+
+# from models import DETR
 
 if __name__ == '__main__':
     # model = YOLO("yolov3s.yaml", task='detect')

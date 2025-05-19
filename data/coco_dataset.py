@@ -11,7 +11,7 @@ import albumentations as A
 from data import augment
 from utils.numpy_utils import xyxy_to_cxcywh, cxcywh_to_xyxy
 import cv2
-from ultralytics.data.augment import Albumentations
+# from ultralytics.data.augment import Albumentations
 
 
 def visualize_bbox(batch, color=(255, 0, 0), thickness=2):

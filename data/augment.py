@@ -45,7 +45,7 @@ class Normalize:
 
     def __call__(self, *args, **kwargs):
         image = self.fit_transform(image=kwargs['image'])['image']
-        target = {"boxes": torch.from_numpy(kwargs['bboxes']),
+        target = {"boxes": torch.as_tensor(kwargs['bboxes']),
                   "labels": torch.as_tensor(kwargs['labels'], dtype=torch.long)}
         return image, target
 

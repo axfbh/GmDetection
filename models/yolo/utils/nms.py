@@ -1,5 +1,5 @@
 import torch
-import torchvision  # scope for faster 'import ultralytics'
+import torchvision
 from torchvision.ops.boxes import box_convert
 
 torch.set_printoptions(precision=4, sci_mode=False)
