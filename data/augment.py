@@ -1,11 +1,13 @@
+import random
 from typing import Literal, Sequence, Union, Dict, Any, List, overload
+from itertools import chain
+
 import numpy as np
 
 import cv2
 import torch
 
 import albumentations as A
-from albumentations import DualTransform
 from albumentations.pytorch import ToTensorV2
 
 
@@ -163,10 +165,14 @@ class Mosaic:
             always_apply=False,
             p=0.5,
             format: Literal["coco", "pascal_voc", "albumentations", "yolo"] = "yolo"):
+
         assert output_size % 2 == 0, "Mosaic output_size 必须能被 2 整除"
 
         self.read_anno = read_anno
         self.size = size
+
+        self.p = p
+        self.always_apply = always_apply
 
         self.output_size = output_size
         self.output_size_half = output_size // 2
@@ -179,13 +185,16 @@ class Mosaic:
         self.resize = A.Compose(T, A.BboxParams(format=format, label_fields=['labels'], min_visibility=0.21))
 
     def __call__(self, *args, **kwargs):
-        batch = self.resize(*args, **kwargs)
-        batches = [batch] + self.get_cache_batch()
-        image = self.apply([b["image"] for b in batches])
-        bboxes = self.apply_to_bboxes([b["bboxes"] for b in batches])
-        batch["image"] = image
-        batch["bboxes"] = bboxes
-        return batch
+        if self.always_apply or random.random() < self.p:
+            batch = self.resize(*args, **kwargs)
+            batches = [batch] + self.get_cache_batch()
+            image = self.apply([b["image"] for b in batches])
+            bboxes = self.apply_to_bboxes([b["bboxes"] for b in batches])
+            batch["image"] = image
+            batch["bboxes"] = bboxes
+            batch["labels"] = list(chain(*[b["labels"] for b in batches]))
+            return batch
+        return kwargs
 
     def apply(self, images):
         mosaic_img = np.zeros((self.output_size, self.output_size, 3), dtype=np.uint8)

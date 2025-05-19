@@ -14,16 +14,10 @@ import cv2
 from ultralytics.data.augment import Albumentations
 
 
-def collate_fn(batch):
-    batch = list(zip(*batch))
-    return tuple(batch)
-
-
-PIN_MEMORY = str(os.getenv("PIN_MEMORY", True)).lower() == "true"  # global pin_memory for dataloaders
-
-
-def visualize_bbox(img, bbox, w, h, color=(255, 0, 0), thickness=2):
-    test_color = (255, 255, 255)  # White
+def visualize_bbox(batch, color=(255, 0, 0), thickness=2):
+    img = batch['image']
+    bbox = batch['bboxes']
+    h, w, c = img.shape
 
     """Visualizes a single bounding box on the image"""
     for box in bbox:
@@ -36,7 +30,16 @@ def visualize_bbox(img, bbox, w, h, color=(255, 0, 0), thickness=2):
 
         cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color=color, thickness=thickness)
 
-    return img
+    from PIL import Image
+    Image.fromarray(img).show()
+
+
+def collate_fn(batch):
+    batch = list(zip(*batch))
+    return tuple(batch)
+
+
+PIN_MEMORY = str(os.getenv("PIN_MEMORY", True)).lower() == "true"  # global pin_memory for dataloaders
 
 
 def coco_to_boxes(image, target):
@@ -84,11 +87,6 @@ class CocoDetection(torchvision.datasets.CocoDetection):
         if self._transforms is not None:
             batch = self._transforms(**batch)
             batch = self._mosica(**batch)
-
-        h, w, c = batch['image'].shape
-        img = visualize_bbox(batch['image'], batch['bboxes'], w, h)
-        from PIL import Image
-        Image.fromarray(img).show()
 
         return self._normalize(**batch)
 
