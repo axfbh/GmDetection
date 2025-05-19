@@ -15,9 +15,9 @@ class LongestMaxSize:
     def __init__(self,
                  max_size: Union[int, Sequence[int]] = 1024,
                  interpolation: int = cv2.INTER_LINEAR,
+                 format: Literal["coco", "pascal_voc", "albumentations", "yolo"] = "yolo",
                  always_apply: Union[bool, None] = None,
-                 p: float = 1,
-                 format: Literal["coco", "pascal_voc", "albumentations", "yolo"] = "yolo"):
+                 p: float = 1):
         T = [
             A.LongestMaxSize(max_size=max_size, interpolation=interpolation, always_apply=always_apply, p=p)
         ]
@@ -56,9 +56,9 @@ class Mosaic:
             read_anno,  # 其他三张样本（包含 image/bboxes/masks）
             size,
             output_size=640,
+            format: Literal["coco", "pascal_voc", "albumentations", "yolo"] = "yolo",
             always_apply=False,
-            p=0.5,
-            format: Literal["coco", "pascal_voc", "albumentations", "yolo"] = "yolo"):
+            p=0.5):
 
         assert output_size % 2 == 0, "Mosaic output_size 必须能被 2 整除"
 
