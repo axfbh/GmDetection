@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="upload mosaic">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="更新 map eval">
+      <change beforePath="$PROJECT_DIR$/.idea/GmDetection.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GmDetection.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/datasets/coco.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/datasets/coco.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/augment.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/augment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,17 +21,6 @@
       <list>
         <option value="Python Script" />
       </list>
-    </option>
-  </component>
-  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
-    <envs>
-      <env key="FLASK_APP" value="app" />
-    </envs>
-    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
-    <option name="myEnvs">
-      <map>
-        <entry key="FLASK_APP" value="app" />
-      </map>
     </option>
   </component>
   <component name="Git.Settings">
@@ -48,18 +40,16 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Python.main.executor": "Run",
+    "Python.main.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "G:/c/GmDetection/cfg/models/v3",
+    "last_opened_file_path": "D:/model/GmDetection/models/detr/utils",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="G:\c\GmDetection\cfg\models\v3" />
       <recent name="D:\model\GmDetection\models\detr\utils" />
       <recent name="G:\c\GmDetection\cfg\models\v11" />
     </key>
@@ -67,31 +57,10 @@
       <recent name="G:\c\GmDetection\nn" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
-    <configuration name="lightning_utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="GmDetection" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/lightning_utils.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GmDetection" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -115,7 +84,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.lightning_utils" />
       </list>
     </recent_temporary>
   </component>
@@ -369,81 +337,16 @@
       <option name="project" value="LOCAL" />
       <updated>1747063456991</updated>
     </task>
-    <task id="LOCAL-00033" summary="更新 nms，兼容 v8 前后的 非极大抑制">
-      <created>1747357068823</created>
+    <task id="LOCAL-00033" summary="更新 map eval">
+      <option name="closed" value="true" />
+      <created>1747066572675</created>
       <option name="number" value="00033" />
       <option name="presentableId" value="LOCAL-00033" />
       <option name="project" value="LOCAL" />
-      <updated>1747357068823</updated>
+      <updated>1747066572675</updated>
     </task>
-    <task id="LOCAL-00034" summary="更新 nms，兼容 v8 前后的 非极大抑制">
-      <created>1747358849511</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1747358849511</updated>
-    </task>
-    <task id="LOCAL-00035" summary="更新 map 计算方式，detr cocoeval 计算方式错误">
-      <created>1747362837023</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1747362837023</updated>
-    </task>
-    <task id="LOCAL-00036" summary="修正 yolov3">
-      <created>1747366078699</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1747366078699</updated>
-    </task>
-    <task id="LOCAL-00037" summary="设定任务">
-      <created>1747366243478</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1747366243478</updated>
-    </task>
-    <task id="LOCAL-00038" summary="更新 val 打印 和 计算 fitness 用于 best">
-      <created>1747382003413</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1747382003413</updated>
-    </task>
-    <task id="LOCAL-00039" summary="更新 注释">
-      <created>1747382094086</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1747382094086</updated>
-    </task>
-    <task id="LOCAL-00040" summary="upload mosaic">
-      <created>1747621890375</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1747621890375</updated>
-    </task>
-    <task id="LOCAL-00041" summary="upload mosaic">
-      <created>1747621991998</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1747621991998</updated>
-    </task>
-    <task id="LOCAL-00042" summary="upload mosaic">
-      <created>1747622040423</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1747622040423</updated>
-    </task>
-    <option name="localTasksCounter" value="43" />
+    <option name="localTasksCounter" value="34" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -457,6 +360,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="更新 yolov7 的模型" />
+    <MESSAGE value="更新 yolo head imgsz 映射方式" />
+    <MESSAGE value="更新 注释" />
+    <MESSAGE value="更新 box scale" />
     <MESSAGE value="更新 name" />
     <MESSAGE value="更新 类别 - 1 问题" />
     <MESSAGE value="移除没有参数" />
@@ -475,28 +382,31 @@
     <MESSAGE value="更新 detr head" />
     <MESSAGE value="解决 模型加载权重时更新参数，导致继续训练错误" />
     <MESSAGE value="更新 dataset" />
-    <MESSAGE value="更新 nms，兼容 v8 前后的 非极大抑制" />
-    <MESSAGE value="更新 map 计算方式，detr cocoeval 计算方式错误" />
-    <MESSAGE value="修正 yolov3" />
-    <MESSAGE value="设定任务" />
-    <MESSAGE value="更新 val 打印 和 计算 fitness 用于 best" />
-    <MESSAGE value="更新 注释" />
-    <MESSAGE value="upload mosaic" />
-    <option name="LAST_COMMIT_MESSAGE" value="upload mosaic" />
+    <MESSAGE value="更新 map eval" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新 map eval" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/dataset/coco_dataset.py</url>
-          <line>62</line>
-          <option name="timeStamp" value="61" />
+          <url>file://$PROJECT_DIR$/models/yolo/utils/nmsv3_7.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>10</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/data/augment.py</url>
+          <line>21</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/GmDetection$lightning_utils.coverage" NAME="lightning_utils Coverage Results" MODIFIED="1747378398308" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
-    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1747622476959" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1745464464166" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

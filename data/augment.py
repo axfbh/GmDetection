@@ -16,7 +16,7 @@ class LongestMaxSize:
                  max_size: Union[int, Sequence[int]] = 1024,
                  interpolation: int = cv2.INTER_LINEAR,
                  format: Literal["coco", "pascal_voc", "albumentations", "yolo"] = "yolo",
-                 always_apply: Union[bool, None] = None,
+                 always_apply: bool = False,
                  p: float = 1):
         T = [
             A.LongestMaxSize(max_size=max_size, interpolation=interpolation, always_apply=always_apply, p=p)
@@ -35,7 +35,7 @@ class Normalize:
                  max_pixel_value: Union[float, None] = 255.0,
                  normalization: Literal[
                      "standard", "image", "image_per_channel", "min_max", "min_max_per_channel"] = "standard",
-                 always_apply: Union[bool, None] = None,
+                 always_apply: bool = False,
                  p: float = 1.0):
         T = [
             A.Normalize(mean, std, max_pixel_value, normalization, always_apply, p),
