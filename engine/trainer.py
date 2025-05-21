@@ -82,12 +82,12 @@ class BaseTrainer(LightningModule):
 
         progress_bar_callback = LitProgressBar(3)
 
-        tensorboard_logger = TensorBoardLogger(save_dir=f'./{self.args.project}/{self.args.task}', name=self.args.name)
-        version = tensorboard_logger._get_next_version()
+        csv_logger = CSVLogger(save_dir=f'./{self.args.project}/{self.args.task}', name=self.args.name)
+        version = csv_logger._get_next_version()
 
-        csv_logger = CSVLogger(save_dir=f'./{self.args.project}/{self.args.task}',
-                               name=self.args.name,
-                               version=version)
+        tensorboard_logger = TensorBoardLogger(save_dir=f'./{self.args.project}/{self.args.task}',
+                                               name=self.args.name,
+                                               version=version)
 
         self.lightning_trainer = L.Trainer(
             accelerator=accelerator,
