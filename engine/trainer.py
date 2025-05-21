@@ -25,8 +25,6 @@ class BaseTrainer(LightningModule):
         self.cmd_process = None
         self.ema = None
 
-        self.loss_names = None
-
         self.data = None
         self.train_set = None
         self.train_dataset = None
@@ -36,7 +34,6 @@ class BaseTrainer(LightningModule):
 
         self.lr_lambda = None
         self.lightning_trainer = None
-        self.coco_evaluator = None
 
         self.args = cfg
         self.batch_size = self.args.batch

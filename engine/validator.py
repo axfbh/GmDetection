@@ -9,9 +9,9 @@ from torchvision.ops.boxes import box_convert
 
 
 class BaseValidator(LightningModule):
-    def __init__(self, args=None):
+    def __init__(self, cfg=None):
         super(BaseValidator, self).__init__()
-        self.args = args
+        self.args = cfg
 
         self.coco_evaluator = None
 
