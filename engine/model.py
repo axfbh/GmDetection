@@ -31,7 +31,6 @@ class Model:
 
     def _load(self, weights: str) -> None:
         self.model, self.ckpt = attempt_load_one_weight(weights)
-        self.model.train()
         self.task = self.model.args.task
 
         self.overrides = self.model.args = self._reset_ckpt_args(self.model.args)
@@ -52,6 +51,7 @@ class Model:
         args.update({'data': data, 'num_nodes': num_nodes})
 
         trainer = self._smart_load("trainer")(args)
+        self.model.train()
         trainer.add_module('model', self.model)
         trainer.fit()
 
@@ -61,6 +61,7 @@ class Model:
         args.update({'data': data})
 
         validator = self._smart_load("validator")(args)
+        self.model.eval()
         validator.add_module('model', self.model)
         validator.validate()
 
