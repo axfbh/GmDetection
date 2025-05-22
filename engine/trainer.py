@@ -64,9 +64,6 @@ class BaseTrainer(LightningModule):
             print("TensorBoard 进程已终止")
 
     def _setup_trainer(self):
-        self.model.train()
-        self.model.requires_grad_(True)
-
         device = select_device(self.args.device, self.batch_size)
 
         accelerator = self.args.device if self.args.device in ["cpu", "tpu", "ipu", "hpu", "mps"] else 'gpu'

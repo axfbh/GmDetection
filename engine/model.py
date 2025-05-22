@@ -31,6 +31,7 @@ class Model:
 
     def _load(self, weights: str) -> None:
         self.model, self.ckpt = attempt_load_one_weight(weights)
+        self.model.train()
         self.task = self.model.args.task
 
         self.overrides = self.model.args = self._reset_ckpt_args(self.model.args)
