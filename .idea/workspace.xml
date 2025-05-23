@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="upload">
-      <change beforePath="$PROJECT_DIR$/engine/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/engine/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +136,14 @@
       <workItem from="1747796692227" duration="39000" />
       <workItem from="1747806745968" duration="4763000" />
       <workItem from="1747817840856" duration="543000" />
-      <workItem from="1747901619233" duration="112000" />
+      <workItem from="1747901619233" duration="297000" />
+      <workItem from="1747961437164" duration="39000" />
+      <workItem from="1747963775330" duration="884000" />
+      <workItem from="1747966210512" duration="605000" />
+      <workItem from="1747969008499" duration="475000" />
+      <workItem from="1747970115881" duration="288000" />
+      <workItem from="1747970414174" duration="3000" />
+      <workItem from="1747983367384" duration="41000" />
     </task>
     <task id="LOCAL-00001" summary="更新 yolov7 的模型">
       <option name="closed" value="true" />
@@ -477,7 +484,14 @@
       <option name="project" value="LOCAL" />
       <updated>1747901670056</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="upload">
+      <created>1747901739886</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1747901739886</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
