@@ -115,10 +115,6 @@ class BaseTrainer(LightningModule):
         self._setup_trainer()
         self.lightning_trainer.fit(self, ckpt_path=self.args.model if self.args.resume else None)
 
-    def get_dataset(self):
-        self.data = OmegaConf.load(self.args.data)
-        return self.data['train'], self.data.get('val')
-
     def configure_optimizers(self) -> OptimizerLRScheduler:
         accumulate = max(round(self.args.nbs / self.batch_size), 1)
         weight_decay = self.args.weight_decay * self.batch_size * accumulate / self.args.nbs
@@ -224,3 +220,7 @@ class BaseTrainer(LightningModule):
            模型参数，改在外部加载
         """
         pass
+
+    def get_dataset(self):
+        self.data = OmegaConf.load(self.args.data)
+        return self.data['train'], self.data.get('val')
