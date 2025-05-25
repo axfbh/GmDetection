@@ -6,6 +6,7 @@ import signal
 from omegaconf import OmegaConf
 
 import torch
+from torch import nn
 
 import lightning as L
 from lightning import LightningModule
@@ -22,15 +23,9 @@ class BaseTrainer(LightningModule):
     def __init__(self, cfg):
         super(BaseTrainer, self).__init__()
 
+        self.freeze_layer_names = None
         self.cmd_process = None
         self.ema = None
-
-        self.data = None
-        self.train_set = None
-        self.train_dataset = None
-        self.train_loader = None
-        self.val_set = None
-        self.nc = None
 
         self.lr_lambda = None
         self.lightning_trainer = None
@@ -39,7 +34,22 @@ class BaseTrainer(LightningModule):
         self.batch_size = self.args.batch
         self.epochs = self.args.epochs
 
+        self.train_set, self.val_set = self.get_dataset()
+
+        self.data = None
+        self.train_dataset = None
+        self.train_loader = None
+        self.nc = None
+
         self.save_hyperparameters(self.args)
+
+    def _model_train(self):
+        """Set model in training mode."""
+        self.model.train()
+        # Freeze BN stat
+        for n, m in self.named_modules():
+            if any(filter(lambda f: f in n, self.freeze_layer_names)) and isinstance(m, nn.BatchNorm2d):
+                m.eval()
 
     def _start_tensorboard(self):
         port = 6006
@@ -103,7 +113,6 @@ class BaseTrainer(LightningModule):
 
     def fit(self):
         self._setup_trainer()
-        self.train_set, self.val_set = self.get_dataset()
         self.lightning_trainer.fit(self, ckpt_path=self.args.model if self.args.resume else None)
 
     def get_dataset(self):
@@ -119,7 +128,7 @@ class BaseTrainer(LightningModule):
                                     self.args.momentum,
                                     weight_decay)
 
-        self.lr_lambda = lambda x: (1 - x / self.epochs) * (1.0 - self.args.lrf) + self.args.lrf
+        self.lr_lambda = lambda x: max(1 - x / self.epochs, 0) * (1.0 - self.args.lrf) + self.args.lrf  # linear
 
         scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer,
                                                       last_epoch=self.current_epoch - 1,
@@ -131,9 +140,31 @@ class BaseTrainer(LightningModule):
         self.model.device = self.device
         self.model.args = self.args
 
+        freeze_list = (
+            self.args.freeze
+            if isinstance(self.args.freeze, list)
+            else range(self.args.freeze)
+            if isinstance(self.args.freeze, int)
+            else []
+        )
+
+        always_freeze_names = [".dfl"]  # always freeze these layers
+        freeze_layer_names = [f"model.{x}." for x in freeze_list] + always_freeze_names
+        self.freeze_layer_names = freeze_layer_names
+        for k, v in self.named_parameters():
+            if any(x in k for x in freeze_layer_names):
+                print(f"Freezing layer '{k}'")
+                v.requires_grad = False
+            elif not v.requires_grad and v.dtype.is_floating_point:  # only floating point Tensor can require gradients
+                print(f"setting 'requires_grad=True' for frozen layer '{k}'. ")
+                v.requires_grad = True
+
     def on_train_start(self) -> None:
         self._start_tensorboard()
         self.ema = ModelEMA(self.model, updates=self.args.updates)
+
+    def on_train_epoch_start(self) -> None:
+        self._model_train()
 
     def on_train_batch_start(self, batch: Any, batch_idx: int):
         epoch = self.current_epoch

@@ -12,6 +12,7 @@ name: train
 optimizer: SGD # (str) optimizer to use, choices=[SGD, Adam, Adamax, AdamW, NAdam, RAdam, RMSProp, auto]
 resume: False # (bool) resume training from last checkpoint
 amp: False
+freeze: # (int | list, optional) freeze first n layers, or freeze list of layer indices during training
 
 
 # Val/Test settings ----------------------------------------------------------------------------------------------------
