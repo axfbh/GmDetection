@@ -34,9 +34,8 @@ class BaseTrainer(LightningModule):
         self.batch_size = self.args.batch
         self.epochs = self.args.epochs
 
-        self.train_set, self.val_set = self.get_dataset()
-
         self.data = None
+        self.train_set, self.val_set = self.get_dataset()
         self.train_dataset = None
         self.train_loader = None
         self.nc = None

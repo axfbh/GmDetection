@@ -145,13 +145,7 @@
       <workItem from="1747983367384" duration="41000" />
       <workItem from="1748223376007" duration="94000" />
       <workItem from="1748224825805" duration="36000" />
-    </task>
-    <task id="LOCAL-00002" summary="更新 yolo head imgsz 映射方式">
-      <created>1744251006237</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1744251006238</updated>
+      <workItem from="1748225812298" duration="59000" />
     </task>
     <task id="LOCAL-00003" summary="更新 注释">
       <created>1744251056694</created>
@@ -498,7 +492,14 @@
       <option name="project" value="LOCAL" />
       <updated>1748224853283</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="upload">
+      <created>1748225820238</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1748225820238</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
