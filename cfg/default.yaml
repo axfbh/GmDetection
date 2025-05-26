@@ -24,10 +24,10 @@ max_det: 300 # (int) maximum number of detections per image
 # Hyperparameters ------------------------------------------------------------------------------------------------------
 lr0: 0.01 # (float) initial learning rate (i.e. SGD=1E-2, Adam=1E-3)
 lrf: 0.01 # (float) final learning rate (lr0 * lrf)
-momentum: 0.937 # (float) SGD momentum/Adam beta1
+momentum: 0.937 # (float) SGD momentum/Adam beta1 (i.e. SGD=0.937, Adam=0.9)
 weight_decay: 0.0005 # (float) optimizer weight decay 5e-4
 warmup_epochs: 3.0 # (float) warmup epochs (fractions ok)
-warmup_momentum: 0.8 # (float) warmup initial momentum
+warmup_momentum: 0.8 # (float) warmup initial momentum (i.e. SGD=0.8, Adam=0.88)
 warmup_bias_lr: 0.1 # (float) warmup initial bias lr
 anchor_t: 4.0 # yolo v5-v7
 box: 7.5 # (float) box loss gain
