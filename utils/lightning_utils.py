@@ -135,7 +135,7 @@ class LitProgressBar(ProgressBar):
 
         for optim in trainer.optimizers:
             loss_str.append(
-                "{}: {:.4f} ".format('LR', optim.param_groups[1]['lr'])
+                "{}: {:.5f} ".format('LR', optim.param_groups[1]['lr'])
             )
 
         return '  '.join(loss_str)
