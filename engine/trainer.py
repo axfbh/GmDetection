@@ -135,13 +135,7 @@ class BaseTrainer(LightningModule):
         self.model.device = self.device
         self.model.args = self.args
 
-        freeze_list = (
-            self.args.freeze
-            if isinstance(self.args.freeze, list)
-            else range(self.args.freeze)
-            if isinstance(self.args.freeze, int)
-            else []
-        )
+        freeze_list = self.args.freeze
 
         always_freeze_names = [".dfl"]  # always freeze these layers
         freeze_layer_names = [f"model.{x}." for x in freeze_list] + always_freeze_names
