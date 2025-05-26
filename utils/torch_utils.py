@@ -6,11 +6,12 @@ from typing import List
 import torch
 from torch import nn
 import platform
-import logging
 
 from lightning.pytorch.strategies import DDPStrategy
+from lightning.fabric.utilities.rank_zero import rank_zero_info
 
-LOGGER = logging.getLogger('yolo')  # define globally (used in train.py, val.py, detect.py, etc.)
+from utils import colorstr
+
 NUM_THREADS = min(8, max(1, os.cpu_count() - 1))
 
 
@@ -40,8 +41,8 @@ def smart_optimizer(model, name: str = "Adam", lr=0.001, momentum=0.9, decay=1e-
     optimizer.add_param_group({"params": g[0], "weight_decay": decay})  # add g0 with weight_decay
     optimizer.add_param_group({"params": g[1], "weight_decay": 0.0})  # add g1 (BatchNorm2d weights)
 
-    # rank_zero_info(f"{colorstr('optimizer:')} {type(optimizer).__name__}(lr={lr}) with parameter groups "
-    #                f'{len(g[1])} weight(decay=0.0), {len(g[0])} weight(decay={decay}), {len(g[2])} bias')
+    rank_zero_info(f"{colorstr('optimizer:')} {type(optimizer).__name__}(lr={lr}) with parameter groups "
+                   f'{len(g[1])} weight(decay=0.0), {len(g[0])} weight(decay={decay}), {len(g[2])} bias')
     return optimizer
 
 
@@ -60,9 +61,9 @@ def smart_resume(ckpt, optimizer, ema=None, weights="yolov5s.pt", epochs=300, re
             f"{weights} training to {epochs} epochs is finished, nothing to resume.\n"
             f"Start a new training without --resume, i.e. 'python train.py --weights {weights}'"
         )
-        LOGGER.info(f"Resuming training from {weights} from epoch {start_epoch} to {epochs} total epochs")
+        rank_zero_info(f"Resuming training from {weights} from epoch {start_epoch} to {epochs} total epochs")
     if epochs < start_epoch:
-        LOGGER.info(f"{weights} has been trained for {ckpt['epoch']} epochs. Fine-tuning for {epochs} more epochs.")
+        rank_zero_info(f"{weights} has been trained for {ckpt['epoch']} epochs. Fine-tuning for {epochs} more epochs.")
         epochs += ckpt["epoch"]  # finetune additional epochs
     return best_fitness, start_epoch, epochs
 
@@ -122,7 +123,7 @@ def select_device(device="", batch=0, newline=False, verbose=True):
     if arg in {"cpu", "mps"}:
         torch.set_num_threads(NUM_THREADS)  # reset OMP_NUM_THREADS for cpu training
     if verbose:
-        LOGGER.info(s if newline else s.rstrip())
+        rank_zero_info(s if newline else s.rstrip())
     return devices
 
 
