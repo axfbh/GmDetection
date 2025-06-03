@@ -114,23 +114,6 @@ class BaseTrainer(LightningModule):
         self._setup_trainer()
         self.lightning_trainer.fit(self, ckpt_path=self.args.model if self.args.resume else None)
 
-    def configure_optimizers(self) -> OptimizerLRScheduler:
-        accumulate = max(round(self.args.nbs / self.batch_size), 1)
-        weight_decay = self.args.weight_decay * self.batch_size * accumulate / self.args.nbs
-        optimizer = smart_optimizer(self,
-                                    self.args.optimizer,
-                                    self.args.lr0,
-                                    self.args.momentum,
-                                    weight_decay)
-
-        self.lr_lambda = lambda x: max(1 - x / self.epochs, 0) * (1.0 - self.args.lrf) + self.args.lrf  # linear
-
-        scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer,
-                                                      last_epoch=self.current_epoch - 1,
-                                                      lr_lambda=self.lr_lambda)
-
-        return [optimizer], [scheduler]
-
     def configure_model(self) -> None:
         self.model.device = self.device
         self.model.args = self.args
@@ -147,6 +130,23 @@ class BaseTrainer(LightningModule):
             elif not v.requires_grad and v.dtype.is_floating_point:  # only floating point Tensor can require gradients
                 print(f"setting 'requires_grad=True' for frozen layer '{k}'. ")
                 v.requires_grad = True
+
+    def configure_optimizers(self) -> OptimizerLRScheduler:
+        accumulate = max(round(self.args.nbs / self.batch_size), 1)
+        weight_decay = self.args.weight_decay * self.batch_size * accumulate / self.args.nbs
+        optimizer = smart_optimizer(self,
+                                    self.args.optimizer,
+                                    self.args.lr0,
+                                    self.args.momentum,
+                                    weight_decay)
+
+        self.lr_lambda = lambda x: max(1 - x / self.epochs, 0) * (1.0 - self.args.lrf) + self.args.lrf  # linear
+
+        scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer,
+                                                      last_epoch=self.current_epoch - 1,
+                                                      lr_lambda=self.lr_lambda)
+
+        return [optimizer], [scheduler]
 
     def on_train_start(self) -> None:
         self._start_tensorboard()

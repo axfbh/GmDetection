@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="upload">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update freeze">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cfg/default.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/default.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/engine/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/engine/trainer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,14 +150,10 @@
       <workItem from="1748225812298" duration="59000" />
       <workItem from="1748225998104" duration="83000" />
       <workItem from="1748238382601" duration="291000" />
-      <workItem from="1748240072040" duration="43000" />
-    </task>
-    <task id="LOCAL-00005" summary="更新 box scale">
-      <created>1744278136926</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1744278136926</updated>
+      <workItem from="1748240072040" duration="71000" />
+      <workItem from="1748240295720" duration="31000" />
+      <workItem from="1748243537185" duration="33000" />
+      <workItem from="1748912041968" duration="39000" />
     </task>
     <task id="LOCAL-00006" summary="更新 name">
       <created>1744333380881</created>
@@ -506,7 +500,14 @@
       <option name="project" value="LOCAL" />
       <updated>1748238443585</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="update freeze">
+      <created>1748240128958</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1748240128958</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,7 +525,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="更新 类别 - 1 问题" />
     <MESSAGE value="移除没有参数" />
     <MESSAGE value="更新 v11" />
     <MESSAGE value="更新 conv,block" />
@@ -549,7 +549,8 @@
     <MESSAGE value="更新 注释" />
     <MESSAGE value="upload mosaic" />
     <MESSAGE value="upload" />
-    <option name="LAST_COMMIT_MESSAGE" value="upload" />
+    <MESSAGE value="update freeze" />
+    <option name="LAST_COMMIT_MESSAGE" value="update freeze" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
