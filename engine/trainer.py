@@ -188,7 +188,8 @@ class BaseTrainer(LightningModule):
                       rank_zero_only=True,
                       batch_size=self.batch_size)
 
-        return loss * self.trainer.accumulate_grad_batches * self.trainer.world_size
+        # auto_
+        return loss * self.trainer.world_size
 
     def optimizer_step(
             self,
