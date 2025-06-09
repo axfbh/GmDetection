@@ -17,8 +17,6 @@ First move, model.to(device)
 global_step :  optimizer step times
 
 
-
-
 # lightning 的 automatic_optim 会自动 loss / accumulate
 
 
