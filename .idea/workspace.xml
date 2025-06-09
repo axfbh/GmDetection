@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update freeze">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update 循序">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/torch_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/torch_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,13 +155,8 @@
       <workItem from="1748240295720" duration="31000" />
       <workItem from="1748243537185" duration="33000" />
       <workItem from="1748912041968" duration="39000" />
-    </task>
-    <task id="LOCAL-00006" summary="更新 name">
-      <created>1744333380881</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1744333380881</updated>
+      <workItem from="1748922104137" duration="275000" />
+      <workItem from="1749430676839" duration="232000" />
     </task>
     <task id="LOCAL-00007" summary="更新 类别 - 1 问题">
       <created>1744334213124</created>
@@ -507,7 +503,14 @@
       <option name="project" value="LOCAL" />
       <updated>1748240128958</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="update 循序">
+      <created>1748922363959</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1748922363960</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -525,7 +528,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="移除没有参数" />
     <MESSAGE value="更新 v11" />
     <MESSAGE value="更新 conv,block" />
     <MESSAGE value="更新 conv,block,v4" />
@@ -550,7 +552,8 @@
     <MESSAGE value="upload mosaic" />
     <MESSAGE value="upload" />
     <MESSAGE value="update freeze" />
-    <option name="LAST_COMMIT_MESSAGE" value="update freeze" />
+    <MESSAGE value="update 循序" />
+    <option name="LAST_COMMIT_MESSAGE" value="update 循序" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -559,6 +562,11 @@
           <url>file://$PROJECT_DIR$/dataset/coco_dataset.py</url>
           <line>62</line>
           <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/engine/trainer.py</url>
+          <line>74</line>
+          <option name="timeStamp" value="62" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

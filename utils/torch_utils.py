@@ -118,6 +118,7 @@ def select_device(device="", batch=0, newline=False, verbose=True):
         arg = "cuda:0"
     else:  # revert to CPU
         s += f"CPU ({get_cpu_info()})\n"
+        devices = "cpu"
         arg = "cpu"
 
     if arg in {"cpu", "mps"}:
