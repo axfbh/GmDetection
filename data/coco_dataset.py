@@ -116,7 +116,6 @@ def build_dataloader(dataset,
                      batch,
                      workers=3,
                      shuffle=False,
-
                      persistent_workers=False):
     batch = min(batch, len(dataset))
     nd = torch.cuda.device_count()  # number of CUDA devices
