@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update augment">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update on_before_batch_transfer">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/detr/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/detr/detect/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,14 +161,8 @@
       <workItem from="1752199662383" duration="1750000" />
       <workItem from="1752202041173" duration="1506000" />
       <workItem from="1752203859198" duration="340000" />
-      <workItem from="1752213039193" duration="103000" />
-    </task>
-    <task id="LOCAL-00012" summary="更新 v11">
-      <created>1744363950737</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1744363950737</updated>
+      <workItem from="1752213039193" duration="162000" />
+      <workItem from="1752213935940" duration="9000" />
     </task>
     <task id="LOCAL-00013" summary="更新 v11">
       <created>1744364850187</created>
@@ -517,7 +509,14 @@
       <option name="project" value="LOCAL" />
       <updated>1752204192624</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="update on_before_batch_transfer">
+      <created>1752213180695</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1752213180695</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -535,7 +534,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="更新  postprocess" />
     <MESSAGE value="更新 loss 的 loss_dict，prepare_data 变成 setup,去除 self.loss_names" />
     <MESSAGE value="更新 yolov7" />
     <MESSAGE value="更新 transformer" />
@@ -560,7 +558,8 @@
     <MESSAGE value="notion 维护" />
     <MESSAGE value="update" />
     <MESSAGE value="update augment" />
-    <option name="LAST_COMMIT_MESSAGE" value="update augment" />
+    <MESSAGE value="update on_before_batch_transfer" />
+    <option name="LAST_COMMIT_MESSAGE" value="update on_before_batch_transfer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
