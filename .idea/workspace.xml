@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update augment">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/augment.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/augment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/detr/detect/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,14 +162,8 @@
       <workItem from="1752046410624" duration="299000" />
       <workItem from="1752199662383" duration="1750000" />
       <workItem from="1752202041173" duration="1506000" />
-      <workItem from="1752203859198" duration="313000" />
-    </task>
-    <task id="LOCAL-00011" summary="更新 v11">
-      <created>1744363484817</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1744363484817</updated>
+      <workItem from="1752203859198" duration="340000" />
+      <workItem from="1752213039193" duration="103000" />
     </task>
     <task id="LOCAL-00012" summary="更新 v11">
       <created>1744363950737</created>
@@ -515,7 +510,14 @@
       <option name="project" value="LOCAL" />
       <updated>1752199692603</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="update augment">
+      <created>1752204192624</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1752204192624</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -533,7 +535,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="更新  detr head" />
     <MESSAGE value="更新  postprocess" />
     <MESSAGE value="更新 loss 的 loss_dict，prepare_data 变成 setup,去除 self.loss_names" />
     <MESSAGE value="更新 yolov7" />
@@ -558,7 +559,8 @@
     <MESSAGE value="update loss / accumulate" />
     <MESSAGE value="notion 维护" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="update augment" />
+    <option name="LAST_COMMIT_MESSAGE" value="update augment" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

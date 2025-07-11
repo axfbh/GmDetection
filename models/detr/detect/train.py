@@ -47,14 +47,15 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
         device = images[0].device
         c, h, w = images[0].shape
         b = len(images)
+
         batch_shape = [b, c, self.args.imgsz, self.args.imgsz]
-        tensor = torch.zeros(batch_shape, dtype=dtype, device=device)
+        pad_tensors = torch.zeros(batch_shape, dtype=dtype, device=device)
         mask = torch.ones((b, h, w), dtype=torch.bool, device=device)
-        for i, (img, pad_img, m) in enumerate(zip(images, tensor, mask)):
+        for i, (img, pad_tensor, m) in enumerate(zip(images, pad_tensors, mask)):
             c, h, w = img.shape
-            pad_img[: c, : h, : w].copy_(img)
+            pad_tensor[: c, : h, : w].copy_(img)
             m[: h, :w] = False
 
-        batch[0] = NestedTensor(tensor, mask)
+        batch[0] = NestedTensor(pad_tensors, mask)
         batch[1] = torch.stack(batch[1])
         return batch
