@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="notion 维护">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/coco_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/coco_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/augment.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/augment.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,14 +159,9 @@
       <workItem from="1749430676839" duration="251000" />
       <workItem from="1749430957683" duration="1226000" />
       <workItem from="1752046410624" duration="299000" />
-      <workItem from="1752199662383" duration="23000" />
-    </task>
-    <task id="LOCAL-00010" summary="更新 v11">
-      <created>1744363351192</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1744363351192</updated>
+      <workItem from="1752199662383" duration="1750000" />
+      <workItem from="1752202041173" duration="1506000" />
+      <workItem from="1752203859198" duration="313000" />
     </task>
     <task id="LOCAL-00011" summary="更新 v11">
       <created>1744363484817</created>
@@ -513,7 +508,14 @@
       <option name="project" value="LOCAL" />
       <updated>1749431750490</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="update">
+      <created>1752199692603</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1752199692603</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -531,7 +533,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="更新 loss_dict, 加入 detr 目标检测" />
     <MESSAGE value="更新  detr head" />
     <MESSAGE value="更新  postprocess" />
     <MESSAGE value="更新 loss 的 loss_dict，prepare_data 变成 setup,去除 self.loss_names" />
@@ -556,7 +557,8 @@
     <MESSAGE value="update device config" />
     <MESSAGE value="update loss / accumulate" />
     <MESSAGE value="notion 维护" />
-    <option name="LAST_COMMIT_MESSAGE" value="notion 维护" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
