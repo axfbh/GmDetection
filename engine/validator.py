@@ -13,7 +13,7 @@ class BaseValidator(LightningModule):
         super(BaseValidator, self).__init__()
         self.args = cfg
 
-        self.coco_evaluator = None
+        self.evaluator = None
 
         self.data = None
         self.val_set = None
@@ -61,7 +61,7 @@ class BaseValidator(LightningModule):
         self.model.args = self.args
 
     def on_validation_start(self):
-        self.coco_evaluator = MeanAveragePrecision(iou_type=self.iou_types[self.args.task])
+        self.evaluator = MeanAveragePrecision(iou_type=self.iou_types[self.args.task])
 
     def forward(self, batch):
         return self.model(batch)
@@ -80,7 +80,7 @@ class BaseValidator(LightningModule):
                 }
 
             )
-        self.coco_evaluator.update(preds, true_bboxs)
+        self.evaluator.update(preds, true_bboxs)
 
     def postprocess(self, preds):
         """Preprocesses the predictions."""

@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update param_groups print">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine/validator.py" beforeDir="false" afterPath="$PROJECT_DIR$/engine/validator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/lightning_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/lightning_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -165,14 +166,8 @@
       <workItem from="1752213039193" duration="162000" />
       <workItem from="1752213935940" duration="9000" />
       <workItem from="1752217709732" duration="44000" />
-      <workItem from="1752226001947" duration="128000" />
-    </task>
-    <task id="LOCAL-00014" summary="更新 conv,block">
-      <created>1744601037776</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1744601037776</updated>
+      <workItem from="1752226001947" duration="279000" />
+      <workItem from="1752472844619" duration="53000" />
     </task>
     <task id="LOCAL-00015" summary="更新 conv,block">
       <created>1744601207486</created>
@@ -519,7 +514,14 @@
       <option name="project" value="LOCAL" />
       <updated>1752217725477</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="update param_groups print">
+      <created>1752226140585</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1752226140586</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -537,7 +539,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="更新 loss 的 loss_dict，prepare_data 变成 setup,去除 self.loss_names" />
     <MESSAGE value="更新 yolov7" />
     <MESSAGE value="更新 transformer" />
     <MESSAGE value="更新 transformer 注释" />
@@ -562,7 +563,8 @@
     <MESSAGE value="update augment" />
     <MESSAGE value="update on_before_batch_transfer" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="update param_groups print" />
+    <option name="LAST_COMMIT_MESSAGE" value="update param_groups print" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
