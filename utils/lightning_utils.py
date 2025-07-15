@@ -183,7 +183,7 @@ class LitProgressBar(ProgressBar):
                                  memory=torch.cuda.max_memory_allocated() / MB))
 
     def on_validation_epoch_end(self, trainer: "pl.Trainer", pl_module: "pl.LightningModule") -> None:
-        results = pl_module.coco_evaluator.compute()
+        results = pl_module.evaluator.compute()
 
         fitness = 0.9 * results['map'].item() + 0.1 * results['map_50'].item()
 

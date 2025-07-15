@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update param_groups print">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/engine/validator.py" beforeDir="false" afterPath="$PROJECT_DIR$/engine/validator.py" afterDir="false" />
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update evaluator">
       <change beforePath="$PROJECT_DIR$/utils/lightning_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/lightning_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -167,14 +165,7 @@
       <workItem from="1752213935940" duration="9000" />
       <workItem from="1752217709732" duration="44000" />
       <workItem from="1752226001947" duration="279000" />
-      <workItem from="1752472844619" duration="53000" />
-    </task>
-    <task id="LOCAL-00015" summary="更新 conv,block">
-      <created>1744601207486</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1744601207486</updated>
+      <workItem from="1752472844619" duration="150000" />
     </task>
     <task id="LOCAL-00016" summary="更新 conv,block">
       <created>1744601510170</created>
@@ -521,7 +512,14 @@
       <option name="project" value="LOCAL" />
       <updated>1752226140586</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="update evaluator">
+      <created>1752472978110</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1752472978111</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -539,7 +537,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="更新 yolov7" />
     <MESSAGE value="更新 transformer" />
     <MESSAGE value="更新 transformer 注释" />
     <MESSAGE value="更新 Detr loss" />
@@ -564,7 +561,8 @@
     <MESSAGE value="update on_before_batch_transfer" />
     <MESSAGE value="update" />
     <MESSAGE value="update param_groups print" />
-    <option name="LAST_COMMIT_MESSAGE" value="update param_groups print" />
+    <MESSAGE value="update evaluator" />
+    <option name="LAST_COMMIT_MESSAGE" value="update evaluator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
