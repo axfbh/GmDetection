@@ -6,7 +6,7 @@ from lightning.pytorch.utilities.types import TRAIN_DATALOADERS
 
 from engine.trainer import BaseTrainer
 
-from data.coco_dataset import build_coco_dataset, build_dataloader
+from data.dataset import build_detect_dataset, build_dataloader
 
 from models.yolo.detect.val import DetectionValidator
 
@@ -15,15 +15,15 @@ from models.yolo.detect.val import DetectionValidator
 # 因此 DetectionValidator 创建的重复信息会被，后续执行BaseTrainer覆盖，不影响训练时候的参数
 class DetectionTrainer(BaseTrainer, DetectionValidator):
 
-    def build_dataset(self, img_path, ann_path, mode="train"):
-        return build_coco_dataset(img_path, ann_path, self.args.imgsz, mode)
+    def build_dataset(self, img_path, mode="train"):
+        return build_detect_dataset(img_path, self.args.imgsz, mode)
 
     def setup(self, stage: str) -> None:
-        self.train_dataset = self.build_dataset(self.train_set['image'], self.train_set['ann'], "train")
-        self.nc = max(self.train_dataset.coco.cats.keys())
+        self.train_dataset = self.build_dataset(self.train_set, "train")
+        # self.nc = max(self.train_dataset.coco.cats.keys())
 
         if self.val_set is not None:
-            self.val_dataset = self.build_dataset(self.val_set['image'], self.val_set['ann'], "val")
+            self.val_dataset = self.build_dataset(self.val_set, "val")
 
     def train_dataloader(self) -> TRAIN_DATALOADERS:
         self.train_loader = build_dataloader(self.train_dataset, self.batch_size,

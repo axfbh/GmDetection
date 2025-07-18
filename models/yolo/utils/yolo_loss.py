@@ -83,7 +83,7 @@ class YoloLossV4To7(YoloAnchorBasedLoss):
                 n = len(boxes)
                 if n:
                     # cls - 1, 剔除背景标签影响
-                    out[i, :n, 0] = cls - 1
+                    out[i, :n, 0] = cls
                     out[i, :n, 1:] = boxes
 
         return out

@@ -38,20 +38,23 @@ class Normalize:
                  max_pixel_value: Union[float, None] = 255.0,
                  normalization: Literal[
                      "standard", "image", "image_per_channel", "min_max", "min_max_per_channel"] = "standard",
+                 always_apply: bool = False,
                  p: float = 1.0):
         T = [
-            A.Normalize(mean, std, max_pixel_value, normalization, p),
+            A.Normalize(mean, std, max_pixel_value, normalization, always_apply, p),
             ToTensorV2()
         ]
         self.fit_transform = A.Compose(T)
 
     def __call__(self, *args, **kwargs):
+        image = self.fit_transform(image=kwargs['image'])['image']
         if 'bboxes' in kwargs.keys():
-            image = self.fit_transform(image=kwargs['image'])['image']
-            target = {"boxes": torch.as_tensor(kwargs['bboxes']),
-                      "labels": torch.as_tensor(kwargs['labels'], dtype=torch.long)}
+            boxes = np.array(kwargs['bboxes'], dtype=np.float32)
+            labels = np.array(kwargs['labels'], dtype=np.int64)
+            target = {"boxes": torch.as_tensor(boxes),
+                      "labels": torch.as_tensor(labels)}
             return image, target
-        return self.fit_transform(image=kwargs['image'])['image']
+        return image
 
 
 class Mosaic:

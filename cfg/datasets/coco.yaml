@@ -6,12 +6,8 @@
 #  ann: D:\dataset\coco_sub_dog\annotations\instances_val2017.json
 
 
-train:
-  image: G:\cgm\dataset\coco_sub_dog\train2017
-  ann: G:\cgm\dataset\coco_sub_dog\annotations\instances_train2017.json
-val:
-  image: G:\cgm\dataset\coco_sub_dog\val2017
-  ann: G:\cgm\dataset\coco_sub_dog\annotations\instances_val2017.json
+train: ./VOC/images/train
+val: ./VOC/images/val
 
 
 #train:
