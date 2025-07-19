@@ -1,4 +1,5 @@
 import os
+from tqdm import tqdm
 
 import torch
 from torch.utils.data import DataLoader
@@ -7,7 +8,9 @@ import albumentations as A
 
 from data import augment
 from data.base import BaseDataset
-from data.utils import PIN_MEMORY
+from data import PIN_MEMORY, img2label_paths, verify_image_label
+
+from utils import LOGGER
 
 
 def collate_fn(batch):
@@ -16,7 +19,7 @@ def collate_fn(batch):
 
 
 class DetectDataset(BaseDataset):
-    def __init__(self, img_path, imgsz, transforms):
+    def __init__(self, img_path, imgsz, task, transforms):
         super(DetectDataset, self).__init__(img_path, imgsz)
 
         self._transforms = transforms
@@ -35,8 +38,51 @@ class DetectDataset(BaseDataset):
 
         return self._normalize(**batch)
 
+    def cache_labels(self):
+        labels = []
+        nm, nf, ne = 0, 0, 0
+        total = len(self.im_files)
+        desc = f"Scanning ..."
+        results = []
+        for im_file, lb_file in zip(self.im_files, self.label_files):
+            results.append(verify_image_label(im_file, lb_file))
 
-def build_detect_dataset(img_path, imgsz, mode='train'):
+        pbar = tqdm(results, desc=desc, total=total)
+
+        for im_file, lb, segments, nm_f, nf_f, ne_f in pbar:
+            nm += nm_f
+            nf += nf_f
+            ne += ne_f
+            if im_file:
+                labels.append({
+                    "image": im_file,
+                    "labels": lb[:, 0],  # n 1
+                    'bboxes': lb[:, 1:]})  # n 4
+                if len(segments) > 1:
+                    labels[-1].update({'mask': segments})
+
+                pbar.desc = f"{desc} {nf} images, {nm + ne} backgrounds"
+        pbar.close()
+        return labels
+
+    def get_labels(self):
+        self.label_files = img2label_paths(self.im_files)
+        labels = self.cache_labels()
+
+        if not labels:
+            LOGGER.warning(f"No images found, training may not work correctly.")
+
+        # Check if the dataset is all boxes or all segments
+        len_cls = (len(lb["labels"]) for lb in labels)
+
+        # 没有标签，可能存在错误
+        if len_cls == 0:
+            LOGGER.warning(f"No labels found, training may not work correctly.")
+
+        return labels
+
+
+def build_detect_dataset(img_path, imgsz, task, mode='train'):
     T = [
         A.Blur(p=0.01),
         A.MedianBlur(p=0.01),
@@ -50,6 +96,7 @@ def build_detect_dataset(img_path, imgsz, mode='train'):
 
     return DetectDataset(img_path,
                          imgsz=imgsz,
+                         task=task,
                          transforms=transform if mode == 'train' else None)
 
 

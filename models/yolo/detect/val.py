@@ -11,11 +11,11 @@ from data.dataset import build_detect_dataset, build_dataloader
 
 class DetectionValidator(BaseValidator):
 
-    def build_dataset(self, img_path, mode="val"):
-        return build_detect_dataset(img_path, self.args.imgsz, mode)
+    def build_dataset(self, img_path):
+        return build_detect_dataset(img_path, self.args.imgsz, self.args.mode)
 
     def setup(self, stage: str) -> None:
-        self.val_dataset = self.build_dataset(self.val_set, "val")
+        self.val_dataset = self.build_dataset(self.val_set)
 
     def val_dataloader(self, *args: Any, **kwargs: Any) -> STEP_OUTPUT:
         self.val_loader = build_dataloader(self.val_dataset, self.batch_size * 2,
