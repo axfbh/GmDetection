@@ -62,7 +62,7 @@ if __name__ == '__main__':
                   root.joinpath("annotations", "instances_val2017.json")]
 
     image_roots = [root.joinpath("train2017"),
-                   root.joinpath("val2017", )]
+                   root.joinpath("val2017")]
 
     for js_f, img_r, m in zip(json_files, image_roots, modes):
         train_list = change_2_yolo(js_f)
