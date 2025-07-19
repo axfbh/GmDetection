@@ -56,12 +56,14 @@ def image_txt_copy(files, scr_path, dst_img_path, dst_txt_path):
 
 
 if __name__ == '__main__':
-    root = r"G:\cgm\dataset\coco_sub_dog"
+    root = Path(r"E:\dataset\coco_sub_dog")
     modes = ['train', 'val']
-    json_files = [r"G:\cgm\dataset\coco_sub_dog\annotations\instances_train2017.json",
-                  r"G:\cgm\dataset\coco_sub_dog\annotations\instances_val2017.json"]
-    image_roots = [r"G:\cgm\dataset\coco_sub_dog\train2017",
-                   r"G:\cgm\dataset\coco_sub_dog\val2017"]
+    json_files = [root.joinpath("annotations", "instances_train2017.json"),
+                  root.joinpath("annotations", "instances_val2017.json")]
+
+    image_roots = [root.joinpath("train2017"),
+                   root.joinpath("val2017", )]
+
     for js_f, img_r, m in zip(json_files, image_roots, modes):
         train_list = change_2_yolo(js_f)
 

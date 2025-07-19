@@ -1,5 +1,4 @@
 from models import YOLO
-
 # from models import DETR
 
 if __name__ == '__main__':
