@@ -34,7 +34,7 @@ class DetectionValidator(BaseValidator):
             max_det=self.args.max_det,
             labels=[],
             multi_label=False,
-            agnostic=False,
+            agnostic=self.data['nc'] == 1,
         )
 
         return [{'boxes': p[:, :4], 'scores': p[:, 4], 'labels': p[:, 5].long()} for p in preds]

@@ -80,7 +80,7 @@ class YoloV11(nn.Module):
                                           shortcut=False)
 
         self.head = YoloHeadV8([base_channels * 4, base_channels * 8, base_channels * 16],
-                               num_classes=nc + 1)
+                               num_classes=nc)
 
     def forward(self, batch):
         x = batch[0]

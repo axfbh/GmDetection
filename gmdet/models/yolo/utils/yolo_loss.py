@@ -33,8 +33,8 @@ class YoloAnchorBasedLoss(nn.Module):
         self.gamma = [0, 0.5, 1][ids]
 
         self.hyp["box"] *= 3 / self.nl
-        self.hyp["obj"] *= self.nc / 80 * 3 / self.nl
-        self.hyp["cls"] *= (self.hyp.imgsz / 640) ** 2 * 3 / self.nl
+        self.hyp["cls"] *= self.nc / 80 * 3 / self.nl
+        self.hyp["obj"] *= (self.hyp.imgsz / 640) ** 2 * 3 / self.nl
 
         self.assigner = TaskNearestAssigner(anchor_t=self.hyp['anchor_t'], topk=topk, num_classes=self.nc)
 

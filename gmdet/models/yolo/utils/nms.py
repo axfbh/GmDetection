@@ -106,7 +106,7 @@ def non_max_suppression(
         else:
             box, obj, cls, mask = x.split((4, 1, nc, nm), 1)
             # Compute conf
-            cls *= obj
+            cls = obj if agnostic else cls * obj
 
         # Detections matrix nx6 (xyxy, conf, cls)
         if multi_label:
@@ -115,14 +115,10 @@ def non_max_suppression(
             if is_v8:
                 x = torch.cat((box[i], x[i, 4 + j, None], j[:, None].float(), mask[i]), 1)
             else:
-                x = torch.cat((box[i], x[i, 4 + j, None], j[:, None].float() + 1, mask[i]), 1)
+                x = torch.cat((box[i], x[i, 5 + j, None], j[:, None].float() + 1, mask[i]), 1)
         else:  # best class only
             conf, j = cls.max(1, keepdim=True)
-            # v8后的版本
-            if is_v8:
-                x = torch.cat((box, conf, j.float(), mask), 1)[conf.view(-1) > conf_thres]
-            else:
-                x = torch.cat((box, conf, j.float() + 1, mask), 1)[conf.view(-1) > conf_thres]
+            x = torch.cat((box, conf, j.float(), mask), 1)[conf.view(-1) > conf_thres]
 
         # Filter by class
         if classes is not None:
