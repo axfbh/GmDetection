@@ -23,7 +23,6 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
 
     def setup(self, stage: str):
         self.train_dataset = self.build_dataset(self.train_set)
-        self.nc = max(self.train_dataset.coco.cats.keys())
 
         if self.val_set is not None:
             self.val_dataset = self.build_dataset(self.val_set)
@@ -58,5 +57,4 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
             m[: h, :w] = False
 
         batch[0] = NestedTensor(pad_tensors, mask)
-        batch[1] = torch.stack(batch[1])
         return batch

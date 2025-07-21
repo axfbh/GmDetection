@@ -12,7 +12,7 @@ name: train
 optimizer: SGD # (str) optimizer to use, choices=[SGD, Adam, Adamax, AdamW, NAdam, RAdam, RMSProp, auto]
 resume: False # (bool) resume training from last checkpoint
 amp: False
-freeze: None # (str | list, optional) freeze name layers, or freeze list of layer name during training
+freeze: [backbone] # (str | list, optional) freeze name layers, or freeze list of layer name during training
 
 
 # Val/Test settings ----------------------------------------------------------------------------------------------------

@@ -67,10 +67,10 @@ if __name__ == '__main__':
     for js_f, img_r, m in zip(json_files, image_roots, modes):
         train_list = change_2_yolo(js_f)
 
-        if not os.path.exists('../VOC/images/%s' % m):
-            os.makedirs('../VOC/images/%s' % m)
+        if not os.path.exists('../../VOC/images/%s' % m):
+            os.makedirs('../../VOC/images/%s' % m)
 
         if not os.path.exists('../VOC/labels/%s' % m):
-            os.makedirs('../VOC/labels/%s' % m)
+            os.makedirs('../../VOC/labels/%s' % m)
 
-        image_txt_copy(train_list, img_r, f'../VOC/images/{m}/', f'../VOC/labels/{m}/')
+        image_txt_copy(train_list, img_r, f'../../VOC/images/{m}/', f'../../VOC/labels/{m}/')
