@@ -13,7 +13,7 @@ from gmdet.data.ops import NestedTensor
 
 class DetectionValidator(BaseValidator):
 
-    def build_dataset(self, img_path, mode="val"):
+    def build_dataset(self, img_path):
         return build_yolo_dataset(img_path, self.args.imgsz, self.data, self.args.task, self.args.mode)
 
     def setup(self, stage: str):

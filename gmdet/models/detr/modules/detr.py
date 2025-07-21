@@ -8,22 +8,29 @@ from gmdet.nn.transformer import Transformer
 from gmdet.models.detr.utils.position_encoding import PositionEmbeddingSine
 from gmdet.models.detr.utils.detr_loss import DETRLoss
 from gmdet.models.detr.utils.matcher import HungarianMatcher
+from gmdet.utils import LOGGER
 
 
 class Detr(nn.Module):
-    def __init__(self, cfg):
+    def __init__(self, cfg, nc=None):
         super(Detr, self).__init__()
-        self.hidden_dim = cfg['hidden_dim']
-        self.num_heads = cfg['num_heads']
-        self.dim_feedforward = cfg['dim_feedforward']
-        self.enc_layers = cfg['enc_layers']
-        self.dec_layers = cfg['dec_layers']
-        self.num_channels = cfg['num_channels']
-        self.num_queries = cfg['num_queries']
-        self.num_classes = cfg['nc']
-        self.aux_loss = cfg['aux_loss']
-        self.pre_norm = cfg['pre_norm']
-        self.dropout = cfg['dropout']
+        self.yaml = cfg
+
+        if nc and nc != self.yaml["nc"]:
+            LOGGER.info(f"Overriding model.yaml nc={self.yaml['nc']} with nc={nc}")
+            self.yaml["nc"] = nc  # override YAML value
+
+        self.hidden_dim = self.yaml['hidden_dim']
+        self.num_heads = self.yaml['num_heads']
+        self.dim_feedforward = self.yaml['dim_feedforward']
+        self.enc_layers = self.yaml['enc_layers']
+        self.dec_layers = self.yaml['dec_layers']
+        self.num_channels = self.yaml['num_channels']
+        self.num_queries = self.yaml['num_queries']
+        self.nc = self.yaml['nc']
+        self.aux_loss = self.yaml['aux_loss']
+        self.pre_norm = self.yaml['pre_norm']
+        self.dropout = self.yaml['dropout']
 
         self.backbone = Backbone(name='resnet50',
                                  layers_to_train=['layer2', 'layer3', 'layer4'],
@@ -46,7 +53,7 @@ class Detr(nn.Module):
             return_intermediate_dec=True,
         )
 
-        self.head = DetrHead(self.hidden_dim, self.hidden_dim, 4, 3, self.num_classes + 1, aux_loss=self.aux_loss)
+        self.head = DetrHead(self.hidden_dim, self.hidden_dim, 4, 3, nc + 1, aux_loss=self.aux_loss)
         self.query_embed = nn.Embedding(self.num_queries, self.hidden_dim)
         self.input_proj = nn.Conv2d(self.num_channels, self.hidden_dim, kernel_size=1)
 

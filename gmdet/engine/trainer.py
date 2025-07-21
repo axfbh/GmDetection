@@ -37,7 +37,6 @@ class BaseTrainer(LightningModule):
         self.train_set, self.val_set = self.get_dataset()
         self.train_dataset = None
         self.train_loader = None
-        self.nc = None
 
         self.save_hyperparameters(self.args)
 

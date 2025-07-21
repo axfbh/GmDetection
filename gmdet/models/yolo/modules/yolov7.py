@@ -5,16 +5,23 @@ from gmdet.nn.conv import CBS
 from gmdet.nn.backbone import MP1, Elan
 from gmdet.nn.head import YoloHeadV7
 from gmdet.nn.backbone.ops import Backbone
-
 from gmdet.models.yolo.utils.yolo_loss import YoloLossV4To7
+from gmdet.utils import LOGGER
 
 
 class YoloV7(nn.Module):
-    def __init__(self, cfg):
+    def __init__(self, cfg, nc=None):
         super(YoloV7, self).__init__()
 
-        scale = cfg['scale']
-        scales = cfg['scales']
+        self.yaml = cfg
+
+        if nc and nc != self.yaml["nc"]:
+            LOGGER.info(f"Overriding model.yaml nc={self.yaml['nc']} with nc={nc}")
+            self.yaml["nc"] = nc  # override YAML value
+
+        scale = self.yaml['scale']
+        scales = self.yaml['scales']
+        nc = self.yaml["nc"]
         multiple = scales[scale]
 
         base_depth = max(round(multiple[0] * 4), 4)
@@ -71,8 +78,8 @@ class YoloV7(nn.Module):
         self.rep_conv_3 = CBS(transition_channels * 16, transition_channels * 32, 3, 1)
 
         self.head = YoloHeadV7([transition_channels * 8, transition_channels * 16, transition_channels * 32],
-                               cfg.anchors,
-                               cfg.nc)
+                               self.yaml.anchors,
+                               nc)
 
     def forward(self, batch):
         x = batch[0]

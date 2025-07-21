@@ -51,6 +51,10 @@ class Model:
         args.update({'data': data, 'num_nodes': num_nodes})
 
         trainer = self._smart_load("trainer")(args)
+        if not args.get("resume"):  # manually set model nc
+            model = self._smart_load('model')[self.model.yaml['model']]
+            self.model = trainer.get_model(model, self.model.yaml)
+
         trainer.add_module('model', self.model)
         trainer.fit()
 

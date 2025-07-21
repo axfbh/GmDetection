@@ -5,15 +5,17 @@ import torch
 from lightning.pytorch.utilities.types import TRAIN_DATALOADERS
 
 from gmdet.engine.trainer import BaseTrainer
-
 from gmdet.data.dataset import build_yolo_dataset, build_dataloader
-
 from gmdet.models.yolo.detect.val import DetectionValidator
 
 
 # 先执行 BaseTrainer，从 BaseTrainer super 跳到执行 DetectionValidator
 # 因此 DetectionValidator 创建的重复信息会被，后续执行BaseTrainer覆盖，不影响训练时候的参数
 class DetectionTrainer(BaseTrainer, DetectionValidator):
+
+    def get_model(self, model, cfg):
+        model = model(cfg, nc=self.data["nc"])
+        return model
 
     def build_dataset(self, img_path):
         return build_yolo_dataset(img_path, self.args.imgsz, self.data, self.args.task, self.args.mode)

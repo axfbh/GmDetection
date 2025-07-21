@@ -1,6 +1,4 @@
 # Parameters
-nc: 19  # number of classes
-
 hidden_dim: 256
 
 dim_feedforward: 2048
@@ -20,3 +18,5 @@ num_channels: 2048
 aux_loss: True
 
 pre_norm: False
+
+nc: 80

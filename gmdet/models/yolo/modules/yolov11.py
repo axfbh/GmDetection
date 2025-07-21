@@ -6,14 +6,22 @@ from gmdet.nn.block import C3k2
 from gmdet.nn.backbone import Backbone
 from gmdet.nn.head import YoloHeadV8
 from gmdet.models.yolo.utils.yolo_loss import YoloLossV8
+from gmdet.utils import LOGGER
 
 
 class YoloV11(nn.Module):
-    def __init__(self, cfg):
+    def __init__(self, cfg, nc=None):
         super(YoloV11, self).__init__()
 
-        scale = cfg['scale']
-        scales = cfg['scales']
+        self.yaml = cfg
+
+        if nc and nc != self.yaml["nc"]:
+            LOGGER.info(f"Overriding model.yaml nc={self.yaml['nc']} with nc={nc}")
+            self.yaml["nc"] = nc  # override YAML value
+
+        scale = self.yaml['scale']
+        scales = self.yaml['scales']
+        nc = self.yaml["nc"]
         depth_multiple, width_multiple, deep_mul = scales[scale]
 
         base_channels = int(width_multiple * 64)  # 64
@@ -72,7 +80,7 @@ class YoloV11(nn.Module):
                                           shortcut=False)
 
         self.head = YoloHeadV8([base_channels * 4, base_channels * 8, base_channels * 16],
-                               num_classes=cfg.nc + 1)
+                               num_classes=nc + 1)
 
     def forward(self, batch):
         x = batch[0]
