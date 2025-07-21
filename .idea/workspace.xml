@@ -4,14 +4,96 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="upload coco_to_yolo.py">
-      <change afterPath="$PROJECT_DIR$/data/__init__.py" afterDir="false" />
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update dataset method">
+      <change afterPath="$PROJECT_DIR$/gmdet/cfg/datasets/coco.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gmdet/data/checks.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gmdet/models/yolo/utils/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gmdet/nn/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/GmDetection.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GmDetection.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/yolo/detect/val.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/yolo/detect/val.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/datasets/cifa100.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/datasets/cifa100.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/datasets/coco.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/datasets/voc-seg.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/datasets/voc-seg.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/datasets/voc.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/datasets/voc.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/default.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/default.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/models/detr.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/models/detr.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/models/v11/yolov11.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/models/v11/yolov11.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/models/v3/yolov3.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/models/v3/yolov3.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/models/v4/yolov4.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/models/v4/yolov4.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/models/v5/yolov5.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/models/v5/yolov5.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/models/v7/yolov7.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/models/v7/yolov7.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cfg/models/v8/yolov8.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/models/v8/yolov8.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/data/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/augment.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/data/augment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/data/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/data/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/data/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/data/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/engine/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/engine/trainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/engine/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine/validator.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/engine/validator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/detect/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/detect/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/detect/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/detect/val.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/detect/val.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/modules/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/modules/detr.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/modules/detr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/utils/detr_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/utils/detr_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/utils/iou_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/utils/iou_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/utils/matcher.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/utils/matcher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/detr/utils/position_encoding.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/utils/position_encoding.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/detect/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/detect/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/detect/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/detect/val.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/detect/val.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/modules/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov11.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/modules/yolov11.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov3.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/modules/yolov3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov4.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/modules/yolov4.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov5.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/modules/yolov5.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov7.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/modules/yolov7.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/modules/yolov8.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/modules/yolov8.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/utils/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/utils/boxes.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/utils/boxes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/utils/iou_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/utils/iou_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/utils/misc.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/utils/misc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/utils/nms.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/utils/nms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/utils/nmsv3_7.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/utils/nmsv3_7.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/utils/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/utils/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/utils/tal.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/utils/tal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/yolo/utils/yolo_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/utils/yolo_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/backbone/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/backbone/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/backbone/cspdarknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/backbone/cspdarknet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/backbone/darknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/backbone/darknet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/backbone/elandarknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/backbone/elandarknet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/backbone/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/backbone/ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/block.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/conv.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/conv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/head/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/head/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/head/detr_head.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/head/detr_head.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/head/yolo_head.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/head/yolo_head.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn/transformer.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/transformer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion/Graident Accumulation.png" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/notion/Graident Accumulation.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion/bakcup code" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/notion/bakcup code" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion/freeze" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/notion/freeze" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion/lightning notation" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/notion/lightning notation" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion/lightning_callback_priority.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/notion/lightning_callback_priority.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion/lightning_train_stream.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/notion/lightning_train_stream.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion/lightning_val_stream.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/notion/lightning_val_stream.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion/语义分割 loss 介绍.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/notion/语义分割 loss 介绍.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion/语义分割 model 介绍.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/notion/语义分割 model 介绍.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/utils/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/coco_to_yolo.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/utils/coco_to_yolo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lightning_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/utils/lightning_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/numpy_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/utils/numpy_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/torch_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/utils/torch_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,18 +133,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.coco_to_yolo.executor": "Debug",
-    "Python.main.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "G:/c/GmDetection/utils",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/c/GmDetection/utils&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\c\GmDetection\utils" />
@@ -71,13 +152,13 @@
       <recent name="G:\c\GmDetection\cfg\models\v11" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\c\GmDetection\gmdet" />
       <recent name="G:\c\GmDetection\nn" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
-    <configuration name="coco_to_yolo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="coco_to_yolo (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GmDetection" />
-      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -88,7 +169,30 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/coco_to_yolo.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="coco_to_yolo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="GmDetection" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="G:\c\GmDetection\utils\coco_to_yolo.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -99,7 +203,6 @@
     </configuration>
     <configuration name="lightning_utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GmDetection" />
-      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -122,7 +225,6 @@
     </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GmDetection" />
-      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -146,6 +248,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.coco_to_yolo (1)" />
         <item itemvalue="Python.coco_to_yolo" />
         <item itemvalue="Python.lightning_utils" />
       </list>
@@ -154,7 +257,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0509580d9d50-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.14494.241" />
+        <option value="bundled-python-sdk-09665e90c3a7-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.15026.15" />
       </set>
     </attachedChunks>
   </component>
@@ -196,28 +299,11 @@
       <workItem from="1752213039193" duration="162000" />
       <workItem from="1752213935940" duration="9000" />
       <workItem from="1752217709732" duration="44000" />
-      <workItem from="1752226001947" duration="128000" />
-    </task>
-    <task id="LOCAL-00014" summary="更新 conv,block">
-      <created>1744601037776</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1744601037776</updated>
-    </task>
-    <task id="LOCAL-00015" summary="更新 conv,block">
-      <created>1744601207486</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1744601207486</updated>
-    </task>
-    <task id="LOCAL-00016" summary="更新 conv,block">
-      <created>1744601510170</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1744601510170</updated>
+      <workItem from="1752226001947" duration="279000" />
+      <workItem from="1752472844619" duration="150000" />
+      <workItem from="1752560694472" duration="79000" />
+      <workItem from="1752801673361" duration="155000" />
+      <workItem from="1752801864097" duration="23215000" />
     </task>
     <task id="LOCAL-00017" summary="更新 conv,block,v4">
       <created>1744615021305</created>
@@ -267,6 +353,22 @@
       <option name="presentableId" value="LOCAL-00023" />
       <option name="project" value="LOCAL" />
       <updated>1745465124822</updated>
+    </task>
+    <task id="LOCAL-00024" summary="更新 yolov7">
+      <option name="closed" value="true" />
+      <created>1746702953697</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1746702953697</updated>
+    </task>
+    <task id="LOCAL-00025" summary="更新 transformer">
+      <option name="closed" value="true" />
+      <created>1746706641209</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1746706641209</updated>
     </task>
     <task id="LOCAL-00026" summary="更新 transformer 注释">
       <option name="closed" value="true" />
@@ -534,23 +636,28 @@
       <option name="project" value="LOCAL" />
       <updated>1752217725477</updated>
     </task>
-    <task id="LOCAL-00063" summary="upload coco_to_yolo.py">
-      <option name="closed" value="true" />
-      <created>1752892870358</created>
+    <task id="LOCAL-00063" summary="update param_groups print">
+      <created>1752226140585</created>
       <option name="number" value="00063" />
       <option name="presentableId" value="LOCAL-00063" />
       <option name="project" value="LOCAL" />
-      <updated>1752892870359</updated>
+      <updated>1752226140586</updated>
     </task>
-    <task id="LOCAL-00064" summary="upload coco_to_yolo.py">
-      <option name="closed" value="true" />
-      <created>1752892887630</created>
+    <task id="LOCAL-00064" summary="update evaluator">
+      <created>1752472978110</created>
       <option name="number" value="00064" />
       <option name="presentableId" value="LOCAL-00064" />
       <option name="project" value="LOCAL" />
-      <updated>1752892887630</updated>
+      <updated>1752472978111</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="update evaluator">
+      <created>1752560740791</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1752560740791</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -568,7 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="更新 yolov7" />
     <MESSAGE value="更新 transformer" />
     <MESSAGE value="更新 transformer 注释" />
     <MESSAGE value="更新 Detr loss" />
@@ -592,8 +698,9 @@
     <MESSAGE value="update augment" />
     <MESSAGE value="update on_before_batch_transfer" />
     <MESSAGE value="update" />
-    <MESSAGE value="upload coco_to_yolo.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="upload coco_to_yolo.py" />
+    <MESSAGE value="update param_groups print" />
+    <MESSAGE value="update evaluator" />
+    <option name="LAST_COMMIT_MESSAGE" value="update evaluator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -603,11 +710,18 @@
           <line>62</line>
           <option name="timeStamp" value="61" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/gmdet/models/yolo/utils/yolo_loss.py</url>
+          <line>85</line>
+          <option name="timeStamp" value="108" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GmDetection$lightning_utils.coverage" NAME="lightning_utils Coverage Results" MODIFIED="1747378398308" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
-    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1749431508099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1753063705946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GmDetection$coco_to_file.coverage" NAME="coco_to_file Coverage Results" MODIFIED="1752809569941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
+    <SUITE FILE_PATH="coverage/GmDetection$coco_to_yolo__1_.coverage" NAME="coco_to_yolo (1) Coverage Results" MODIFIED="1752820742391" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
   </component>
 </project>

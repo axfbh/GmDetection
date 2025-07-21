@@ -1,0 +1,6 @@
+train: ./VOC/images/train
+val: ./VOC/images/val
+
+# Classes
+names: [ 'dog']
+
