@@ -2,6 +2,7 @@ from pathlib import Path
 from omegaconf import OmegaConf
 
 from gmdet.engine.utils import yaml_model_load, attempt_load_one_weight
+from gmdet.utils import DEFAULT_CFG
 
 
 class Model:
@@ -45,7 +46,7 @@ class Model:
             num_nodes=1,
             **kwargs,
     ):
-        args = OmegaConf.create({**self.overrides, **OmegaConf.load('./gmdet/cfg/default.yaml'), "mode": 'train'})
+        args = OmegaConf.create({**self.overrides, **DEFAULT_CFG, "mode": 'train'})
         args.update(**kwargs)
         args.update({'data': data, 'num_nodes': num_nodes})
 

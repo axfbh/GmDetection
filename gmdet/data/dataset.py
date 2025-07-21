@@ -9,7 +9,6 @@ import albumentations as A
 from gmdet.data import augment
 from gmdet.data.base import BaseDataset
 from gmdet.data.utils import PIN_MEMORY, img2label_paths, verify_image_label
-
 from gmdet.utils import LOGGER
 
 
