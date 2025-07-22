@@ -121,12 +121,12 @@ class DETRLoss(nn.Module):
         src_boxes = outputs['pred_boxes'][idx]
         target_boxes = torch.cat([t['boxes'][i] for t, (_, i) in zip(targets, indices)], dim=0)
 
-        loss_bbox = self.loss_gain["bbox"] * F.l1_loss(src_boxes, target_boxes, reduction='none')
+        loss_bbox = F.l1_loss(src_boxes, target_boxes, reduction='none')
 
-        losses = {'loss_bbox': loss_bbox.sum() / num_boxes}
+        losses = {'loss_bbox': loss_bbox.sum() / num_boxes * self.loss_gain["bbox"]}
 
         loss_giou = 1 - all_iou_loss(src_boxes, target_boxes, 'cxcywh', 'xyxy', GIoU=True)
-        losses['loss_giou'] = self.loss_gain["giou"] * loss_giou.sum() / num_boxes
+        losses['loss_giou'] = loss_giou.sum() / num_boxes * self.loss_gain["giou"]
         return losses
 
     # def loss_masks(self, outputs, targets, indices, num_boxes):
