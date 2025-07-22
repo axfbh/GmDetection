@@ -106,7 +106,7 @@ def non_max_suppression(
         else:
             box, obj, cls, mask = x.split((4, 1, nc, nm), 1)
             # Compute conf
-            cls = obj if agnostic else cls * obj
+            cls *= obj
 
         # Detections matrix nx6 (xyxy, conf, cls)
         if multi_label:
