@@ -125,9 +125,9 @@ class BaseTrainer(LightningModule):
             if any(x in k for x in freeze_layer_names):
                 print(f"Freezing layer '{k}'")
                 v.requires_grad = False
-            elif not v.requires_grad and v.dtype.is_floating_point:  # only floating point Tensor can require gradients
-                print(f"setting 'requires_grad=True' for frozen layer '{k}'. ")
-                v.requires_grad = True
+            # elif not v.requires_grad and v.dtype.is_floating_point:  # only floating point Tensor can require gradients
+            #     print(f"setting 'requires_grad=True' for frozen layer '{k}'. ")
+            #     v.requires_grad = True
 
     def configure_optimizers(self) -> OptimizerLRScheduler:
         accumulate = max(round(self.args.nbs / self.batch_size), 1)
