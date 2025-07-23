@@ -20,3 +20,5 @@ aux_loss: True
 pre_norm: False
 
 nc: 80
+
+eos_coef: 0.1

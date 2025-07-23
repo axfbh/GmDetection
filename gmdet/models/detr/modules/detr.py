@@ -31,6 +31,7 @@ class Detr(nn.Module):
         self.aux_loss = self.yaml['aux_loss']
         self.pre_norm = self.yaml['pre_norm']
         self.dropout = self.yaml['dropout']
+        self.eos_coef = self.yaml['eos_coef']
 
         self.backbone = Backbone(name='resnet50',
                                  layers_to_train=['layer2', 'layer3', 'layer4'],
@@ -81,6 +82,6 @@ class Detr(nn.Module):
 
             self.criterion = DETRLoss(self.nc,
                                       matcher=matcher,
-                                      eos_coef=0.1)
+                                      eos_coef=self.eos_coef)
 
         return self.criterion(preds, targets)
