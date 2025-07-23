@@ -5,18 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update file">
-      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/modules/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/modules/liteseg.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/segment/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/segment/train.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/segment/val.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gmdet/cfg/models/liteseg.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/models/detr/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/models/yolo/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/nn/backbone/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/backbone/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/nn/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/block.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/models/liteseg/modules/liteseg.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/liteseg/modules/liteseg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/utils/coco_to_yolo.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/utils/coco_to_yolo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +80,7 @@
       <recent name="G:\c\GmDetection\nn" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.coco_to_yolo (2)">
     <configuration name="coco_to_yolo (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GmDetection" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -101,6 +95,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/coco_to_yolo.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="coco_to_yolo (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="GmDetection" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/gmdet/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gmdet/utils/coco_to_yolo.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -177,6 +193,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.coco_to_yolo (2)" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.coco_to_yolo (1)" />
         <item itemvalue="Python.coco_to_yolo" />
@@ -237,15 +254,7 @@
       <workItem from="1753151841509" duration="9165000" />
       <workItem from="1753173481840" duration="2686000" />
       <workItem from="1753241000138" duration="103000" />
-      <workItem from="1753252551360" duration="2566000" />
-    </task>
-    <task id="LOCAL-00024" summary="更新 yolov7">
-      <option name="closed" value="true" />
-      <created>1746702953697</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1746702953697</updated>
+      <workItem from="1753252551360" duration="3121000" />
     </task>
     <task id="LOCAL-00025" summary="更新 transformer">
       <option name="closed" value="true" />
@@ -591,7 +600,14 @@
       <option name="project" value="LOCAL" />
       <updated>1753234887677</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="update file">
+      <created>1753255200356</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1753255200356</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -644,12 +660,18 @@
           <line>62</line>
           <option name="timeStamp" value="61" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>24</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GmDetection$lightning_utils.coverage" NAME="lightning_utils Coverage Results" MODIFIED="1747378398308" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
-    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1753233611958" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1753255471246" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GmDetection$coco_to_yolo__2_.coverage" NAME="coco_to_yolo (2) Coverage Results" MODIFIED="1753255680905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gmdet/utils" />
     <SUITE FILE_PATH="coverage/GmDetection$coco_to_file.coverage" NAME="coco_to_file Coverage Results" MODIFIED="1752809569941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
     <SUITE FILE_PATH="coverage/GmDetection$coco_to_yolo__1_.coverage" NAME="coco_to_yolo (1) Coverage Results" MODIFIED="1752820742391" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
   </component>

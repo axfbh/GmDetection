@@ -29,8 +29,7 @@ class LiteSeg(nn.Module):
                                                   'conv5'],
                                  return_interm_layers={'maxpool': '0',
                                                        'conv5': '1'},
-                                 pretrained=True,
-                                 norm_layer=FrozenBatchNorm2d)
+                                 pretrained=True)
 
         self.aspp = ASPP(2048, 96, [3, 6, 9])
 

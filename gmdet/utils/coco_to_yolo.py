@@ -34,9 +34,10 @@ def change_2_yolo(json_file):
             bbox[2:] += bbox[:2]
             bbox = xyxy_to_cxcywh(bbox) / np.array([width, height, width, height])
 
-            seg = ann['segmentation']
+            seg = np.array(ann['segmentation'][0], dtype=np.float32)
 
-            targets.append([cat, bbox])
+            # targets.append([cat, bbox])
+            targets.append([cat, seg])
 
         res.append([file_name, targets])
 
@@ -56,8 +57,9 @@ def image_txt_copy(files, scr_path, dst_img_path, dst_txt_path):
 
 
 if __name__ == '__main__':
-    root = Path(r"E:\dataset\coco_sub_dog")
+    root = Path(r"G:\cgm\dataset\coco_sub_dog")
     modes = ['train', 'val']
+    filenames = 'VOCS'
     json_files = [root.joinpath("annotations", "instances_train2017.json"),
                   root.joinpath("annotations", "instances_val2017.json")]
 
@@ -67,10 +69,10 @@ if __name__ == '__main__':
     for js_f, img_r, m in zip(json_files, image_roots, modes):
         train_list = change_2_yolo(js_f)
 
-        if not os.path.exists('../../VOC/images/%s' % m):
-            os.makedirs('../../VOC/images/%s' % m)
+        if not os.path.exists(f'../../{filenames}/images/%s' % m):
+            os.makedirs(f'../../{filenames}/images/%s' % m)
 
-        if not os.path.exists('../VOC/labels/%s' % m):
-            os.makedirs('../../VOC/labels/%s' % m)
+        if not os.path.exists(f'../{filenames}/labels/%s' % m):
+            os.makedirs(f'../../{filenames}/labels/%s' % m)
 
-        image_txt_copy(train_list, img_r, f'../../VOC/images/{m}/', f'../../VOC/labels/{m}/')
+        image_txt_copy(train_list, img_r, f'../../{filenames}/images/{m}/', f'../../{filenames}/labels/{m}/')
