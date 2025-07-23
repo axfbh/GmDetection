@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update file">
-      <change afterPath="$PROJECT_DIR$/gmdet/cfg/models/liteseg.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gmdet/cfg/datasets/coco-seg.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/models/liteseg/modules/liteseg.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/liteseg/modules/liteseg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/utils/coco_to_yolo.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/utils/coco_to_yolo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/cfg/datasets/voc-seg.yaml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -194,9 +192,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.coco_to_yolo (2)" />
+        <item itemvalue="Python.coco_to_yolo" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.coco_to_yolo (1)" />
-        <item itemvalue="Python.coco_to_yolo" />
         <item itemvalue="Python.lightning_utils" />
       </list>
     </recent_temporary>
@@ -254,15 +252,7 @@
       <workItem from="1753151841509" duration="9165000" />
       <workItem from="1753173481840" duration="2686000" />
       <workItem from="1753241000138" duration="103000" />
-      <workItem from="1753252551360" duration="3121000" />
-    </task>
-    <task id="LOCAL-00025" summary="更新 transformer">
-      <option name="closed" value="true" />
-      <created>1746706641209</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1746706641209</updated>
+      <workItem from="1753252551360" duration="3948000" />
     </task>
     <task id="LOCAL-00026" summary="更新 transformer 注释">
       <option name="closed" value="true" />
@@ -607,7 +597,14 @@
       <option name="project" value="LOCAL" />
       <updated>1753255200356</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="update file">
+      <created>1753255863679</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1753255863679</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -661,17 +658,22 @@
           <option name="timeStamp" value="61" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>24</line>
-          <option name="timeStamp" value="63" />
+          <url>file://$PROJECT_DIR$/gmdet/data/utils.py</url>
+          <line>55</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/gmdet/utils/coco_to_yolo.py</url>
+          <line>36</line>
+          <option name="timeStamp" value="69" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GmDetection$lightning_utils.coverage" NAME="lightning_utils Coverage Results" MODIFIED="1747378398308" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
-    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1753255471246" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/GmDetection$coco_to_yolo__2_.coverage" NAME="coco_to_yolo (2) Coverage Results" MODIFIED="1753255680905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gmdet/utils" />
+    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1753256480585" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GmDetection$coco_to_yolo__2_.coverage" NAME="coco_to_yolo (2) Coverage Results" MODIFIED="1753256532629" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gmdet/utils" />
     <SUITE FILE_PATH="coverage/GmDetection$coco_to_file.coverage" NAME="coco_to_file Coverage Results" MODIFIED="1752809569941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
     <SUITE FILE_PATH="coverage/GmDetection$coco_to_yolo__1_.coverage" NAME="coco_to_yolo (1) Coverage Results" MODIFIED="1752820742391" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
   </component>

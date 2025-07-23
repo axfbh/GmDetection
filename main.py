@@ -23,5 +23,5 @@ if __name__ == '__main__':
     # model.train(data="./cfg/datasets/coco.yaml", device='0', imgsz=640, epochs=400, batch=8)
 
     model = LITESEG('liteseg.yaml', task='segment')
-    model.train(data="./cfg/datasets/coco.yaml", device='0', imgsz=640, epochs=400, batch=8)
+    model.train(data="./cfg/datasets/coco-seg.yaml", device='0', imgsz=640, epochs=400, batch=8)
 
