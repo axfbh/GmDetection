@@ -34,7 +34,8 @@ def change_2_yolo(json_file):
             bbox[2:] += bbox[:2]
             bbox = xyxy_to_cxcywh(bbox) / np.array([width, height, width, height])
 
-            seg = np.array(ann['segmentation'][0], dtype=np.float32)
+            seg = (np.array(ann['segmentation'][0], dtype=np.float32).reshape(-1, 2) / np.array(
+                [width, height])).reshape(-1)
 
             # targets.append([cat, bbox])
             targets.append([cat, seg])
