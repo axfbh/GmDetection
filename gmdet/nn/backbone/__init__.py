@@ -5,6 +5,7 @@ from .cspdarknet import (
     CSPDarknetV11,
 )
 from torchvision.models.resnet import resnet50
+from torchvision.models.shufflenetv2 import shufflenet_v2_x2_0
 
 from .darknet import Darknet
 from .elandarknet import ElanDarknet, MP1, Elan
@@ -20,5 +21,6 @@ __all__ = [
     "ElanDarknet",
     "Backbone",
     "MP1",
-    "Elan"
+    "Elan",
+    "shufflenet_v2_x2_0"
 ]

@@ -5,12 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update file">
-      <change beforePath="$PROJECT_DIR$/.idea/GmDetection.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GmDetection.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/modules/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/modules/liteseg.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/segment/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/segment/train.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gmdet/models/liteseg/segment/val.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/cfg/default.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/default.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/cfg/models/detr.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/models/detr.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/models/detr/modules/detr.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/modules/detr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/models/detr/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/models/yolo/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/yolo/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/nn/backbone/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/backbone/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/nn/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/block.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,23 +62,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;G:/c/GmDetection/utils&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.main.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "G:/c/GmDetection/gmdet/models/liteseg/modules",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\c\GmDetection\gmdet\models\liteseg\modules" />
+      <recent name="G:\c\GmDetection\gmdet\models\liteseg" />
+      <recent name="G:\c\GmDetection\gmdet\models\liteseg\segment" />
       <recent name="G:\c\GmDetection\utils" />
       <recent name="G:\c\GmDetection\cfg\models\v3" />
-      <recent name="D:\model\GmDetection\models\detr\utils" />
-      <recent name="G:\c\GmDetection\cfg\models\v11" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="G:\c\GmDetection\gmdet" />
@@ -229,13 +236,8 @@
       <workItem from="1752801864097" duration="23215000" />
       <workItem from="1753151841509" duration="9165000" />
       <workItem from="1753173481840" duration="2686000" />
-    </task>
-    <task id="LOCAL-00023" summary="更新 loss 的 loss_dict，prepare_data 变成 setup,去除 self.loss_names">
-      <created>1745465124822</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1745465124822</updated>
+      <workItem from="1753241000138" duration="103000" />
+      <workItem from="1753252551360" duration="2566000" />
     </task>
     <task id="LOCAL-00024" summary="更新 yolov7">
       <option name="closed" value="true" />
@@ -582,7 +584,14 @@
       <option name="project" value="LOCAL" />
       <updated>1753150667851</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="update file">
+      <created>1753234887677</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1753234887677</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

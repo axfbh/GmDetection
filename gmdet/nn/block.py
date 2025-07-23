@@ -1,7 +1,9 @@
+from functools import partial
+
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torchvision.ops.misc import Conv2dNormActivation
-from functools import partial
 
 from gmdet.nn.conv import CBS
 
@@ -199,7 +201,7 @@ class SPP(nn.Module):
         """
         super(SPP, self).__init__()
         self.add = add
-        self.make_layers = nn.ModuleList([nn.MaxPool2d(kernel_size=k, stride=1, padding=(k - 1) // 2) for k in k])
+        self.make_layers = nn.ModuleList([nn.MaxPool2d(kernel_size=x, stride=1, padding=(k - 1) // 2) for x in k])
 
     def forward(self, x):
         return torch.cat([x] + [m(x) for m in self.make_layers], 1) if self.add else torch.cat(
@@ -268,3 +270,26 @@ class SPPCSPC(nn.Module):
         x = torch.cat([x1, x2], dim=1)
 
         return self.cv4(x)
+
+
+class ASPP(nn.Module):
+    def __init__(self, c1, c2, d=(3, 6, 9), conv_layer=None, activation_layer=nn.ReLU):
+        super(ASPP, self).__init__()
+
+        Conv = partial(Conv2dNormActivation,
+                       bias=False,
+                       inplace=True,
+                       norm_layer=nn.BatchNorm2d,
+                       activation_layer=activation_layer) if conv_layer is None else conv_layer
+
+        self.conv = Conv(c1, c2, 1)
+
+        self.make_layers = nn.ModuleList([nn.Sequential(Conv(c1, c2, 3, dilation=x), Conv(c2, c2, 3)) for x in d])
+
+        self.global_avg_pool = nn.Sequential(nn.AdaptiveAvgPool2d((1, 1)), Conv(c1, c2, 1))
+
+    def forward(self, x):
+        y = list(self.conv(x))
+        y.extend(m(x) for m in self.make_layers)
+        y.extend(F.interpolate(self.global_avg_pool(x), size=y[-1].size()[2:], mode='bilinear', align_corners=True))
+        return torch.cat(y, 1)

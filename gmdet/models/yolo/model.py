@@ -1,6 +1,5 @@
 from gmdet.engine.model import Model
-from gmdet.models.yolo.detect.train import DetectionTrainer
-from gmdet.models.yolo.detect.val import DetectionValidator
+from gmdet.models.yolo.detect import DetectionTrainer, DetectionValidator
 from gmdet.models.yolo.modules import YoloV3, YoloV4, YoloV5, YoloV7, YoloV8, YoloV11
 
 
