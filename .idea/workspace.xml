@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/data/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/data/dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/utils/coco_to_yolo.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/utils/coco_to_yolo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/cfg/default.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/default.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/cfg/models/detr.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/models/detr.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -251,15 +252,7 @@
       <workItem from="1753151841509" duration="9165000" />
       <workItem from="1753173481840" duration="2686000" />
       <workItem from="1753241000138" duration="103000" />
-      <workItem from="1753252551360" duration="4517000" />
-    </task>
-    <task id="LOCAL-00027" summary="更新 Detr loss">
-      <option name="closed" value="true" />
-      <created>1746716017777</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1746716017777</updated>
+      <workItem from="1753252551360" duration="9955000" />
     </task>
     <task id="LOCAL-00028" summary="更新 origin size 获取方式">
       <option name="closed" value="true" />
@@ -602,7 +595,14 @@
       <option name="project" value="LOCAL" />
       <updated>1753256546625</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="update file">
+      <created>1753257118522</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1753257118522</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -656,21 +656,16 @@
           <option name="timeStamp" value="61" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/gmdet/data/base.py</url>
-          <line>39</line>
-          <option name="timeStamp" value="74" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gmdet/data/dataset.py</url>
           <line>32</line>
-          <option name="timeStamp" value="76" />
+          <option name="timeStamp" value="77" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GmDetection$lightning_utils.coverage" NAME="lightning_utils Coverage Results" MODIFIED="1747378398308" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
-    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1753257105667" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GmDetection$main.coverage" NAME="main Coverage Results" MODIFIED="1753260948611" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/GmDetection$coco_to_yolo__2_.coverage" NAME="coco_to_yolo (2) Coverage Results" MODIFIED="1753256650861" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gmdet/utils" />
     <SUITE FILE_PATH="coverage/GmDetection$coco_to_file.coverage" NAME="coco_to_file Coverage Results" MODIFIED="1752809569941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
     <SUITE FILE_PATH="coverage/GmDetection$coco_to_yolo__1_.coverage" NAME="coco_to_yolo (1) Coverage Results" MODIFIED="1752820742391" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
