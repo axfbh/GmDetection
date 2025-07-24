@@ -24,7 +24,7 @@ if __name__ == '__main__':
                 optimizer='AdamW',
                 lr0=0.0001,
                 momentum=0.9,
-                lrf=0.1)
+                lrf=0.01)
 
     # model = LITESEG('liteseg.yaml', task='segment')
     # model.train(data="./cfg/datasets/coco-seg.yaml", device='0', imgsz=640, epochs=400, batch=8)

@@ -92,13 +92,13 @@ def build_yolo_dataset(img_path, imgsz, data, task, mode='train'):
         A.RandomGamma(p=0.0),
         A.ImageCompression(quality_lower=75, p=0.0),
     ]
-    transform = A.Compose(T, bbox_params=A.BboxParams(format="yolo", label_fields=["labels"]))
+    transforms = A.Compose(T, bbox_params=A.BboxParams(format="yolo", label_fields=["labels"]))
 
     return YOLODataset(img_path,
                        imgsz=imgsz,
                        data=data,
                        task=task,
-                       transforms=transform if mode == 'train' else None)
+                       transforms=transforms if mode == 'train' else None)
 
 
 def build_dataloader(dataset,
