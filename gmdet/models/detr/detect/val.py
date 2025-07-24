@@ -20,7 +20,8 @@ class DetectionValidator(BaseValidator):
         self.val_dataset = self.build_dataset(self.val_set)
 
     def val_dataloader(self, *args: Any, **kwargs: Any) -> STEP_OUTPUT:
-        self.val_loader = build_dataloader(self.val_dataset, self.batch_size * 2,
+        self.val_loader = build_dataloader(self.val_dataset,
+                                           batch=self.batch_size * 2,
                                            workers=self.args.workers,
                                            shuffle=False,
                                            persistent_workers=True)

@@ -28,7 +28,8 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
             self.val_dataset = self.build_dataset(self.val_set)
 
     def train_dataloader(self) -> TRAIN_DATALOADERS:
-        self.train_loader = build_dataloader(self.train_dataset, self.batch_size,
+        self.train_loader = build_dataloader(self.train_dataset,
+                                             batch=self.batch_size,
                                              workers=self.args.workers,
                                              shuffle=True,
                                              persistent_workers=True)
