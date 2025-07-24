@@ -219,7 +219,8 @@ class TransformerDecoderLayer(nn.Module):
         self.activation = _get_activation_fn(activation)
         self.normalize_before = normalize_before
 
-    def with_pos_embed(self, tensor, pos: Optional[Tensor]):
+    @staticmethod
+    def with_pos_embed(tensor, pos: Optional[Tensor]):
         return tensor if pos is None else tensor + pos
 
     def forward_post(self, tgt, memory,
