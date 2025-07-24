@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update test files">
+      <change beforePath="$PROJECT_DIR$/.idea/GmDetection.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GmDetection.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/engine/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/engine/trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/models/detr/detect/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/detect/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/models/detr/detect/val.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/detect/val.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/nn/head/detr_head.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/head/detr_head.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/models/detr/modules/detr.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/detr/modules/detr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gmdet/nn/transformer.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/transformer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/utils/coco_to_yolo.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/utils/coco_to_yolo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,17 +57,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;G:/c/GmDetection/gmdet/models/liteseg/modules&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.coco_to_yolo (2).executor": "Run",
+    "Python.main.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "G:/c/GmDetection/gmdet/models/liteseg/modules",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\c\GmDetection\gmdet\models\liteseg\modules" />
@@ -84,6 +85,7 @@
   <component name="RunManager" selected="Python.main">
     <configuration name="coco_to_yolo (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GmDetection" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -106,6 +108,7 @@
     </configuration>
     <configuration name="coco_to_yolo (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GmDetection" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -128,6 +131,7 @@
     </configuration>
     <configuration name="coco_to_yolo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GmDetection" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -150,6 +154,7 @@
     </configuration>
     <configuration name="lightning_utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GmDetection" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -172,6 +177,7 @@
     </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="GmDetection" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -656,13 +662,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gmdet/models/detr/modules/detr.py</url>
-          <line>76</line>
-          <option name="timeStamp" value="102" />
+          <line>71</line>
+          <option name="timeStamp" value="109" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gmdet/models/detr/modules/detr.py</url>
-          <line>41</line>
-          <option name="timeStamp" value="103" />
+          <line>79</line>
+          <option name="timeStamp" value="128" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/gmdet/models/detr/modules/detr.py</url>
+          <line>69</line>
+          <option name="timeStamp" value="129" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/gmdet/models/detr/utils/position_encoding.py</url>
+          <line>43</line>
+          <option name="timeStamp" value="134" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

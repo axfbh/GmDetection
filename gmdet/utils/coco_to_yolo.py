@@ -37,8 +37,8 @@ def change_2_yolo(json_file):
             seg = (np.array(ann['segmentation'][0], dtype=np.float32).reshape(-1, 2) / np.array(
                 [width, height])).reshape(-1)
 
-            # targets.append([cat, bbox])
-            targets.append([cat, seg])
+            targets.append([cat, bbox])
+            # targets.append([cat, seg])
 
         res.append([file_name, targets])
 
@@ -58,9 +58,9 @@ def image_txt_copy(files, scr_path, dst_img_path, dst_txt_path):
 
 
 if __name__ == '__main__':
-    root = Path(r"G:\cgm\dataset\coco_sub_dog")
+    root = Path(r"D:\dataset\coco_sub_dog")
     modes = ['train', 'val']
-    filenames = 'VOCS'
+    filenames = 'VOC'
     json_files = [root.joinpath("annotations", "instances_train2017.json"),
                   root.joinpath("annotations", "instances_val2017.json")]
 
