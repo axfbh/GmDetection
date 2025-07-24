@@ -1,6 +1,9 @@
 from gmdet import YOLO
 from gmdet import DETR
 from gmdet import LITESEG
+import torch
+import numpy as np
+import random
 
 if __name__ == '__main__':
     # model = YOLO("yolov3s.yaml", task='detect')
@@ -18,6 +21,11 @@ if __name__ == '__main__':
 
     # model = YOLO("./runs/detect/train/version_58/checkpoints/best.pt")
     # model.val(data="./cfg/datasets/coco.yaml", workers=3, device='0', batch=16, conf=0.001, iou=0.7, max_det=300)
+
+    seed = 42
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
 
     model = DETR("detr.yaml", task='detect')
     model.train(data="./cfg/datasets/coco.yaml", device='0', imgsz=640, epochs=400, batch=24,
