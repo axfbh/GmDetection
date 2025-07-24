@@ -24,11 +24,10 @@ class DetrHead(nn.Module):
         self.bbox_embed = MLP(input_dim, hidden_channels)
         self.class_embed = nn.Linear(hidden_dim, num_classes)
 
-    def forward(self, x, orig_target_sizes=None):
+    def forward(self, x, imgsz=None):
         outputs_class = self.class_embed(x)
         outputs_coord = self.bbox_embed(x).sigmoid()
-        outputs = {'pred_logits': outputs_class[-1],
-                   'pred_boxes': outputs_coord[-1]}
+        outputs = {'pred_logits': outputs_class[-1], 'pred_boxes': outputs_coord[-1]}
 
         if self.aux_loss:
             outputs['aux_outputs'] = self._set_aux_loss(outputs_class, outputs_coord)
@@ -36,10 +35,10 @@ class DetrHead(nn.Module):
         if self.training:
             return outputs
 
-        z = self._inference(outputs, orig_target_sizes)
+        z = self._inference(outputs, imgsz)
         return z, outputs
 
-    def _inference(self, outputs, target_sizes):
+    def _inference(self, outputs, imgsz):
         out_logits, out_bbox = outputs['pred_logits'], outputs['pred_boxes']
 
         prob = F.softmax(out_logits, -1)
@@ -47,7 +46,7 @@ class DetrHead(nn.Module):
 
         boxes = box_convert(out_bbox, 'cxcywh', 'xyxy')
 
-        boxes = boxes * target_sizes
+        boxes = boxes * imgsz
 
         return torch.cat([boxes, scores[..., None], labels[..., None]], -1)
 

@@ -42,6 +42,7 @@ class DetectionValidator(BaseValidator):
         device = images[0].device
         c, h, w = images[0].shape
         b = len(images)
+
         batch_shape = [b, c, self.args.imgsz, self.args.imgsz]
         pad_tensors = torch.zeros(batch_shape, dtype=dtype, device=device)
         mask = torch.ones((b, h, w), dtype=torch.bool, device=device)

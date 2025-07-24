@@ -36,7 +36,7 @@ class Detr(nn.Module):
         self.backbone = Backbone(name='resnet50',
                                  layers_to_train=['layer2', 'layer3', 'layer4'],
                                  return_interm_layers={'layer4': "0"},
-                                 pretrained=True,
+                                 pretrained=False,
                                  norm_layer=FrozenBatchNorm2d)
 
         N_steps = self.hidden_dim // 2
