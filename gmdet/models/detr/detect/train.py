@@ -18,14 +18,14 @@ class DetectionTrainer(BaseTrainer, DetectionValidator):
         model = model(cfg, nc=self.data["nc"])
         return model
 
-    def build_dataset(self, img_path):
-        return build_yolo_dataset(img_path, self.args.imgsz, self.data, self.args.task, self.args.mode)
+    def build_dataset(self, img_path, mode):
+        return build_yolo_dataset(img_path, self.args.imgsz, self.data, self.args.task, mode)
 
     def setup(self, stage: str):
-        self.train_dataset = self.build_dataset(self.train_set)
+        self.train_dataset = self.build_dataset(self.train_set, self.args.mode)
 
         if self.val_set is not None:
-            self.val_dataset = self.build_dataset(self.val_set)
+            self.val_dataset = self.build_dataset(self.val_set, 'val')
 
     def train_dataloader(self) -> TRAIN_DATALOADERS:
         self.train_loader = build_dataloader(self.train_dataset,
