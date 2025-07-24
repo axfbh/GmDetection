@@ -32,8 +32,9 @@ class BaseDataset(Dataset):
             raise FileNotFoundError(f"Error loading data") from e
         return im_files
 
-    def load_image(self, f):
-        im = cv2.cvtColor(io.imread(f), cv2.COLOR_RGB2BGR)
+    @staticmethod
+    def load_image(f):
+        im = io.imread(f)
         return im
 
     def get_image_and_label(self, index):
