@@ -201,7 +201,7 @@ class SPP(nn.Module):
         """
         super(SPP, self).__init__()
         self.add = add
-        self.make_layers = nn.ModuleList([nn.MaxPool2d(kernel_size=x, stride=1, padding=(k - 1) // 2) for x in k])
+        self.make_layers = nn.ModuleList([nn.MaxPool2d(kernel_size=x, stride=1, padding=(x - 1) // 2) for x in k])
 
     def forward(self, x):
         return torch.cat([x] + [m(x) for m in self.make_layers], 1) if self.add else torch.cat(

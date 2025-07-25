@@ -151,7 +151,7 @@ class YoloHeadV7(YoloHeadV4ToV7):
             stride = imgsz / ny
 
             grid = make_grid(ny, nx, 1, 1, device).view((1, 1, ny, nx, 2)).expand(shape)
-            anchor_grid = self.anchors[i].view((1, self.na, 1, 1, 2)).expand(shape)
+            anchor_grid = self.anchors[i].view((1, self.na, 1, 1, 2)).expand(shape) / 640 * imgsz
 
             xy, wh, conf = x[i].sigmoid().split((2, 2, self.nc + 1), -1)
             xy = (xy * 3 - 1 + grid) * stride  # xy
@@ -175,7 +175,7 @@ class YoloHeadV5(YoloHeadV4ToV7):
             stride = imgsz / ny
 
             grid = make_grid(ny, nx, 1, 1, device).view((1, 1, ny, nx, 2)).expand(shape)
-            anchor_grid = self.anchors[i].view((1, self.na, 1, 1, 2)).expand(shape)
+            anchor_grid = self.anchors[i].view((1, self.na, 1, 1, 2)).expand(shape) / 640 * imgsz
 
             xy, wh, conf = x[i].sigmoid().split((2, 2, self.nc + 1), -1)
             xy = (xy * 2 - 0.5 + grid) * stride  # xy
@@ -199,7 +199,7 @@ class YoloHeadV4(YoloHeadV4ToV7):
             stride = imgsz / ny
 
             grid = make_grid(ny, nx, 1, 1, device).view((1, 1, ny, nx, 2)).expand(shape)
-            anchor_grid = self.anchors[i].view((1, self.na, 1, 1, 2)).expand(shape)
+            anchor_grid = self.anchors[i].view((1, self.na, 1, 1, 2)).expand(shape) / 640 * imgsz
 
             xy, wh, conf = x[i].sigmoid().split((2, 2, self.nc + 1), -1)
             xy = (xy + grid) * stride  # xy
