@@ -11,14 +11,15 @@ from gmdet.data.dataset import build_yolo_dataset, build_dataloader
 
 class DetectionValidator(BaseValidator):
 
-    def build_dataset(self, img_path):
-        return build_yolo_dataset(img_path, self.args.imgsz, self.data, self.args.task, self.args.mode)
+    def build_dataset(self, img_path, mode):
+        return build_yolo_dataset(img_path, self.args.imgsz, self.data, self.args.task, mode)
 
     def setup(self, stage: str) -> None:
-        self.val_dataset = self.build_dataset(self.val_set)
+        self.val_dataset = self.build_dataset(self.val_set, self.args.mode)
 
     def val_dataloader(self, *args: Any, **kwargs: Any) -> STEP_OUTPUT:
-        self.val_loader = build_dataloader(self.val_dataset, self.batch_size * 2,
+        self.val_loader = build_dataloader(self.val_dataset,
+                                           batch=self.batch_size * 2,
                                            workers=self.args.workers,
                                            shuffle=False,
                                            persistent_workers=True)
