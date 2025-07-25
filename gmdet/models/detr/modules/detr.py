@@ -61,9 +61,6 @@ class Detr(nn.Module):
     def forward(self, batch):
         samples = batch[0]
 
-        if not self.training:
-            print(1)
-
         features = self.backbone(samples)['0']
 
         pos = self.position_embedding(features)
