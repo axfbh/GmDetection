@@ -135,6 +135,7 @@ class BaseTrainer(LightningModule):
         optimizer = smart_optimizer(self,
                                     self.args.optimizer,
                                     self.args.lr0,
+                                    self.args.lrb,
                                     self.args.momentum,
                                     weight_decay)
 
@@ -164,7 +165,7 @@ class BaseTrainer(LightningModule):
             self.trainer.accumulate_grad_batches = max(1, round(interpolated_accumulate))
             for j, param_group in enumerate(self.optimizers().param_groups):
                 # 学习率线性插值
-                lr_start = self.args.warmup_bias_lr if j == 0 else 0.0
+                lr_start = self.args.warmup_bias_lr if j == 0 else min(self.args.warmup_bias_lr * 10, 0)
                 lr_end = param_group["initial_lr"] * self.lr_lambda(epoch)
                 param_group["lr"] = lr_start + (lr_end - lr_start) * ratio
 

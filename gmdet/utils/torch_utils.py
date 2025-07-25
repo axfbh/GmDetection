@@ -15,16 +15,18 @@ from gmdet.utils import colorstr
 NUM_THREADS = min(8, max(1, os.cpu_count() - 1))
 
 
-def smart_optimizer(model, name: str = "Adam", lr=0.001, momentum=0.9, decay=1e-5):
-    g = [], [], []  # optimizer parameter groups
+def smart_optimizer(model, name: str = "Adam", lr=0.001, lrb=0.0001, momentum=0.9, decay=1e-5):
+    g = [], [], [], []  # optimizer parameter groups
     bn = tuple(v for k, v in nn.__dict__.items() if "Norm" in k)  # normalization layers, i.e. BatchNorm2d()
 
     for module_name, module in model.named_modules():
         for param_name, param in module.named_parameters(recurse=False):
             fullname = f"{module_name}.{param_name}" if module_name else param_name
-            if "bias" in fullname:  # bias (no decay)
+            if "backbone" in fullname:
+                g[3].append(param)
+            elif "bias" in fullname:  # bias (no decay)
                 g[2].append(param)
-            elif isinstance(module, bn):  # weight (no decay)
+            elif isinstance(module, bn):  # bn (no decay)
                 g[1].append(param)
             else:  # weight (with decay)
                 g[0].append(param)
@@ -40,9 +42,14 @@ def smart_optimizer(model, name: str = "Adam", lr=0.001, momentum=0.9, decay=1e-
 
     optimizer.add_param_group({"params": g[0], "weight_decay": decay})  # add g0 with weight_decay
     optimizer.add_param_group({"params": g[1], "weight_decay": 0.0})  # add g1 (BatchNorm2d weights)
+    if len(g[3]) > 0:
+        optimizer.add_param_group({"params": g[3], "lr": lrb, "weight_decay": decay})  # add g3 (backbone weights)
 
     rank_zero_info(f"{colorstr('optimizer:')} {type(optimizer).__name__}(lr={lr}) with parameter groups "
-                   f'{len(g[1])} weight(decay=0.0), {len(g[0])} weight(decay={decay}), {len(g[2])} bias')
+                   f'{len(g[1])} bn(decay=0.0), '
+                   f'{len(g[0])} weight(decay={decay}), '
+                   f'{len(g[2])} bias(decay=0.0), '
+                   f'{len(g[3])} backbone(decay={decay})')
     return optimizer
 
 
