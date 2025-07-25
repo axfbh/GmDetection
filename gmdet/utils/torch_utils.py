@@ -31,6 +31,7 @@ def smart_optimizer(model, name: str = "Adam", lr=0.001, lrb=0.0001, momentum=0.
             else:  # weight (with decay)
                 g[0].append(param)
 
+    # add g2 (bias weights)
     if name in {"Adam", "Adamax", "AdamW", "NAdam", "RAdam"}:
         optimizer = getattr(torch.optim, name, torch.optim.Adam)(g[2], lr=lr, betas=(momentum, 0.999), weight_decay=0.0)
     elif name == "RMSProp":
@@ -40,10 +41,10 @@ def smart_optimizer(model, name: str = "Adam", lr=0.001, lrb=0.0001, momentum=0.
     else:
         raise NotImplementedError(f"Optimizer {name} not implemented.")
 
-    optimizer.add_param_group({"params": g[0], "weight_decay": decay})  # add g0 with weight_decay
+    optimizer.add_param_group({"params": g[0], "weight_decay": decay})  # add g0 with weight_decay (Model weights)
     optimizer.add_param_group({"params": g[1], "weight_decay": 0.0})  # add g1 (BatchNorm2d weights)
     if len(g[3]) > 0:
-        optimizer.add_param_group({"params": g[3], "lr": lrb, "weight_decay": decay})  # add g3 (backbone weights)
+        optimizer.add_param_group({"params": g[3], "lr": lrb, "weight_decay": decay})  # add g3 (Backbone weights)
 
     rank_zero_info(f"{colorstr('optimizer:')} {type(optimizer).__name__}(lr={lr}) with parameter groups "
                    f'{len(g[1])} bn(decay=0.0), '

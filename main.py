@@ -31,7 +31,8 @@ if __name__ == '__main__':
     model.train(data="./cfg/datasets/coco.yaml", device='0', imgsz=640, epochs=400, batch=8,
                 optimizer='AdamW',
                 lr0=0.0001,
-                warmup_bias_lr=0.0001,
+                lrb=0.00001,
+                warmup_bias_lr=0.001,
                 momentum=0.9,
                 warmup_momentum=0.88,
                 lrf=1)

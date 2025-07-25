@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update test files">
-      <change beforePath="$PROJECT_DIR$/.idea/GmDetection.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GmDetection.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/cfg/default.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/cfg/default.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/engine/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/engine/trainer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gmdet/utils/torch_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/utils/torch_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -257,13 +253,6 @@
       <workItem from="1753241000138" duration="103000" />
       <workItem from="1753252551360" duration="11141000" />
       <workItem from="1753336317281" duration="10720000" />
-    </task>
-    <task id="LOCAL-00034" summary="更新 nms，兼容 v8 前后的 非极大抑制">
-      <created>1747358849511</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1747358849511</updated>
     </task>
     <task id="LOCAL-00035" summary="更新 map 计算方式，detr cocoeval 计算方式错误">
       <created>1747362837023</created>
@@ -601,7 +590,14 @@
       <option name="project" value="LOCAL" />
       <updated>1753346600797</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="update files">
+      <created>1753409573689</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1753409573690</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -619,7 +615,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="更新 Detr loss" />
     <MESSAGE value="更新 origin size 获取方式" />
     <MESSAGE value="更新 detr head" />
     <MESSAGE value="解决 模型加载权重时更新参数，导致继续训练错误" />
@@ -644,7 +639,8 @@
     <MESSAGE value="update evaluator" />
     <MESSAGE value="update file" />
     <MESSAGE value="update test files" />
-    <option name="LAST_COMMIT_MESSAGE" value="update test files" />
+    <MESSAGE value="update files" />
+    <option name="LAST_COMMIT_MESSAGE" value="update files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
