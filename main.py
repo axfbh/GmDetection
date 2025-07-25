@@ -32,10 +32,10 @@ if __name__ == '__main__':
                 optimizer='AdamW',
                 lr0=0.0001,
                 lrb=0.00001,
-                warmup_bias_lr=0.001,
-                warmup_weight_lr=0.001,
-                warmup_weight_backbone_lr=0.001,
                 momentum=0.9,
+                warmup_bias_lr=0.001,
+                warmup_weight_lr=0.01,
+                warmup_weight_backbone_lr=0.001,
                 warmup_momentum=0.88,
                 lrf=1)
 
