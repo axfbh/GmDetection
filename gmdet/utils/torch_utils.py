@@ -47,9 +47,9 @@ def smart_optimizer(model, name: str = "Adam", lr=0.001, lrb=0.0001, momentum=0.
         optimizer.add_param_group({"params": g[3], "lr": lrb, "weight_decay": decay})  # add g3 (Backbone weights)
 
     rank_zero_info(f"{colorstr('optimizer:')} {type(optimizer).__name__}(lr={lr}) with parameter groups "
-                   f'{len(g[1])} bn(decay=0.0), '
-                   f'{len(g[0])} weight(decay={decay}), '
                    f'{len(g[2])} bias(decay=0.0), '
+                   f'{len(g[0])} weight(decay={decay}), '
+                   f'{len(g[1])} bn(decay=0.0), '
                    f'{len(g[3])} backbone(decay={decay})')
     return optimizer
 

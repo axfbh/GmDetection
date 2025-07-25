@@ -167,11 +167,11 @@ class BaseTrainer(LightningModule):
                 # 学习率线性插值
                 if j == 0:  # bias
                     lr_start = self.args.warmup_bias_lr
-                elif j == 1:
+                elif j == 1:  # weight
                     lr_start = self.args.warmup_weight_lr
-                elif j == 2:
+                elif j == 2:  # bn
                     lr_start = self.args.warmup_weight_lr
-                elif j == 3:
+                elif j == 3:  # backbone
                     lr_start = self.args.warmup_weight_backbone_lr
                 else:
                     lr_start = 0
