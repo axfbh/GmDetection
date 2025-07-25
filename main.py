@@ -1,14 +1,6 @@
 from gmdet import YOLO
 from gmdet import DETR
 from gmdet import LITESEG
-import torch
-import numpy as np
-import random
-
-seed = 42
-torch.manual_seed(seed)
-np.random.seed(seed)
-random.seed(seed)
 
 if __name__ == '__main__':
     # model = YOLO("yolov3s.yaml", task='detect')
