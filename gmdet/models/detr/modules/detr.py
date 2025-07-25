@@ -54,7 +54,7 @@ class Detr(nn.Module):
             return_intermediate_dec=True,
         )
 
-        self.head = DetrHead(self.hidden_dim, self.hidden_dim, 4, 3, self.nc + 1, aux_loss=self.aux_loss)
+        self.head = DetrHead(self.hidden_dim, self.hidden_dim, 4, 3, self.nc, aux_loss=self.aux_loss)
         self.query_embed = nn.Embedding(self.num_queries, self.hidden_dim)
         self.input_proj = nn.Conv2d(self.num_channels, self.hidden_dim, kernel_size=1)
 
@@ -80,8 +80,6 @@ class Detr(nn.Module):
         if getattr(self, "criterion", None) is None:
             matcher = HungarianMatcher(cost_class=1, cost_bbox=5, cost_giou=2)
 
-            self.criterion = DETRLoss(self.nc,
-                                      matcher=matcher,
-                                      eos_coef=self.eos_coef)
+            self.criterion = DETRLoss(self, matcher=matcher)
 
         return self.criterion(preds, targets)

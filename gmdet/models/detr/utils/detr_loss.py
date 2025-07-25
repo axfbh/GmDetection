@@ -13,7 +13,6 @@ if version.parse(torchvision.__version__) < version.parse('0.7'):
 
 
 def interpolate(input, size=None, scale_factor=None, mode="nearest", align_corners=None):
-    # type: (Tensor, Optional[List[int]], Optional[float], str, Optional[bool]) -> Tensor
     """
     Equivalent to nn.functional.interpolate, but with support for empty batch sizes.
     This will eventually be supported natively by PyTorch, and this
@@ -58,7 +57,7 @@ class DETRLoss(nn.Module):
         2) we supervise each pair of matched ground-truth / prediction (supervise class and box)
     """
 
-    def __init__(self, num_classes, matcher, eos_coef):
+    def __init__(self, model, matcher):
         """ Create the criterion.
         Parameters:
             num_classes: number of object categories, omitting the special no-object category
@@ -66,13 +65,17 @@ class DETRLoss(nn.Module):
             eos_coef: relative classification weight applied to the no-object category
             losses: list of all the losses to be applied. See get_loss for list of available losses.
         """
-        super().__init__()
-        self.num_classes = num_classes
-        self.loss_gain = {'class': 1, 'bbox': 5, 'giou': 2}
+        super(DETRLoss, self).__init__()
+
+        hyp = model.args
+        m = model.head
+
+        self.device = model.device
+        self.hyp = hyp
+        self.nc = m.nc
         self.matcher = matcher
-        self.eos_coef = eos_coef
-        empty_weight = torch.ones(self.num_classes + 1)
-        empty_weight[-1] = self.eos_coef
+        empty_weight = torch.ones(self.nc + 1)
+        empty_weight[-1] = self.hyp.eos_coef
         self.register_buffer('empty_weight', empty_weight)
 
     def _loss_labels(self, outputs, targets, indices, log=True):
@@ -81,16 +84,14 @@ class DETRLoss(nn.Module):
         """
         assert 'pred_logits' in outputs
         src_logits = outputs['pred_logits']
-        device = src_logits.device
 
         idx = self._get_src_permutation_idx(indices)
         target_classes_o = torch.cat([t["labels"][J] for t, (_, J) in zip(targets, indices)])
-        target_classes = torch.full(src_logits.shape[:2], self.num_classes,
-                                    dtype=torch.int64, device=src_logits.device)
+        target_classes = torch.full(src_logits.shape[:2], self.nc, dtype=torch.int64, device=self.device)
         target_classes[idx] = target_classes_o
 
-        loss_ce = F.cross_entropy(src_logits.transpose(1, 2), target_classes, self.empty_weight.to(device))
-        losses = {'loss_ce': loss_ce * self.loss_gain["class"]}
+        loss_ce = F.cross_entropy(src_logits.transpose(1, 2), target_classes, self.empty_weight.to(self.device))
+        losses = {'loss_ce': loss_ce * self.hyp.cls}
 
         if log:
             # TODO this should probably be a separate loss, not hacked in this one here
@@ -103,8 +104,7 @@ class DETRLoss(nn.Module):
         This is not really a loss, it is intended for logging purposes only. It doesn't propagate gradients
         """
         pred_logits = outputs['pred_logits']
-        device = pred_logits.device
-        tgt_lengths = torch.as_tensor([len(v["labels"]) for v in targets], device=device)
+        tgt_lengths = torch.as_tensor([len(v["labels"]) for v in targets], device=self.device)
         # Count the number of predictions that are NOT "no-object" (which is the last class)
         card_pred = (pred_logits.argmax(-1) != pred_logits.shape[-1] - 1).sum(1)
         card_err = F.l1_loss(card_pred.float(), tgt_lengths.float())
@@ -123,10 +123,10 @@ class DETRLoss(nn.Module):
 
         loss_bbox = F.l1_loss(src_boxes, target_boxes, reduction='none')
 
-        losses = {'loss_bbox': loss_bbox.sum() / num_boxes * self.loss_gain["bbox"]}
+        losses = {'loss_bbox': loss_bbox.sum() / num_boxes * self.hyp.box}
 
         loss_giou = 1 - all_iou_loss(src_boxes, target_boxes, 'cxcywh', 'xyxy', GIoU=True)
-        losses['loss_giou'] = loss_giou.sum() / num_boxes * self.loss_gain["giou"]
+        losses['loss_giou'] = loss_giou.sum() / num_boxes * self.hyp.giou
         return losses
 
     # def loss_masks(self, outputs, targets, indices, num_boxes):
@@ -194,7 +194,7 @@ class DETRLoss(nn.Module):
 
         # Compute the average number of target boxes accross all nodes, for normalization purposes
         num_boxes = sum(len(t["labels"]) for t in targets)
-        num_boxes = torch.as_tensor([num_boxes], dtype=torch.float, device=next(iter(outputs.values())).device)
+        num_boxes = torch.as_tensor([num_boxes], dtype=torch.float, device=self.device)
         num_boxes = torch.clamp(num_boxes / 1, min=1).item()
 
         # Compute all the requested losses

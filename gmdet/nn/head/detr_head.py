@@ -15,14 +15,15 @@ def inverse_sigmoid(x, eps=1e-5):
 
 class DetrHead(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim, num_layers, num_classes, aux_loss=False):
-        super().__init__()
+        super(DetrHead, self).__init__()
+        self.nc = num_classes
         self.aux_loss = aux_loss
         self.num_layers = num_layers
         h = [hidden_dim] * (num_layers - 1)
         hidden_channels = [k for k in h + [output_dim]]
 
         self.bbox_embed = MLP(input_dim, hidden_channels)
-        self.class_embed = nn.Linear(hidden_dim, num_classes)
+        self.class_embed = nn.Linear(hidden_dim, num_classes + 1)
 
     def forward(self, x, imgsz=None):
         outputs_class = self.class_embed(x)
