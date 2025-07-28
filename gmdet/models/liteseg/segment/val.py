@@ -26,7 +26,7 @@ class SegmentationValidator(BaseValidator):
         return self.val_loader
 
     def postprocess(self, preds):
-        return [{'masks': p.ge(0.5),
+        return [{'masks': p.ge(0.3),
                  'scores': torch.tensor([p.max()], device=self.device),
                  'labels': torch.tensor([i], device=self.device)} for i, p in enumerate(preds)]
 
