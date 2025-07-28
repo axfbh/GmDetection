@@ -3,7 +3,7 @@ from functools import partial
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torchvision.ops.misc import Conv2dNormActivation
+from torchvision.ops.misc import Conv2dNormActivation, ConvNormActivation
 
 from gmdet.nn.conv import CBS
 
@@ -93,14 +93,13 @@ class C3k2(C2f):
 
 
 class C2PSA(nn.Module):
-    def __init__(self, c1, c2, n=1, e=0.5, conv_layer=None, activation_layer=nn.ReLU):
+    def __init__(self, c1, c2, n=1, e=0.5, conv_layer=nn.Conv2d, activation_layer=nn.ReLU):
         super().__init__()
 
-        Conv = partial(Conv2dNormActivation,
-                       bias=False,
-                       inplace=True,
+        Conv = partial(ConvNormActivation,
                        norm_layer=nn.BatchNorm2d,
-                       activation_layer=activation_layer) if conv_layer is None else conv_layer
+                       activation_layer=activation_layer,
+                       conv_layer=conv_layer)
 
         assert c1 == c2
         self.c = int(c1 * e)
@@ -210,14 +209,13 @@ class SPP(nn.Module):
 
 class SPPF(nn.Module):
     # Spatial Pyramid Pooling - Fast (SPPF) layer for YOLOv3 by Glenn Jocher
-    def __init__(self, c1, c2, k=(5, 9, 13), conv_layer=None, activation_layer=nn.ReLU):
+    def __init__(self, c1, c2, k=(5, 9, 13), conv_layer=nn.Conv2d, activation_layer=nn.ReLU):
         super(SPPF, self).__init__()
 
-        Conv = partial(Conv2dNormActivation,
-                       bias=False,
-                       inplace=True,
+        Conv = partial(ConvNormActivation,
                        norm_layer=nn.BatchNorm2d,
-                       activation_layer=activation_layer) if conv_layer is None else conv_layer
+                       activation_layer=activation_layer,
+                       conv_layer=conv_layer)
 
         c_ = c1 // 2  # hidden channels
         self.cv1 = Conv(c1, c_, 1, 1)
@@ -232,14 +230,13 @@ class SPPF(nn.Module):
 
 
 class SPPCSPC(nn.Module):
-    def __init__(self, c1, c2, e=0.5, k=(5, 9, 13), conv_layer=None, activation_layer=nn.ReLU):
+    def __init__(self, c1, c2, e=0.5, k=(5, 9, 13), conv_layer=nn.Conv2d, activation_layer=nn.ReLU):
         super(SPPCSPC, self).__init__()
 
-        Conv = partial(Conv2dNormActivation,
-                       bias=False,
-                       inplace=True,
+        Conv = partial(ConvNormActivation,
                        norm_layer=nn.BatchNorm2d,
-                       activation_layer=activation_layer) if conv_layer is None else conv_layer
+                       activation_layer=activation_layer,
+                       conv_layer=conv_layer)
 
         c_ = int(2 * c2 * e)
 
@@ -273,14 +270,13 @@ class SPPCSPC(nn.Module):
 
 
 class DASPP(nn.Module):
-    def __init__(self, c1, c2, d=(3, 6, 9), conv_layer=None, activation_layer=nn.ReLU):
+    def __init__(self, c1, c2, d=(3, 6, 9), conv_layer=nn.Conv2d, activation_layer=nn.ReLU):
         super(DASPP, self).__init__()
 
-        Conv = partial(Conv2dNormActivation,
-                       bias=False,
-                       inplace=True,
+        Conv = partial(ConvNormActivation,
                        norm_layer=nn.BatchNorm2d,
-                       activation_layer=activation_layer) if conv_layer is None else conv_layer
+                       activation_layer=activation_layer,
+                       conv_layer=conv_layer)
 
         self.conv = Conv(c1, c2, 1)
 

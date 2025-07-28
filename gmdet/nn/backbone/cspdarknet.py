@@ -118,7 +118,7 @@ class CSPDarknetV5(nn.Module):
         self.crossStagePartial4 = nn.Sequential(
             DownSampleLayer(base_channels * 8, base_channels * 16),
             C3(base_channels * 16, base_channels * 16, base_depth),
-            SPPF(base_channels * 16, base_channels * 16, [5], conv_layer=CBS),
+            SPPF(base_channels * 16, base_channels * 16, [5], activation_layer=nn.SiLU),
         )
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
@@ -174,7 +174,7 @@ class CSPDarknetV8(nn.Module):
         self.crossStagePartial4 = nn.Sequential(
             DownSampleLayer(base_channels * 8, int(base_channels * 16 * deep_mul)),
             C2f(int(base_channels * 16 * deep_mul), int(base_channels * 16 * deep_mul), base_depth, shortcut=True),
-            SPPF(int(base_channels * 16 * deep_mul), int(base_channels * 16 * deep_mul), [5], conv_layer=CBS),
+            SPPF(int(base_channels * 16 * deep_mul), int(base_channels * 16 * deep_mul), [5], activation_layer=nn.SiLU),
         )
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
@@ -230,8 +230,9 @@ class CSPDarknetV11(nn.Module):
         self.crossStagePartial4 = nn.Sequential(
             DownSampleLayer(base_channels * 8, int(base_channels * 16 * deep_mul)),
             C3k2(int(base_channels * 16 * deep_mul), int(base_channels * 16 * deep_mul), base_depth, c3k=True),
-            SPPF(int(base_channels * 16 * deep_mul), int(base_channels * 16 * deep_mul), [5], conv_layer=CBS),
-            C2PSA(int(base_channels * 16 * deep_mul), int(base_channels * 16 * deep_mul), base_depth, conv_layer=CBS)
+            SPPF(int(base_channels * 16 * deep_mul), int(base_channels * 16 * deep_mul), [5], activation_layer=nn.SiLU),
+            C2PSA(int(base_channels * 16 * deep_mul), int(base_channels * 16 * deep_mul), base_depth,
+                  activation_layer=nn.SiLU)
         )
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))

@@ -34,7 +34,7 @@ class LiteSeg(nn.Module):
 
         Conv = partial(ConvNormActivation, conv_layer=DepSeparableConv2d)
 
-        self.aspp = DASPP(976, 96, [3, 6, 9])
+        self.aspp = DASPP(976, 96, [3, 6, 9], conv_layer=DepSeparableConv2d)
 
         self.conv1 = Conv(96 * 5 + 976, 96, 1)
 

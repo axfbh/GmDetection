@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update files">
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update segment">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/data/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/data/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/engine/validator.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/engine/validator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gmdet/models/liteseg/modules/liteseg.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/liteseg/modules/liteseg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/models/liteseg/segment/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/liteseg/segment/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/models/liteseg/segment/val.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/models/liteseg/segment/val.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/nn/backbone/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/backbone/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_detr.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_detr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/nn/backbone/cspdarknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/backbone/cspdarknet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/nn/backbone/elandarknet.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/backbone/elandarknet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmdet/nn/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/nn/block.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -259,14 +256,7 @@
       <workItem from="1753252551360" duration="11141000" />
       <workItem from="1753336317281" duration="10720000" />
       <workItem from="1753436423093" duration="17000" />
-      <workItem from="1753664911442" duration="17891000" />
-    </task>
-    <task id="LOCAL-00049" summary="upload">
-      <created>1748223446210</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1748223446210</updated>
+      <workItem from="1753664911442" duration="18866000" />
     </task>
     <task id="LOCAL-00050" summary="upload">
       <created>1748224853283</created>
@@ -604,7 +594,14 @@
       <option name="project" value="LOCAL" />
       <updated>1753674423812</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="update segment">
+      <created>1753688802125</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1753688802125</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -622,7 +619,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="更新 origin size 获取方式" />
     <MESSAGE value="更新 detr head" />
     <MESSAGE value="解决 模型加载权重时更新参数，导致继续训练错误" />
     <MESSAGE value="更新 dataset" />
@@ -647,7 +643,8 @@
     <MESSAGE value="update file" />
     <MESSAGE value="update test files" />
     <MESSAGE value="update files" />
-    <option name="LAST_COMMIT_MESSAGE" value="update files" />
+    <MESSAGE value="update segment" />
+    <option name="LAST_COMMIT_MESSAGE" value="update segment" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -656,16 +653,6 @@
           <url>file://$PROJECT_DIR$/dataset/coco_dataset.py</url>
           <line>62</line>
           <option name="timeStamp" value="61" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/gmdet/models/liteseg/segment/val.py</url>
-          <line>28</line>
-          <option name="timeStamp" value="108" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/gmdet/engine/validator.py</url>
-          <line>83</line>
-          <option name="timeStamp" value="109" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

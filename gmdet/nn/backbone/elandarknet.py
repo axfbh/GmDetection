@@ -80,9 +80,7 @@ class ElanDarknet(nn.Module):
         self.stage4 = nn.Sequential(
             MP1(transition_channels * 32, transition_channels * 16),
             Elan(transition_channels * 32, block_channels * 8, transition_channels * 32, n=base_depth, ids=ids),
-            SPPCSPC(transition_channels * 32, transition_channels * 16,
-                    conv_layer=CBS,
-                    activation_layer=nn.SiLU)
+            SPPCSPC(transition_channels * 32, transition_channels * 16, activation_layer=nn.SiLU)
         )
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
