@@ -51,7 +51,12 @@ class BaseDataset(Dataset):
         img = self.load_image(img_path)
         label['image'] = img
         if "masks" in label:
-            label['masks'] = [point_to_mask(img, m) for m in label['masks']]
+            h, w = img.shape[:2]
+            nc = self.data['nc']
+            masks = np.zeros((nc, h, w))
+            for m, l in zip(label['masks'], label['labels']):
+                masks[int(l)] = point_to_mask(img, m)
+            label['masks'] = masks
         return label
 
     def get_labels(self):

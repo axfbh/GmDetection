@@ -24,7 +24,7 @@ class BaseValidator(LightningModule):
 
         self.iou_types = {
             'detect': 'bbox',
-            'segment': "seg"
+            'segment': "segm"
         }
 
         self.batch_size = None if self.args is None else int(self.args.batch * 0.5)
@@ -76,10 +76,11 @@ class BaseValidator(LightningModule):
             true_bboxs.append(
                 {
                     'boxes': box_convert(target['boxes'], 'cxcywh', 'xyxy') * self.args.imgsz,
-                    'labels': target['labels'],
+                    'labels': target['labels'].unique(),
                 }
-
             )
+            if 'masks' in target:
+                true_bboxs[-1].update({'masks': target['masks'].bool()})
         self.evaluator.update(preds, true_bboxs)
 
     def postprocess(self, preds):

@@ -62,4 +62,18 @@ class LiteSeg(nn.Module):
         x2 = self.conv3(x2)
         x2 = self.head(x2)
         x2 = self.upsample_8x(x2)
-        return x2
+
+        # ----------- train -----------
+        if self.training:
+            targets = batch[1]
+            masks = torch.stack([tg['masks'] for tg in targets])
+            loss = self.loss(x2, masks)
+            return loss, {'ce_loss': loss.detach()}
+
+        return x2.sigmoid()
+
+    def loss(self, preds, targets):
+        if getattr(self, "criterion", None) is None:
+            self.criterion = nn.BCEWithLogitsLoss()
+
+        return self.criterion(preds, targets)

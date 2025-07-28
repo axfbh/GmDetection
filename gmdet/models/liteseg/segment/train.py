@@ -54,7 +54,7 @@ class SegmentationTrainer(BaseTrainer, SegmentationValidator):
         pad_tensors = torch.zeros(batch_shape, dtype=dtype, device=device)
         for i, (img, tg, pad_tensor) in enumerate(zip(images, targets, pad_tensors)):
             m = tg['masks']
-            pad_m = torch.zeros((len(m), self.args.imgsz, self.args.imgsz), dtype=torch.long, device=device)
+            pad_m = torch.zeros((len(m), self.args.imgsz, self.args.imgsz), dtype=torch.float32, device=device)
             c, h, w = img.shape
             pad_tensor[: c, : h, : w].copy_(img)
             pad_m[:, :h, :w].copy_(m)

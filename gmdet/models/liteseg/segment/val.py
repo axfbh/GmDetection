@@ -25,6 +25,11 @@ class SegmentationValidator(BaseValidator):
                                            persistent_workers=True)
         return self.val_loader
 
+    def postprocess(self, preds):
+        return [{'masks': p.ge(0.5),
+                 'scores': torch.tensor([p.max()], device=self.device),
+                 'labels': torch.tensor([i], device=self.device)} for i, p in enumerate(preds)]
+
     def on_before_batch_transfer(self, batch: Any, dataloader_idx: int) -> Any:
         """
         将 dataloader 的 collate_fn 放在这里
