@@ -74,3 +74,15 @@ class Concat(nn.Module):
     def forward(self, x):
         """Forward pass for the YOLOv8 mask Proto module."""
         return torch.cat(x, self.d)
+
+
+class DepSeparableConv2d(nn.Module):
+    def __init__(self, c1, c2, k, s, p, groups=1, dilation=1, bias=True):
+        super(DepSeparableConv2d, self).__init__()
+        self.conv1 = nn.Conv2d(c1, c1, k, s, p, groups=c1, dilation=dilation, bias=bias)
+        self.pointwise = nn.Conv2d(c1, c2, 1, 1, 0, 1, 1, bias=bias)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.pointwise(x)
+        return x

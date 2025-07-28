@@ -6,6 +6,7 @@ from .cspdarknet import (
 )
 from torchvision.models.resnet import resnet50
 from torchvision.models.shufflenetv2 import shufflenet_v2_x2_0
+from torchvision.models.mobilenetv3 import mobilenet_v3_large
 
 from .darknet import Darknet
 from .elandarknet import ElanDarknet, MP1, Elan

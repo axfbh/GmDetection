@@ -1,10 +1,12 @@
+from functools import partial
+
 import torch
 from torch import nn
-from torchvision.ops.misc import FrozenBatchNorm2d
+from torchvision.ops.misc import ConvNormActivation
 
 from gmdet.nn.backbone import Backbone
-from gmdet.nn.conv import CBM
-from gmdet.nn.block import ASPP
+from gmdet.nn.conv import DepSeparableConv2d
+from gmdet.nn.block import DASPP
 
 from gmdet.utils import LOGGER
 
@@ -25,32 +27,39 @@ class LiteSeg(nn.Module):
                                  layers_to_train=['conv1',
                                                   'stage2',
                                                   'stage3',
-                                                  'stage4',
-                                                  'conv5'],
-                                 return_interm_layers={'maxpool': '0',
-                                                       'conv5': '1'},
+                                                  'stage4'],
+                                 return_interm_layers={'stage2': '0',
+                                                       'stage4': '1'},
                                  pretrained=True)
 
-        self.aspp = ASPP(2048, 96, [3, 6, 9])
+        Conv = partial(ConvNormActivation, conv_layer=DepSeparableConv2d)
 
-        self.conv1 = CBM(96 * 5 + 2048, 96, 1)
+        self.aspp = DASPP(976, 96, [3, 6, 9])
 
-        self.conv3 = nn.Sequential(CBM(24 + 96, 96, 3), CBM(96, 96, 3))
+        self.conv1 = Conv(96 * 5 + 976, 96, 1)
 
-        self.upsample_8x = nn.Upsample(scale_factor=8, mode='bilinear', align_corners=True)
+        # with some light backbone networks, apply the 1 × 1 convolution on low level features
+        self.conv2 = Conv(244, 48, 1)
+
+        self.conv3 = nn.Sequential(Conv(48 + 96, 96, 3), Conv(96, 96, 3))
+
         self.upsample_4x = nn.Upsample(scale_factor=4, mode='bilinear', align_corners=True)
+        self.upsample_8x = nn.Upsample(scale_factor=8, mode='bilinear', align_corners=True)
 
         self.head = nn.Conv2d(96, nc, kernel_size=1)
 
-    def forward(self, x):
+    def forward(self, batch):
+        x = batch[0]
+
         feat = self.backbone(x)
 
         x1, x0 = feat['1'], feat['0']
         x1 = torch.cat([x1, self.aspp(x1)], dim=1)
         x1 = self.conv1(x1)
-        x1 = self.upsample_8x(x1)
+        x1 = self.upsample_4x(x1)
+        x0 = self.conv2(x0)
         x2 = torch.cat([x1, x0], dim=1)
         x2 = self.conv3(x2)
         x2 = self.head(x2)
-        x2 = self.upsample_4x(x2)
+        x2 = self.upsample_8x(x2)
         return x2

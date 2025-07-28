@@ -59,7 +59,7 @@ class YOLODataset(BaseDataset):
                     "labels": lb[:, 0],  # n 1
                     'bboxes': lb[:, 1:]})  # n 4
                 if len(segments) > 0:
-                    labels[-1].update({'mask': segments})
+                    labels[-1].update({'masks': segments})
 
                 pbar.desc = f"{desc} {nf} images, {nm + ne} backgrounds"
         pbar.close()

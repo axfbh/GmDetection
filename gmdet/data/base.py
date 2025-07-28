@@ -4,10 +4,18 @@ from pathlib import Path
 from copy import deepcopy
 
 import cv2
+import numpy as np
 from skimage import io
 from torch.utils.data import Dataset
 
 from gmdet.data.utils import IMG_FORMATS, FORMATS_HELP_MSG
+
+
+def point_to_mask(img, p):
+    h, w = img.shape[:2]
+    mask = np.zeros((h, w), dtype=np.uint8)
+    p = (p * np.array([w, h])).astype('int')
+    return cv2.fillPoly(mask, [p], [1])
 
 
 class BaseDataset(Dataset):
@@ -42,6 +50,8 @@ class BaseDataset(Dataset):
         img_path = label['image']
         img = self.load_image(img_path)
         label['image'] = img
+        if "masks" in label:
+            label['masks'] = [point_to_mask(img, m) for m in label['masks']]
         return label
 
     def get_labels(self):

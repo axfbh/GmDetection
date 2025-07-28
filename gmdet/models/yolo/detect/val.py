@@ -51,8 +51,10 @@ class DetectionValidator(BaseValidator):
 
         dtype = images[0].dtype
         device = images[0].device
-        c, _, _ = images[0].shape
-        batch_shape = [len(images), c, self.args.imgsz, self.args.imgsz]
+        channel, _, _ = images[0].shape
+        b = len(images)
+
+        batch_shape = [b, channel, self.args.imgsz, self.args.imgsz]
         tensor = torch.zeros(batch_shape, dtype=dtype, device=device)
         for i, (img, pad_img) in enumerate(zip(images, tensor)):
             c, h, w = img.shape

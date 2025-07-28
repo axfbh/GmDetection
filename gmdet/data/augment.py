@@ -26,7 +26,7 @@ class LongestMaxSize:
         self.fit_transform_box = A.Compose(T, A.BboxParams(format=format, label_fields=['labels']))
 
     def __call__(self, *args, **kwargs):
-        if 'bboxes' in kwargs.keys():
+        if 'bboxes' in kwargs:
             return self.fit_transform_box(*args, **kwargs)
         return self.fit_transform(*args, **kwargs)
 
@@ -48,11 +48,14 @@ class Normalize:
 
     def __call__(self, *args, **kwargs):
         image = self.fit_transform(image=kwargs['image'])['image']
-        if 'bboxes' in kwargs.keys():
+        if 'bboxes' in kwargs:
             boxes = np.array(kwargs['bboxes'], dtype=np.float32)
             labels = np.array(kwargs['labels'], dtype=np.int64)
             target = {"boxes": torch.as_tensor(boxes),
                       "labels": torch.as_tensor(labels)}
+            if 'masks' in kwargs:
+                masks = np.array(kwargs['masks'], dtype=np.int64)
+                target.update({'masks': torch.as_tensor(masks)})
             return image, target
         return image
 

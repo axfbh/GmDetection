@@ -43,19 +43,22 @@ class SegmentationTrainer(BaseTrainer, SegmentationValidator):
         :return:
         """
         images = batch[0]
+        targets = batch[1]
 
         dtype = images[0].dtype
         device = images[0].device
-        c, h, w = images[0].shape
+        channel, _, _ = images[0].shape
         b = len(images)
 
-        batch_shape = [b, c, self.args.imgsz, self.args.imgsz]
+        batch_shape = [b, channel, self.args.imgsz, self.args.imgsz]
         pad_tensors = torch.zeros(batch_shape, dtype=dtype, device=device)
-        mask = torch.ones((b, h, w), dtype=torch.bool, device=device)
-        for i, (img, pad_tensor, m) in enumerate(zip(images, pad_tensors, mask)):
+        for i, (img, tg, pad_tensor) in enumerate(zip(images, targets, pad_tensors)):
+            m = tg['masks']
+            pad_m = torch.zeros((len(m), self.args.imgsz, self.args.imgsz), dtype=torch.long, device=device)
             c, h, w = img.shape
             pad_tensor[: c, : h, : w].copy_(img)
-            m[: h, :w] = False
+            pad_m[:, :h, :w].copy_(m)
+            targets[i]['masks'] = pad_m
 
-        batch[0] = NestedTensor(pad_tensors, mask)
+        batch[0] = pad_tensors
         return batch

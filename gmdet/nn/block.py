@@ -272,9 +272,9 @@ class SPPCSPC(nn.Module):
         return self.cv4(x)
 
 
-class ASPP(nn.Module):
+class DASPP(nn.Module):
     def __init__(self, c1, c2, d=(3, 6, 9), conv_layer=None, activation_layer=nn.ReLU):
-        super(ASPP, self).__init__()
+        super(DASPP, self).__init__()
 
         Conv = partial(Conv2dNormActivation,
                        bias=False,
@@ -289,7 +289,6 @@ class ASPP(nn.Module):
         self.global_avg_pool = nn.Sequential(nn.AdaptiveAvgPool2d((1, 1)), Conv(c1, c2, 1))
 
     def forward(self, x):
-        y = list(self.conv(x))
-        y.extend(m(x) for m in self.make_layers)
-        y.extend(F.interpolate(self.global_avg_pool(x), size=y[-1].size()[2:], mode='bilinear', align_corners=True))
+        y = [self.conv(x)] + [m(x) for m in self.make_layers]
+        y.append(F.interpolate(self.global_avg_pool(x), size=y[-1].size()[2:], mode='bilinear', align_corners=True))
         return torch.cat(y, 1)
