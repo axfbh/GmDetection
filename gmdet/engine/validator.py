@@ -76,7 +76,7 @@ class BaseValidator(LightningModule):
             true_bboxs.append(
                 {
                     'boxes': box_convert(target['boxes'], 'cxcywh', 'xyxy') * self.args.imgsz,
-                    'labels': target['labels'].unique(),
+                    'labels': target['labels'].unique() if 'masks' in target else target['labels'],
                 }
             )
             if 'masks' in target:
