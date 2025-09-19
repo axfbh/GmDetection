@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update block">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gmdet/engine/validator.py" beforeDir="false" afterPath="$PROJECT_DIR$/gmdet/engine/validator.py" afterDir="false" />
-    </list>
+    <list default="true" id="825d58d7-eccc-46f5-8605-3758e47aa360" name="Changes" comment="update validator mask map" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -255,14 +252,7 @@
       <workItem from="1753436423093" duration="17000" />
       <workItem from="1753664911442" duration="20093000" />
       <workItem from="1754017149238" duration="5445000" />
-      <workItem from="1754553600026" duration="678000" />
-    </task>
-    <task id="LOCAL-00052" summary="upload">
-      <created>1748226025203</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1748226025203</updated>
+      <workItem from="1754553600026" duration="716000" />
     </task>
     <task id="LOCAL-00053" summary="upload">
       <created>1748238443585</created>
@@ -600,7 +590,14 @@
       <option name="project" value="LOCAL" />
       <updated>1753689945842</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="update validator mask map">
+      <created>1754554302669</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1754554302670</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -630,7 +627,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="解决 模型加载权重时更新参数，导致继续训练错误" />
     <MESSAGE value="更新 dataset" />
     <MESSAGE value="更新 nms，兼容 v8 前后的 非极大抑制" />
     <MESSAGE value="更新 map 计算方式，detr cocoeval 计算方式错误" />
@@ -655,7 +651,8 @@
     <MESSAGE value="update files" />
     <MESSAGE value="update segment" />
     <MESSAGE value="update block" />
-    <option name="LAST_COMMIT_MESSAGE" value="update block" />
+    <MESSAGE value="update validator mask map" />
+    <option name="LAST_COMMIT_MESSAGE" value="update validator mask map" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
