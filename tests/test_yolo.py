@@ -1,3 +1,7 @@
+import sys
+print(sys.path)
+sys.path.append(".")
+
 from gmdet import YOLO
 
 if __name__ == '__main__':

@@ -1,6 +1,12 @@
+import sys
+print(sys.path)
+sys.path.append(".")
+
 from gmdet import DETR
 
+
 if __name__ == '__main__':
+
     model = DETR("detr.yaml", task='detect')
     model.train(data="coco.yaml", device='0', imgsz=640, epochs=400, batch=8, box=5, cls=1, giou=2, eos_coef=0.1,
                 optimizer='AdamW',
