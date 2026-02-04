@@ -1,5 +1,4 @@
 import sys
-print(sys.path)
 sys.path.append(".")
 
 from gmdet import YOLO
