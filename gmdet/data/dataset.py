@@ -35,6 +35,7 @@ class YOLODataset(BaseDataset):
         if self._transforms is not None:
             batch = self._transforms(**batch)
             # batch = self._mosica(**batch)
+            
         return self._normalize(**batch)
 
     def cache_labels(self):
@@ -83,10 +84,10 @@ class YOLODataset(BaseDataset):
 
 def build_yolo_dataset(img_path, imgsz, data, task, mode='train'):
     T = [
-        # A.Blur(p=0.01),
-        # A.MedianBlur(p=0.01),
-        # A.ToGray(p=0.01),
-        # A.CLAHE(p=0.01),
+        A.Blur(p=0.01),
+        A.MedianBlur(p=0.01),
+        A.ToGray(p=0.01),
+        A.CLAHE(p=0.01),
         A.RandomBrightnessContrast(p=0.0),
         A.RandomGamma(p=0.0),
         A.ImageCompression(quality_range=(75, 100), p=0.0),
