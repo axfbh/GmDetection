@@ -16,10 +16,9 @@ class LongestMaxSize:
                  max_size: Union[int, Sequence[int]] = 1024,
                  interpolation: int = cv2.INTER_LINEAR,
                  format: Literal["coco", "pascal_voc", "albumentations", "yolo"] = "yolo",
-                 always_apply: bool = False,
                  p: float = 1):
         T = [
-            A.LongestMaxSize(max_size=max_size, interpolation=interpolation, always_apply=always_apply, p=p)
+            A.LongestMaxSize(max_size=max_size, interpolation=interpolation, p=p)
         ]
 
         self.fit_transform = A.Compose(T)
@@ -38,10 +37,9 @@ class Normalize:
                  max_pixel_value: Union[float, None] = 255.0,
                  normalization: Literal[
                      "standard", "image", "image_per_channel", "min_max", "min_max_per_channel"] = "standard",
-                 always_apply: bool = False,
                  p: float = 1.0):
         T = [
-            A.Normalize(mean, std, max_pixel_value, normalization, always_apply, p),
+            A.Normalize(mean, std, max_pixel_value, normalization, p),
             ToTensorV2()
         ]
         self.fit_transform = A.Compose(T)
@@ -67,7 +65,6 @@ class Mosaic:
             size,
             output_size=640,
             format: Literal["coco", "pascal_voc", "albumentations", "yolo"] = "yolo",
-            always_apply=False,
             p=0.5):
 
         assert output_size % 32 == 0, "Mosaic output_size 必须能被 32 整除"
@@ -76,7 +73,6 @@ class Mosaic:
         self.size = size
 
         self.p = p
-        self.always_apply = always_apply
 
         self.output_size = output_size
         self.output_size_half = output_size // 2
@@ -89,7 +85,7 @@ class Mosaic:
         self.resize = A.Compose(T, A.BboxParams(format=format, label_fields=['labels'], min_visibility=0.1))
 
     def __call__(self, *args, **kwargs):
-        if self.always_apply or random.random() < self.p:
+        if random.random() < self.p:
             batch = self.resize(*args, **kwargs)
             batches = [batch] + self.get_cache_batch()
             image = self.apply([b["image"] for b in batches])

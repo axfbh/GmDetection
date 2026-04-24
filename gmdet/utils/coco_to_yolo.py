@@ -1,3 +1,5 @@
+import sys
+sys.path.append(".")
 import os
 import shutil
 
@@ -58,7 +60,7 @@ def image_txt_copy(files, scr_path, dst_img_path, dst_txt_path):
 
 
 if __name__ == '__main__':
-    root = Path(r"D:\dataset\coco_sub_dog")
+    root = Path(r"/mnt/f/dataset/sub_coco_dog")
     modes = ['train', 'val']
     filenames = 'VOC'
     json_files = [root.joinpath("annotations", "instances_train2017.json"),
@@ -70,10 +72,10 @@ if __name__ == '__main__':
     for js_f, img_r, m in zip(json_files, image_roots, modes):
         train_list = change_2_yolo(js_f)
 
-        if not os.path.exists(f'../../{filenames}/images/%s' % m):
-            os.makedirs(f'../../{filenames}/images/%s' % m)
+        if not os.path.exists(f'./{filenames}/images/%s' % m):
+            os.makedirs(f'./{filenames}/images/%s' % m)
 
         if not os.path.exists(f'../{filenames}/labels/%s' % m):
-            os.makedirs(f'../../{filenames}/labels/%s' % m)
+            os.makedirs(f'./{filenames}/labels/%s' % m)
 
-        image_txt_copy(train_list, img_r, f'../../{filenames}/images/{m}/', f'../../{filenames}/labels/{m}/')
+        image_txt_copy(train_list, img_r, f'./{filenames}/images/{m}/', f'./{filenames}/labels/{m}/')
