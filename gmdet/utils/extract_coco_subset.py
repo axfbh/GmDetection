@@ -6,7 +6,7 @@ import json
 import shutil
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
-
+from multiprocessing import Pool
 
 def load_json(path: Path) -> Dict:
     with path.open("r", encoding="utf-8") as f:
@@ -111,31 +111,7 @@ def copy_images(
         print(f"[警告] 有 {missing} 张图像未找到，已跳过。")
 
 
-def main():
-    # parser = argparse.ArgumentParser(description="从COCO标注中提取指定类别子集")
-    # parser.add_argument("--ann", required=True, type=Path, help="输入COCO标注json路径")
-    # parser.add_argument("--out-ann", required=True, type=Path, help="输出子集json路径")
-    # parser.add_argument("--cat-names", nargs="*", default=[], help="按类别名筛选，例如 person car")
-    # parser.add_argument("--cat-ids", nargs="*", default=[], type=int, help="按类别ID筛选，例如 1 3 17")
-    # parser.add_argument("--keep-empty-images", action="store_true", help="保留无目标标注的图像")
-    # parser.add_argument("--image-root", type=Path, default=None, help="原图根目录(可选)")
-    # parser.add_argument("--out-image-root", type=Path, default=None, help="输出图根目录(可选)")
-    # parser.add_argument("--skip-missing", action="store_true", help="复制图像时跳过缺失文件")
-    # args = parser.parse_args()
-
-    ann = Path("/mnt/f/dataset/coco2017/annotations/instances_train2017.json")
-    out_ann = Path("/mnt/f/dataset/sub_coco_dog/annotations/instances_train2017.json")
-    cat_names = ["dog"]
-    image_root = Path("/mnt/f/dataset/coco2017/train2017")
-    out_image_root = Path("/mnt/f/dataset/sub_coco_dog/train2017")
-    skip_missing = False
-
-    # ann = Path("/mnt/f/dataset/coco2017/annotations/instances_val2017.json")
-    # out_ann = Path("/mnt/f/dataset/sub_coco_dog/annotations/instances_val2017.json")
-    # cat_names = ["dog"]
-    # image_root = Path("/mnt/f/dataset/coco2017/val2017")
-    # out_image_root = Path("/mnt/f/dataset/sub_coco_dog/val2017")
-    # skip_missing = False
+def main(ann, out_ann, cat_names, image_root, out_image_root, skip_missing=False):
 
     coco = load_json(ann)
     selected_cat_ids = parse_selected_categories(coco, cat_names, [])
@@ -154,16 +130,38 @@ def main():
     print(f"标注数量: {ann_count}")
 
     if image_root and out_image_root:
-        copy_images(
-            image_root=image_root,
-            output_image_root=out_image_root,
-            images=subset["images"],
-            skip_missing=skip_missing
-        )
+        copy_images(image_root, out_image_root, subset["images"], skip_missing)
         print(f"图像已复制到: {out_image_root}")
     elif image_root or out_image_root:
         raise ValueError("如果要复制图像，--image-root 与 --out-image-root 必须同时提供。")
 
+    print("=== 提取完成 ===")
+
 
 if __name__ == "__main__":
-    main()
+    num_workers = 2
+    root = Path("/mnt/f/dataset")
+
+    cat_names = [["dog"], ["dog"]]
+    skip_missing = [False, False]
+
+    anns = [
+        root.joinpath("coco2017","annotations","instances_train2017.json"),
+        root.joinpath("coco2017","annotations","instances_val2017.json")
+    ]
+    out_anns = [
+        root.joinpath("sub_coco_dog","annotations","instances_train2017.json"),
+        root.joinpath("sub_coco_dog","annotations","instances_val2017.json")
+    ]
+    image_roots = [
+        root.joinpath("coco2017","train2017"),
+        root.joinpath("coco2017","val2017")
+    ]
+    out_image_roots = [
+        root.joinpath("sub_coco_dog","train2017"),
+        root.joinpath("sub_coco_dog","val2017")
+    ]
+
+    with Pool(num_workers) as p:
+        p.starmap(main, zip(anns, out_anns, cat_names, image_roots, out_image_roots, skip_missing))
+
