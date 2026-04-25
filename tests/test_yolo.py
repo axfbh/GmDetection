@@ -15,7 +15,7 @@ if __name__ == '__main__':
                 warmup_weight_backbone_lr=0)
 
     # model = YOLO("yolov8s.yaml", task='detect')
-    # model.train(data="./tests/coco.yaml", device='0', imgsz=640, epochs=100, batch=8, box=7.5, cls=0.5, dfl=1.5,
+    # model.train(data="coco.yaml", device='0', imgsz=640, epochs=100, batch=8, box=7.5, cls=0.5, dfl=1.5,
     #             warmup_weight_lr=0,
     #             warmup_weight_backbone_lr=0)
 

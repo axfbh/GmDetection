@@ -254,15 +254,33 @@ class TaskAlignedAssigner(nn.Module):
 
 
 class TaskNearestAssigner(nn.Module):
-    def __init__(self, topk=3, num_classes=20, anchor_t=4, num_acnhors=3):
+    """基于“最近网格点”的 Anchor-Based 分配器。"""
+
+    def __init__(self, topk=3, num_classes=20, anchor_t=4, num_anchors=3):
         super(TaskNearestAssigner, self).__init__()
-        self.na = num_acnhors
+        self.na = num_anchors
         self.num_classes = num_classes
         self.topk = topk
         self.anchor_t = anchor_t
 
     @torch.no_grad()
     def forward(self, anc_wh, grid, gt_labels, gt_cxys, gt_whs, mask_gt):
+        """
+        根据 GT 中心点与网格中心距离构建训练目标。
+        Args:
+            anc_wh: (1, na, 1, 2)  anchor 宽高 [w, h]
+            grid: (h*w, 2) 网格中心点 [x, y]
+            gt_labels: (b, n, 1)  GT 类别标签   
+            gt_cxys: (b, n, 2)  GT 中心点 [x, y]
+            gt_whs: (b, n, 2)  GT 宽高  [w, h]
+            mask_gt: (b, max_num_obj, h*w) 非填充样本 mask
+
+        Returns:
+            target_bboxes: (b, na, h*w, 4), 格式为 [tx, ty, w, h]
+            target_scores: (b, na, h*w, num_classes), one-hot 分类标签
+            anc_wh: (1, na, 1, 2), 变形后的 anchor 宽高
+            fg_mask: (b, na, h*w), 正样本掩码
+        """
         self.bs = gt_labels.shape[0]
         self.n_max_boxes = gt_labels.shape[1]
 
@@ -273,23 +291,20 @@ class TaskNearestAssigner(nn.Module):
                 None,
                 torch.zeros(1, dtype=torch.bool, device=gt_labels.device),
             )
-        # 获取真实目标的mask（重叠）
-        # mask_pos: 样本（重叠）mask
+
+        # 1) 候选正样本：每个 GT 选择最近的 top-k 网格。
         mask_pos, distance_metric = self.get_pos_mask(grid, gt_cxys, mask_gt)
 
-        # 获取真实目标的mask、id（非重叠）
-        # mask_pos: 样本（非重叠）mask (b, n_max_box, h*w)
-        # fg_mask: 样本（非重叠）mask (b, h*w)
-        target_gt_idx, fg_mask, mask_pos = self.select_highest_overlaps(mask_pos,
-                                                                        distance_metric,
-                                                                        self.n_max_boxes)
-        # 制作标签
-        target_txys, target_whs, target_scores = self.get_targets(gt_labels,
-                                                                  gt_cxys,
-                                                                  gt_whs,
-                                                                  grid,
-                                                                  target_gt_idx.unsqueeze(1).expand(-1, self.na, -1))
-        # 剔除anchor不符合iou要求的正样本
+        # 2) 冲突消解：同一网格若匹配多个 GT，仅保留距离最小者。
+        target_gt_idx, fg_mask, _ = self.select_highest_overlaps(mask_pos, distance_metric, self.n_max_boxes)
+
+        # 3) 依据分配结果构建 tx/ty/wh 与 one-hot 分类标签。
+        expanded_target_gt_idx = target_gt_idx.unsqueeze(1).expand(-1, self.na, -1)
+        target_txys, target_whs, target_scores = self.get_targets(
+            gt_labels, gt_cxys, gt_whs, grid, expanded_target_gt_idx
+        )
+
+        # 4) 根据 anchor 与 GT 宽高比例过滤不匹配正样本。
         anc_wh = anc_wh.view(1, self.na, 1, -1)
         r = target_whs / anc_wh
         mask_anc = torch.max(r, 1 / r).max(-1)[0] < self.anchor_t
@@ -300,29 +315,31 @@ class TaskNearestAssigner(nn.Module):
         return target_bboxes, target_scores, anc_wh, fg_mask.bool()
 
     def get_pos_mask(self, grid, gt_cxys, mask_gt):
-        # 计算真实目标中心点与网格中心点的距离
+        """生成候选正样本掩码与距离度量。"""
+        # 计算 GT 中心点与网格中心点的曼哈顿距离。
         distance_deltas = self.get_box_metrics(grid, gt_cxys)
         distance_metric = distance_deltas.abs().sum(-1)
 
-        # 选取真实目标最近的k个网格mask
+        # 每个 GT 选择最近 top-k 个网格。
         mask_topk = self.select_topk_candidates(distance_metric, largest=False)
 
-        # 真实目标框mask= 真实目标的k个目标mask * 非填充目标mask
+        # 仅保留非填充 GT 对应位置。
         mask_pos = mask_topk * mask_gt
 
         return mask_pos, distance_metric
 
     def get_box_metrics(self, grid, gt_cxys):
+        """计算 GT 中心点相对网格中心点的偏移量。"""
         ng = grid.shape[0]
         gt_cxys = gt_cxys.view(-1, 1, 2)
         distance_deltas = ((grid[None] + 0.5) - gt_cxys).view(self.bs, self.n_max_boxes, ng, -1)
         return distance_deltas
 
     def select_topk_candidates(self, metrics, largest=True):
-        # 每个bbox选取k个网格作为正样本
-        topk_metrics, topk_idxs = torch.topk(metrics, self.topk, dim=-1, largest=largest)
+        """每个 GT 选 top-k 网格，返回 0/1 掩码。"""
+        _, topk_idxs = torch.topk(metrics, self.topk, dim=-1, largest=largest)
 
-        # 获取每个bbox的k个网格的mask
+        # 记录每个 GT 的 top-k 网格位置。
         count_tensor = torch.zeros(metrics.shape, dtype=torch.int8, device=metrics.device)
         count_tensor.scatter_(-1, topk_idxs, 1)
 
@@ -330,18 +347,17 @@ class TaskNearestAssigner(nn.Module):
 
     @staticmethod
     def select_highest_overlaps(mask_pos, overlaps, n_max_boxes):
-        # mask_pos: (b, n_max_boxes, h*w) -> (b, h*w)
-        # 将每个网格的bbox合并一起，统计一个网格的bbox数量
+        """当一个网格命中多个 GT 时，仅保留距离最近的 GT。"""
+        # 统计每个网格被多少个 GT 选中，shape: (b, h*w)。
         fg_mask = mask_pos.sum(-2)
-        # 至少有一个重叠目标
         if fg_mask.max() > 1:
-            # fg_mask: (b, 1, h*w) -> (b, n_max_boxes, h*w)
+            # 标出被多个 GT 同时命中的网格。
             mask_multi_gts = (fg_mask.unsqueeze(-2) > 1).expand(-1, n_max_boxes, -1)
 
             # 选取网格中距离最小的目标
             min_overlaps_idx = overlaps.argmin(-2)
 
-            # non_overlaps: (b, n_max_boxes, h*w)
+            # 非重叠网格全部置为 1
             non_overlaps = torch.ones(mask_pos.shape, dtype=mask_pos.dtype, device=mask_pos.device)
 
             # 重叠网格全部置为 0
@@ -361,32 +377,35 @@ class TaskNearestAssigner(nn.Module):
         return target_gt_idx, fg_mask, mask_pos
 
     def get_targets(self, gt_labels, gt_cxys, gt_whs, grid, target_gt_idx):
+        """按匹配下标收集训练目标。"""
         ng = grid.shape[0]
-        # batch idx: (b, 1, 1)
-        batch_ind = torch.arange(end=self.bs, dtype=torch.int64, device=gt_labels.device)[..., None, None]
-        # batch_ind * self.n_max_boxes: [0, 1*n, 2*n, ..., b*n]
-        # target_gt_idx + (batch_ind * self.n_max_boxes):
-        # 图1[目标1的id设置在0, ..., 目标n的id设置在n-1]
-        # 图2[目标1的id设置在n, ..., 目标n的id设置在2n]
-        # target_gt_idx (b, na, h*w)
-        target_gt_idx = target_gt_idx + batch_ind * self.n_max_boxes
-        # gt_labels: (b, n, 1) -> (b*n)
-        # target_labels: (b, na, h*w)
-        target_labels = gt_labels.long().flatten()[target_gt_idx]
+        # target_gt_idx: (b, na, h*w)，每个位置存的是“匹配到的 GT 下标（0~n-1）”。
+        # 下面统一用 gather：先把 GT 张量扩展出 anchor 维，再按 target_gt_idx 在 GT 维(n)上取值。   
 
-        # gt_cxys: (b, na, n, 2) -> (b*na*n, 2)
-        # target_cxys: (b, na, h*w, 2)
-        target_cxys = gt_cxys.view(-1, gt_cxys.shape[-1])[target_gt_idx]
+        # 1) 分类标签
+        # gt_labels: (b, n, 1) -> (b, n) -> (b, na, n)
+        labels_src = gt_labels.squeeze(-1).long().unsqueeze(1).expand(-1, self.na, -1)
+        # 在 dim=2（GT 维）按 target_gt_idx 取值，得到 (b, na, h*w)
+        target_labels = torch.gather(labels_src, dim=2, index=target_gt_idx)
+
+        # 2) 中心点坐标
+        # gt_cxys: (b, n, 2) -> (b, na, n, 2)
+        cxys_src = gt_cxys.unsqueeze(1).expand(-1, self.na, -1, -1)
+        # gather 的 index 需要和输出同维，故补上最后一维并扩展到 2
+        gather_idx = target_gt_idx.unsqueeze(-1).expand(-1, -1, -1, gt_cxys.shape[-1])
+        # 在 dim=2（GT 维）取值，得到 (b, na, h*w, 2)
+        target_cxys = torch.gather(cxys_src, dim=2, index=gather_idx)
         target_txys = target_cxys - grid
-        # gt_whs: (b, na, n, 2) -> (b*na*n, 2)
-        # target_whs: (b, na, h*w, 2)
-        target_whs = gt_whs.view(-1, gt_whs.shape[-1])[target_gt_idx]
 
-        # target_scores: (b, na, h*w, c), One-Hot
+        # 3) 宽高
+        # gt_whs: (b, n, 2) -> (b, na, n, 2)
+        whs_src = gt_whs.unsqueeze(1).expand(-1, self.na, -1, -1)
+        target_whs = torch.gather(whs_src, dim=2, index=gather_idx)
+
+        # one-hot 分类目标: (b, na, h*w, c)
         target_scores = torch.zeros((self.bs, self.na, ng, self.num_classes),
                                     dtype=torch.float,
-                                    device=target_labels.device)  # (b, h*w, 80)
-        # target_labels.unsqueeze(-1): (b, na, h*w,1)
+                                    device=target_labels.device)
         target_scores.scatter_(-1, target_labels.unsqueeze(-1), 1)
 
         return target_txys, target_whs, target_scores
