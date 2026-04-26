@@ -175,7 +175,7 @@ class TaskAlignedAssigner(nn.Module):
 
     def select_topk_candidates(self, metrics, largest=True):
         # 每个bbox选取k个网格作为正样本
-        topk_metrics, topk_idxs = torch.topk(metrics, self.topk, dim=-1, largest=largest)
+        _, topk_idxs = torch.topk(metrics, self.topk, dim=-1, largest=largest)
 
         # 获取每个bbox的k个网格的mask
         count_tensor = torch.zeros(metrics.shape, dtype=torch.int8, device=metrics.device)
@@ -184,33 +184,28 @@ class TaskAlignedAssigner(nn.Module):
         return count_tensor.to(metrics.dtype)
 
     def get_targets(self, gt_labels, gt_bboxes, target_gt_idx, fg_mask):
+        # target_gt_idx: (b, h*w)，每个位置存的是“匹配到的 GT 下标（0~n-1）”。
 
-        # batch idx: (b, 1)
-        batch_ind = torch.arange(end=self.bs, dtype=torch.int64, device=gt_labels.device)[..., None]
-        # batch_ind * self.n_max_boxes: [0, 1*n, 2*n, ..., b*n]
-        # target_gt_idx + (batch_ind * self.n_max_boxes):
-        # 图1[目标1的id设置在0, ..., 目标n的id设置在n-1]
-        # 图2[目标1的id设置在n, ..., 目标n的id设置在2n]
-        # target_gt_idx (b, h*w)
-        target_gt_idx = target_gt_idx + batch_ind * self.n_max_boxes  # (b, h*w)
-        # gt_labels: (b, n, 1) -> (b*n)
-        # target_labels: (b,h*w)
-        target_labels = gt_labels.long().flatten()[target_gt_idx]  # (b, h*w)
+        # 1) 分类标签
+        # gt_labels: (b, n, 1) -> (b, n)
+        label_src = gt_labels.squeeze(-1).long()
+        # 在 dim=1（GT 维）按 target_gt_idx 取值，得到 (b, h*w)
+        target_labels = torch.gather(label_src, dim=1, index=target_gt_idx)
 
-        # target_bboxes: (b, n, 2) -> (b*n, 2)
-        # target_bboxes: (b, h*w, 2)
-        target_bboxes = gt_bboxes.view(-1, gt_bboxes.shape[-1])[target_gt_idx]
+        # 2) 边界框标签
+        # gt_bboxes: (b, n, 4) -> (b, n, 4)
+        gather_idx = target_gt_idx.unsqueeze(-1).expand(-1, -1, gt_bboxes.shape[-1])
+        # gather 的 index 需要和输出同维，故补上最后一维并扩展到 1
+        target_bboxes = torch.gather(gt_bboxes, dim=1, index=gather_idx)
 
-        # Assigned target scores
-        target_labels.clamp_(0)
-
-        #  target_scores: (b, h*w, c), One-Hot
+        #  one-hot 分类目标: (b, h*w, c), One-Hot
         target_scores = torch.zeros((self.bs, target_labels.shape[1], self.num_classes),
                                     dtype=torch.int64,
                                     device=target_labels.device)  # (b, h*w, 80)
-        target_scores.scatter_(2, target_labels.unsqueeze(-1), 1)
+        target_scores.scatter_(-1, target_labels.unsqueeze(-1), 1)
 
         # 根据mask剔除没有样本的target_scores
+        # 只有一个样本的时候 target_scores.scatter_ 填充整个 target_scores，因为样本num_classes = 1 且 cls id = 0   
         target_scores[~fg_mask.bool()] = 0
         # fg_scores_mask = fg_mask[:, :, None].repeat(1, 1, self.num_classes)  # (b, h*w, 80)
         # target_scores = torch.where(fg_scores_mask > 0, target_scores, 0)
@@ -301,7 +296,7 @@ class TaskNearestAssigner(nn.Module):
         # 3) 依据分配结果构建 tx/ty/wh 与 one-hot 分类标签。
         expanded_target_gt_idx = target_gt_idx.unsqueeze(1).expand(-1, self.na, -1)
         target_txys, target_whs, target_scores = self.get_targets(
-            gt_labels, gt_cxys, gt_whs, grid, expanded_target_gt_idx
+            gt_labels, gt_cxys, gt_whs, grid, expanded_target_gt_idx, fg_mask
         )
 
         # 4) 根据 anchor 与 GT 宽高比例过滤不匹配正样本。
@@ -376,7 +371,7 @@ class TaskNearestAssigner(nn.Module):
         target_gt_idx = mask_pos.argmax(-2)
         return target_gt_idx, fg_mask, mask_pos
 
-    def get_targets(self, gt_labels, gt_cxys, gt_whs, grid, target_gt_idx):
+    def get_targets(self, gt_labels, gt_cxys, gt_whs, grid, target_gt_idx, fg_mask):
         """按匹配下标收集训练目标。"""
         ng = grid.shape[0]
         # target_gt_idx: (b, na, h*w)，每个位置存的是“匹配到的 GT 下标（0~n-1）”。
@@ -407,5 +402,10 @@ class TaskNearestAssigner(nn.Module):
                                     dtype=torch.float,
                                     device=target_labels.device)
         target_scores.scatter_(-1, target_labels.unsqueeze(-1), 1)
+
+        # 根据 mask 剔除没有样本的 target_scores
+        # fg_mask: (b, h*w) -> (b, na, h*w)
+        # 只有一个样本的时候 target_scores.scatter_ 填充整个 target_scores，因为样本num_classes = 1 且 cls id = 0   
+        target_scores[~fg_mask.unsqueeze(1).expand(-1, self.na, -1).bool()] = 0
 
         return target_txys, target_whs, target_scores
