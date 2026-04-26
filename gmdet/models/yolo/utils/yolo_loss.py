@@ -230,38 +230,41 @@ class YoloLossV8(YoloAnchorFreeLoss):
 
 
 class DFLoss(nn.Module):
-    """Criterion class for computing DFL losses during training."""
+    """
+    Distribution Focal Loss（DFL），见 Generalized Focal Loss 论文。
+    将边框某一维的连续偏移建模为 reg_max 个 bin 上的分布，用相邻两格的交叉熵按线性权重插值。
+    参考：https://ieeexplore.ieee.org/document/9792391
+    """
 
     def __init__(self, reg_max=16) -> None:
-        """Initialize the DFL module."""
         super().__init__()
         self.reg_max = reg_max
 
     def __call__(self, pred_dist, target):
         """
-        Return sum of left and right DFL losses.
-
-        Distribution Focal Loss (DFL) proposed in Generalized Focal Loss
-        https://ieeexplore.ieee.org/document/9792391
+        pred_dist: [N, reg_max]，未归一化的分布 logits（通常 N = 前景数×4）。
+        target: 与 pred_dist 最后一维对应的连续标签（子像素级偏移）。
+        返回: 对最后一维（4 条边）取均值后的 DFL，形状与 Ultralytics 一致。
         """
-        target = target.clamp_(0, self.reg_max - 1 - 0.01)
-        tl = target.long()  # target left
-        tr = tl + 1  # target right
-        wl = tr - target  # weight left
-        wr = 1 - wl  # weight right
-        return (
-                F.cross_entropy(pred_dist, tl.view(-1), reduction="none").view(tl.shape) * wl
-                + F.cross_entropy(pred_dist, tr.view(-1), reduction="none").view(tl.shape) * wr
-        ).mean(-1, keepdim=True)
+        # 限制在 [0, reg_max-1) 内，保证 tr = tl + 1 不越界；用 clamp 而非 clamp_，避免改坏上游 tensor
+        t = target.clamp(0, self.reg_max - 1 - 0.01)
+        tl = t.long()  # 左邻格索引
+        tr = tl + 1  # 右邻格索引
+        wl = tr - t  # 距离左格越近权重越大（线性插值）
+        wr = 1.0 - wl # 距离右格越近权重越大（线性插值）
+
+        tl1, tr1 = tl.view(-1), tr.view(-1) # 展平
+        ce_l = F.cross_entropy(pred_dist, tl1, reduction="none").view(tl.shape) # 计算左格的交叉熵
+        ce_r = F.cross_entropy(pred_dist, tr1, reduction="none").view(tl.shape) # 计算右格的交叉熵
+        return (ce_l * wl + ce_r * wr).mean(-1, keepdim=True) # 计算均值
 
 
 class BboxLoss(nn.Module):
     """
-        Criterion class for computing training losses during training.
+    边框训练损失：CIoU 定位项 + 可选 DFL 分布回归项。
     """
 
     def __init__(self, reg_max):
-        """Initialize the BboxLoss module with regularization maximum and DFL settings."""
         super().__init__()
         self.dfl_loss = DFLoss(reg_max) if reg_max > 1 else None
 
